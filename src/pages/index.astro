@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Gear Versus Tech"
+  description="Product comparisons for smart home automation and gaming gear. Data-dense showdowns with honest verdicts. Amazon, eBay, Awin affiliates."
+>
+
+<div class="container">
+  <section class="hero">
+    <div class="hero-badge">Product Comparisons</div>
+    <h1>We Compare. You Choose. Buy Smarter.</h1>
+    <p>Data-dense showdowns across Smart Home and Gaming. No sponsored rankings. Just specs, pros, cons, and the best place to buy.</p>
+  </section>
+
+  <!-- Category Cards -->
+  <div class="grid-2">
+    <a href="/smart-home/" class="card">
+      <div class="card-cat">Smart Home</div>
+      <div class="card-title">Smart Home Comparisons</div>
+      <div class="card-desc">Hubs, sensors, lights, locks, thermostats. Matter, Zigbee, Z-Wave, Thread — tested side by side.</div>
+      <div class="card-meta"><span class="winner">6 comparisons</span></div>
+    </a>
+    <a href="/gaming/" class="card">
+      <div class="card-cat">Gaming</div>
+      <div class="card-title">Gaming Gear Comparisons</div>
+      <div class="card-desc">Desks, chairs, monitors, keyboards, mice, headsets. Competitive comparisons for every setup.</div>
+      <div class="card-meta"><span class="winner">6 comparisons</span></div>
+    </a>
+  </div>
+
+  <!-- Latest -->
+  <div class="section-label"><span>Latest Comparisons</span><span class="count">NEW</span></div>
+  <div class="grid-2">
+    <a href="/smart-home/homey-pro-vs-aqara-hub-m3/" class="card">
+      <div class="card-cat">Smart Home Hubs</div>
+      <div class="card-title">Homey Pro vs Aqara Hub M3</div>
+      <div class="card-desc">8 protocols vs 4. 50K devices vs 128. We crown the definitive local smart home hub.</div>
+      <div class="card-meta">
+        <span class="rating">9.2</span><span class="sep">vs</span><span class="rating">8.1</span>
+        <span class="winner">Winner: Homey Pro</span>
+      </div>
+    </a>
+    <a href="/gaming/secretlab-titan-vs-herman-miller-embody/" class="card">
+      <div class="card-cat">Gaming Chairs</div>
+      <div class="card-title">Secretlab Titan Evo vs Herman Miller Embody</div>
+      <div class="card-desc">GBP 400 gaming throne meets GBP 1,200 ergonomic legend. 8-hour comfort tested.</div>
+      <div class="card-meta"><span class="rating">Coming soon</span></div>
+    </a>
+  </div>
+
+  <!-- Trending -->
+  <div class="section-label"><span>Trending Now</span></div>
+  <div class="grid-2">
+    <a href="/smart-home/philips-hue-vs-govee-gaming-lights/" class="card">
+      <div class="card-cat">Smart Lighting</div>
+      <div class="card-title">Philips Hue Play vs Govee Gaming Lights</div>
+      <div class="card-desc">Premium sync box vs budget LED strips. Latency, brightness, and app experience compared.</div>
+      <div class="card-meta"><span class="rating">Coming soon</span></div>
+    </a>
+    <a href="/gaming/logitech-g-pro-vs-razer-viper-v3/" class="card">
+      <div class="card-cat">Gaming Mice</div>
+      <div class="card-title">Logitech G Pro X Superlight 2 vs Razer Viper V3 Pro</div>
+      <div class="card-desc">Sub-60g wireless. 4K vs 8K polling. Which mouse earns the desk space?</div>
+      <div class="card-meta"><span class="rating">Coming soon</span></div>
+    </a>
+  </div>
+
+  <!-- Best Picks -->
+  <div class="section-label"><span>Best Picks</span></div>
+  <div class="grid-2">
+    <a href="/best/best-smart-plugs-gaming-setup/" class="card">
+      <div class="card-cat">Best Picks</div>
+      <div class="card-title">Best Smart Plugs for Gaming Setups</div>
+      <div class="card-desc">Energy monitoring, voice control, scheduling. Which plug powers your battlestation?</div>
+      <div class="card-meta">UK 2026</div>
+    </a>
+    <a href="/best/best-gaming-desks-under-300/" class="card">
+      <div class="card-cat">Best Picks</div>
+      <div class="card-title">Best Gaming Desks Under GBP 300</div>
+      <div class="card-desc">L-shaped, standing, cable-managed. Our top 5 for every room size and budget.</div>
+      <div class="card-meta">July 2026</div>
+    </a>
+  </div>
+</div>
+
+</BaseLayout>

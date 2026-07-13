@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "Contact";
+const description = "Contact Gear Versus Tech. Product suggestions, corrections, affiliate inquiries.";
+---
+
+<BaseLayout title={title} description={description}>
+<div class="container">
+
+  <nav class="breadcrumb">
+    <a href="/">Home</a> / <span class="current">Contact</span>
+  </nav>
+
+  <h1>Contact Us</h1>
+  <p style="color:var(--text-secondary);margin-bottom:2rem;">Product suggestions, corrections, or affiliate inquiries. We read every message.</p>
+
+  <form class="form-wrap" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+    <input type="hidden" name="form-name" value="contact" />
+    <p style="display:none"><label>Leave empty: <input name="bot-field" /></label></p>
+
+    <div class="form-group">
+      <label for="name">Your Name</label>
+      <input type="text" id="name" name="name" required placeholder="Jane Smith" />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Your Email</label>
+      <input type="email" id="email" name="email" required placeholder="you@example.com" />
+    </div>
+
+    <div class="form-group">
+      <label for="topic">Topic</label>
+      <select id="topic" name="topic">
+        <option value="Product Suggestion">Product Suggestion</option>
+        <option value="Correction">Correction or Update</option>
+        <option value="Affiliate Inquiry">Affiliate or Partnership</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="message">Message</label>
+      <textarea id="message" name="message" required placeholder="Tell us what you need..."></textarea>
+    </div>
+
+    <button type="submit" class="btn-submit">Send Message</button>
+  </form>
+
+  <hr />
+
+  <h2>Other Ways to Reach Us</h2>
+  <p style="color:var(--text-secondary);">Email: <a href="mailto:hello@gearversustech.com">hello@gearversustech.com</a></p>
+  <p style="color:var(--text-secondary);">For press, partnerships, or bulk affiliate inquiries, use the contact form or email directly. We respond within 48 hours.</p>
+
+  <h2>Corrections Policy</h2>
+  <p style="color:var(--text-secondary);">We update prices and specifications monthly. If you spot an error, use the form above with the topic "Correction or Update" and we will verify and correct the article within 24 hours. Every page carries its last-reviewed date.</p>
+
+</div>
+</BaseLayout>

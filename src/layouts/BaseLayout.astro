@@ -1,0 +1,111 @@
+---
+import WebGLBackground from '../components/WebGLBackground.astro';
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  schema?: string;
+}
+
+const { title, description, schema } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title === 'Gear Versus Tech' ? title : `${title} \u00b7 Gear Versus Tech`}</title>
+  <meta name="description" content={description} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={Astro.url.href} />
+  <meta property="og:site_name" content="Gear Versus Tech" />
+  <link rel="canonical" href={Astro.url.href} />
+  {schema && <script type="application/ld+json" set:html={schema}></script>}
+</head>
+<body>
+  <WebGLBackground />
+
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo">Gear<span>Versus</span>Tech</a>
+      <nav class="nav-links">
+        <a href="/smart-home/" class={Astro.url.pathname.startsWith('/smart-home') ? 'active' : ''}>Smart Home</a>
+        <a href="/gaming/" class={Astro.url.pathname.startsWith('/gaming') ? 'active' : ''}>Gaming</a>
+        <a href="/best/" class={Astro.url.pathname.startsWith('/best') ? 'active' : ''}>Best Picks</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p style="font-weight:700;color:var(--white);margin-bottom:0.5rem;">Gear Versus Tech</p>
+      <p style="font-size:0.85rem;color:var(--text-secondary);">We compare. You choose. Buy smarter.</p>
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/smart-home/">Smart Home</a>
+        <a href="/gaming/">Gaming</a>
+        <a href="/best/">Best Picks</a>
+        <a href="/contact/">Contact</a>
+      </div>
+      <p class="contact-email">
+        <a href="mailto:hello@gearversustech.com">hello@gearversustech.com</a>
+      </p>
+      <p class="disclaimer">
+        As an Amazon Associate, eBay Partner, and Awin affiliate, we earn from qualifying purchases.
+        This does not affect our comparisons. Prices and stock are checked regularly but may change.
+        Always confirm on the retailer's site before purchasing.
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
+
+<script>
+  // GSAP scroll effect on header
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  const header = document.getElementById('site-header');
+  if (header) {
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+  }
+
+  // Card hover effect — track mouse for radial gradient
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mousemove', (e: Event) => {
+      const mouseEvent = e as MouseEvent;
+      const rect = (card as HTMLElement).getBoundingClientRect();
+      const x = mouseEvent.clientX - rect.left;
+      const y = mouseEvent.clientY - rect.top;
+      (card as HTMLElement).style.setProperty('--mx', `${x}px`);
+      (card as HTMLElement).style.setProperty('--my', `${y}px`);
+    });
+  });
+
+  // Fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        gsap.to(entry.target, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.card, .prod-card, .faq-item, .winner-banner, .verdict').forEach(el => {
+    gsap.set(el, { opacity: 0, y: 20 });
+    observer.observe(el);
+  });
+</script>
