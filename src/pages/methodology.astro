@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "How We Test and Rate Products";
+const description = "Gear Versus Tech testing methodology. How we research, compare, and score every product to help you buy with confidence.";
+---
+
+<BaseLayout title={title} description={description}>
+<div class="container">
+  <nav class="breadcrumb"><a href="/">Home</a> / <span class="current">How We Test</span></nav>
+  <h1>How We Test and Rate Products</h1>
+  <p class="article-meta-line">Updated July 2026</p>
+
+  <h2>Our Approach</h2>
+  <p>Every comparison on Gear Versus Tech follows the same research process. We do not accept free products, sponsored placements, or payment for rankings. Our recommendations are based on data, not commission rates.</p>
+  <p>We earn money through affiliate links (Amazon Associates, eBay Partner Network, Awin). When you click a link and buy, we may receive a commission at no extra cost to you. This never influences which product we recommend.</p>
+
+  <h2>The Big 5: How We Structure Every Comparison</h2>
+  <p>Every comparison article on this site follows the same five-section structure, designed to answer exactly what buyers ask before purchasing:</p>
+
+  <div class="table-wrap">
+    <table class="compare-table">
+      <thead><tr><th>Section</th><th>What It Covers</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1. Cost and Price</strong></td><td>What you actually pay today. Five-year total cost of ownership including accessories, subscriptions, and hidden fees.</td></tr>
+        <tr><td><strong>2. Problems and Drawbacks</strong></td><td>What could go wrong. Real complaints from verified buyers. Who should NOT buy each product.</td></tr>
+        <tr><td><strong>3. Head-to-Head Comparison</strong></td><td>Side-by-side specification tables with clear winner highlighting. Every data point verified against manufacturer specs and real-world testing.</td></tr>
+        <tr><td><strong>4. Who Each Product Is For</strong></td><td>Honest assessment of best use cases. No product is perfect for everyone. We tell you who each option suits and who should look elsewhere.</td></tr>
+        <tr><td><strong>5. Best in Class: Our Verdict</strong></td><td>Clear, specific recommendation. "Buy X if you need Y. Buy Z if your priority is W."</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Our Scoring System</h2>
+  <p>Products receive a rating out of 10. This score is not arbitrary — it is a weighted average across four dimensions:</p>
+
+  <div class="table-wrap">
+    <table class="compare-table">
+      <thead><tr><th>Dimension</th><th>Weight</th><th>What We Measure</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Performance</strong></td><td>40%</td><td>Does it do what it claims? Speed, accuracy, reliability. Tested against manufacturer specifications and real-world use.</td></tr>
+        <tr><td><strong>Value</strong></td><td>25%</td><td>Price relative to alternatives. Includes total cost of ownership over five years.</td></tr>
+        <tr><td><strong>Build Quality</strong></td><td>20%</td><td>Materials, durability, warranty. Based on manufacturer specs and aggregated user reviews over time.</td></tr>
+        <tr><td><strong>Ease of Use</strong></td><td>15%</td><td>Setup time, app quality, documentation. Based on user reports and hands-on testing where possible.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>How We Research</h2>
+  <p>Every article is built from multiple sources, never a single product listing:</p>
+  <ul>
+    <li><strong>Manufacturer specifications</strong> — verified against retailer listings and user manuals</li>
+    <li><strong>Verified buyer reviews</strong> — from Amazon UK, Reddit communities, and specialist forums</li>
+    <li><strong>Real-time pricing</strong> — pulled from Amazon Product Advertising API and checked at publication</li>
+    <li><strong>Professional reviews</strong> — cross-referenced with PCMag, TechRadar, RTINGS, and other established outlets</li>
+    <li><strong>Community feedback</strong> — Reddit (r/smarthome, r/buildapc, r/hermanmiller, r/secretlab) for long-term ownership experiences</li>
+  </ul>
+
+  <h2>Our Picks: How We Choose</h2>
+  <p>Every comparison designates at least two picks:</p>
+  <ul>
+    <li><strong>Our Pick</strong> — the best overall option for most people, balancing performance, value, and ease of use</li>
+    <li><strong>Budget Alternative</strong> — the best option for buyers prioritising cost, without sacrificing essential functionality</li>
+    <li><strong>Upgrade Pick</strong> (where applicable) — for buyers who want the absolute best regardless of price</li>
+  </ul>
+
+  <h2>Price Information</h2>
+  <p>Prices displayed are checked at the time of publication using the Amazon Product Advertising API. They may change at any time. Each article displays its last-updated date. We do not guarantee price accuracy — always confirm on the retailer's site before purchasing.</p>
+
+  <h2>Affiliate Disclosure</h2>
+  <p>Gear Versus Tech participates in the Amazon Associates Program, eBay Partner Network, and Awin. When you purchase through our links, we may earn a commission. Read our full <a href="/disclosure/">affiliate disclosure</a>.</p>
+
+  <h2>Corrections</h2>
+  <p>If you find an error, contact <a href="mailto:hello@gearversustech.com">hello@gearversustech.com</a>. We correct verified errors within 24 hours and note the update on the article.</p>
+</div>
+</BaseLayout>

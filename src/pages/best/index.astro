@@ -1,46 +1,32 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getArticlesByCategory } from '../../lib/supabase';
 
-const title = "Best Picks and Roundups";
-const description = "Curated best-of roundups for smart home and gaming gear. Ranked, rated, and updated monthly. Amazon, eBay, Awin affiliates.";
+const articles = await getArticlesByCategory('best', 12);
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title="Best Picks and Roundups" description="Curated best-of roundups for smart home and gaming gear.">
 <div class="container">
-
   <section class="cat-header">
     <h1>Best Picks and Roundups</h1>
     <p>Curated rankings across Smart Home and Gaming. Every product tested. Every list updated monthly.</p>
   </section>
 
   <div class="grid-2">
-    <a href="/best/best-smart-home-hubs/" class="card">
-      <div class="card-cat">Smart Home</div>
-      <div class="card-title">Best Smart Home Hubs 2026: UK Buyer's Guide</div>
-      <div class="card-desc">Homey Pro, Aqara M3, SmartThings, Home Assistant ranked by protocol count, ease of use, and value.</div>
-      <div class="card-meta">Coming soon</div>
-    </a>
-
-    <a href="/best/best-gaming-desks-under-300/" class="card">
-      <div class="card-cat">Gaming</div>
-      <div class="card-title">Best Gaming Desks Under GBP 300</div>
-      <div class="card-desc">L-shaped, sit-stand, RGB-lit. Five desks ranked for every room size and budget.</div>
-      <div class="card-meta">July 2026</div>
-    </a>
-
-    <a href="/best/best-smart-plugs-gaming-setup/" class="card">
-      <div class="card-cat">Crossover</div>
-      <div class="card-title">Best Smart Plugs for Gaming Setups: UK 2026</div>
-      <div class="card-desc">Energy monitoring, voice control, scheduling. Which smart plug powers your battlestation?</div>
-      <div class="card-meta">Coming soon</div>
-    </a>
-
-    <a href="/best/best-gaming-chairs-under-500/" class="card">
-      <div class="card-cat">Gaming</div>
-      <div class="card-title">Best Gaming Chairs Under GBP 500</div>
-      <div class="card-desc">Secretlab, Noblechairs, Corsair, AndaSeat. Five chairs for every posture and preference.</div>
-      <div class="card-meta">Coming soon</div>
-    </a>
+    {articles.length > 0 ? articles.map(a => (
+      <a href={`/best/compare/${a.slug}/`} class="card">
+        <div class="card-cat">{a.subcategory || 'Best in Class'}</div>
+        <div class="card-title">{a.title}</div>
+        <div class="card-desc">{a.description}</div>
+        <div class="card-meta">
+          {a.winner_name && <span class="winner">Winner: {a.winner_name}</span>}
+        </div>
+      </a>
+    )) : (
+      <div class="card" style="grid-column:1/-1;text-align:center;padding:3rem;">
+        <p style="color:var(--text-muted);">Best-in-class roundups coming soon.</p>
+      </div>
+    )}
   </div>
 </div>
 </BaseLayout>

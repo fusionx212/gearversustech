@@ -1,60 +1,33 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getArticlesByCategory } from '../../lib/supabase';
 
-const title = "Gaming Gear Comparisons";
-const description = "Data-dense comparisons of gaming desks, chairs, monitors, keyboards, mice, and headsets. We test, rate, and tell you where to buy at the best price. Amazon, eBay, Awin affiliates.";
+const articles = await getArticlesByCategory('gaming', 12);
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title="Gaming Gear Comparisons" description="Data-dense comparisons of gaming desks, chairs, monitors, keyboards, mice, and headsets.">
 <div class="container">
-
   <section class="cat-header">
     <h1>Gaming Gear Comparisons</h1>
     <p>Desks, chairs, monitors, keyboards, mice, headsets. Competitive comparisons for every setup, every budget, every game.</p>
   </section>
 
   <div class="grid-2">
-    <a href="/gaming/secretlab-titan-vs-herman-miller-embody/" class="card">
-      <div class="card-cat">Gaming Chairs</div>
-      <div class="card-title">Secretlab Titan Evo vs Herman Miller Embody</div>
-      <div class="card-desc">GBP 400 gaming throne meets GBP 1,200 ergonomic legend. Eight-hour comfort tested.</div>
-      <div class="card-meta">Coming soon</div>
-    </a>
-
-    <a href="/gaming/logitech-g-pro-vs-razer-viper-v3/" class="card">
-      <div class="card-cat">Gaming Mice</div>
-      <div class="card-title">Logitech G Pro X Superlight 2 vs Razer Viper V3 Pro</div>
-      <div class="card-desc">Sub-60g. 4K versus 8K polling. Shape, sensor, battery life -- we declare a winner.</div>
-      <div class="card-meta">Coming soon</div>
-    </a>
-
-    <a href="/gaming/lg-27gr95qe-vs-asus-pg27aqdm/" class="card">
-      <div class="card-cat">Gaming Monitors</div>
-      <div class="card-title">LG 27GR95QE vs ASUS PG27AQDM: OLED 240Hz</div>
-      <div class="card-desc">Two 27-inch 1440p OLEDs at 240Hz. Which panel delivers better colour accuracy and motion clarity?</div>
-      <div class="card-meta">Coming soon</div>
-    </a>
-
-    <a href="/gaming/wooting-60he-vs-razer-huntsman-v3/" class="card">
-      <div class="card-cat">Gaming Keyboards</div>
-      <div class="card-title">Wooting 60HE vs Razer Huntsman V3 Pro</div>
-      <div class="card-desc">Magnetic Hall-effect switches go head-to-head. Rapid trigger, actuation point tuning, and typing feel compared.</div>
-      <div class="card-meta">Coming soon</div>
-    </a>
-
-    <a href="/gaming/steelseries-arctis-nova-vs-audeze-maxwell/" class="card">
-      <div class="card-cat">Gaming Headsets</div>
-      <div class="card-title">SteelSeries Arctis Nova Pro vs Audeze Maxwell</div>
-      <div class="card-desc">Active noise cancellation versus planar magnetic drivers. Which sounds better in-game?</div>
-      <div class="card-meta">Coming soon</div>
-    </a>
-
-    <a href="/best/best-gaming-desks-under-300/" class="card">
-      <div class="card-cat">Best Picks</div>
-      <div class="card-title">Best Gaming Desks Under GBP 300</div>
-      <div class="card-desc">L-shaped, sit-stand, RGB-lit, cable-managed. Five desks ranked for every room size and budget.</div>
-      <div class="card-meta">July 2026</div>
-    </a>
+    {articles.length > 0 ? articles.map(a => (
+      <a href={`/gaming/compare/${a.slug}/`} class="card">
+        <div class="card-cat">{a.subcategory || 'Gaming'}</div>
+        <div class="card-title">{a.title}</div>
+        <div class="card-desc">{a.description}</div>
+        <div class="card-meta">
+          {a.winner_name && <span class="winner">Winner: {a.winner_name}</span>}
+          {a.winner_rating && <span class="rating">{a.winner_rating}</span>}
+        </div>
+      </a>
+    )) : (
+      <div class="card" style="grid-column:1/-1;text-align:center;padding:3rem;">
+        <p style="color:var(--text-muted);">Gaming comparisons coming soon. <a href="/smart-home/compare/homey-pro-vs-aqara-hub-m3/">See our Smart Home comparisons</a>.</p>
+      </div>
+    )}
   </div>
 </div>
 </BaseLayout>

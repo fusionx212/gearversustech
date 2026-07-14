@@ -1,0 +1,78 @@
+---
+// Email capture component for article footers
+// Embeds ConvertKit or Netlify Forms inline
+---
+
+<div class="email-capture" id="email-capture">
+  <style>
+    .email-capture {
+      background: linear-gradient(135deg, #eff6ff, #f0f9ff);
+      border: 1px solid #bfdbfe;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+    .email-capture h3 {
+      color: var(--text);
+      margin: 0 0 0.3rem;
+      font-size: 1.1rem;
+    }
+    .email-capture p {
+      color: var(--text-secondary);
+      font-size: 0.87rem;
+      margin-bottom: 1rem;
+    }
+    .email-capture form {
+      display: flex;
+      gap: 0.5rem;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .email-capture input[type="email"] {
+      flex: 1;
+      padding: 0.55rem 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 0.85rem;
+      background: #fff;
+    }
+    .email-capture input[type="email"]:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    }
+    .email-capture .btn-submit {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.55rem 1.2rem;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 0.85rem;
+      font-family: var(--font);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .email-capture .privacy {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+    @media (max-width: 480px) {
+      .email-capture form { flex-direction: column; }
+    }
+  </style>
+
+  <h3>Get the latest comparisons</h3>
+  <p>New versus matchups and best-in-class picks every week. No spam.</p>
+
+  <form name="subscribe" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you/">
+    <input type="hidden" name="form-name" value="subscribe" />
+    <p style="display:none"><label>Leave empty: <input name="bot-field" /></label></p>
+    <input type="email" name="email" placeholder="your@email.com" required />
+    <button type="submit" class="btn-submit">Subscribe</button>
+  </form>
+  <p class="privacy">One email per week. Unsubscribe any time.</p>
+</div>

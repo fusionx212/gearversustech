@@ -1,0 +1,150 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getArticle, getArticleProducts, productKey } from '../../../lib/supabase';
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+const article = await getArticle(slug as string);
+
+if (!article) {
+  return new Response('Article not found', { status: 404 });
+}
+
+const { title, description, category, subcategory, content_html, winner_name, winner_rating, runnerup_name, runnerup_rating } = article;
+
+// Product imagery, prices and ASINs come from gvt_affiliate_links, populated from the
+// Amazon Creators API by scripts/sync-amazon-products.mjs.
+const { winner, runnerup } = await getArticleProducts(article);
+
+const pageUrl = `https://gearversustech.com/${category}/compare/${slug}/`;
+
+/** Product node carrying the rating and price we already show on the page — this is
+ *  what earns the star rating and price in search results. */
+const productNode = (name: string, rating: number | null, link: typeof winner) => ({
+  '@type': 'Product',
+  name,
+  ...(link?.image_url ? { image: link.image_url } : {}),
+  ...(link?.uk_price_gbp
+    ? {
+        offers: {
+          '@type': 'Offer',
+          price: link.uk_price_gbp,
+          priceCurrency: 'GBP',
+          availability: 'https://schema.org/InStock',
+          url: `https://gearversustech.com/c/amazon/${link.link_key}`,
+        },
+      }
+    : {}),
+  ...(rating
+    ? {
+        review: {
+          '@type': 'Review',
+          reviewRating: { '@type': 'Rating', ratingValue: rating, bestRating: 10, worstRating: 1 },
+          author: { '@type': 'Organization', name: 'Gear Versus Tech' },
+        },
+      }
+    : {}),
+});
+
+const schema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      headline: title,
+      description,
+      datePublished: article.created_at,
+      dateModified: article.updated_at,
+      author: { '@type': 'Organization', name: 'Gear Versus Tech' },
+      publisher: { '@type': 'Organization', name: 'Gear Versus Tech', url: 'https://gearversustech.com' },
+      mainEntityOfPage: pageUrl,
+    },
+    ...(winner_name && winner_rating ? [productNode(winner_name, winner_rating, winner)] : []),
+    ...(runnerup_name && runnerup_rating ? [productNode(runnerup_name, runnerup_rating, runnerup)] : []),
+  ],
+});
+
+const CATEGORY_LABELS: Record<string, string> = {
+  'smart-home': 'Smart Home',
+  'gaming': 'Gaming',
+  'best': 'Best Picks',
+};
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+<div class="container">
+  <nav class="breadcrumb">
+    <a href="/">Home</a> / <a href={`/${category}/`}>{CATEGORY_LABELS[category]}</a> / <span class="current">{title}</span>
+  </nav>
+
+  <h1>{title}</h1>
+  <p class="article-meta-line">
+    Updated {new Date(article.updated_at).toLocaleDateString('en-GB', { month: 'long', day: 'numeric', year: 'numeric' })}
+    <span class="sep">|</span> {subcategory}
+    <span class="sep">|</span> <a href="/methodology/">How we test</a>
+  </p>
+
+  {winner_name && winner_rating && (
+    <div class="winner-banner">
+      <div class="winner-badge">Our Pick</div>
+      <div class="winner-text">
+        <strong>{winner_name} — {winner_rating} / 10</strong>
+        <span>Best overall choice for most people</span>
+        {winner?.uk_price_gbp && <span class="product-price">£{winner.uk_price_gbp}</span>}
+      </div>
+      {winner?.image_url && <img class="product-image-small" src={winner.image_url} alt={winner_name} loading="lazy" style="margin-left:auto;" />}
+    </div>
+  )}
+
+  {winner_name && (
+    <div class="cta-row">
+      <a class="btn btn-amazon" rel="nofollow sponsored" target="_blank" href={`/c/amazon/${winner?.link_key ?? productKey(winner_name)}`}>
+        Check price on Amazon
+      </a>
+      <a class="btn btn-ebay" rel="nofollow sponsored" target="_blank" href={`/c/ebay/${winner?.link_key ?? productKey(winner_name)}`}>
+        See it on eBay
+      </a>
+    </div>
+  )}
+
+  {runnerup_name && runnerup_rating && (
+    <div class="runnerup-banner">
+      <span class="pick-label budget">Runner-up</span>
+      <div>
+        <strong style="color:var(--text);">{runnerup_name} — {runnerup_rating} / 10</strong>
+        <span style="font-size:0.82rem;color:var(--text-secondary);display:block;">Best for buyers prioritising value</span>
+        {runnerup?.uk_price_gbp && <span class="product-price">£{runnerup.uk_price_gbp}</span>}
+      </div>
+      {runnerup?.image_url && <img class="product-image-small" src={runnerup.image_url} alt={runnerup_name} loading="lazy" style="margin-left:auto;" />}
+    </div>
+  )}
+
+  {runnerup_name && (
+    <div class="cta-row">
+      <a class="btn btn-amazon" rel="nofollow sponsored" target="_blank" href={`/c/amazon/${runnerup?.link_key ?? productKey(runnerup_name)}`}>
+        {runnerup_name} on Amazon
+      </a>
+      <a class="btn btn-ebay" rel="nofollow sponsored" target="_blank" href={`/c/ebay/${runnerup?.link_key ?? productKey(runnerup_name)}`}>
+        {runnerup_name} on eBay
+      </a>
+    </div>
+  )}
+
+  <article set:html={content_html} />
+
+  <hr />
+
+  <p style="font-size:0.78rem;color:var(--text-muted);">
+    Prices checked July 2026 via the Amazon Creators API and may since have changed.
+    <a href="/disclosure/">Affiliate disclosure</a> · <a href="/methodology/">How we test</a>
+  </p>
+
+  <section class="related">
+    <h2>Related Comparisons</h2>
+    <ul class="related-list">
+      <li><a href={`/${category}/`}>All {CATEGORY_LABELS[category]} comparisons</a></li>
+    </ul>
+  </section>
+</div>
+</BaseLayout>

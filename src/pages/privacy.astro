@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "Privacy Policy";
+const description = "Gear Versus Tech privacy policy. How we collect, use, and protect your data.";
+---
+
+<BaseLayout title={title} description={description}>
+<div class="container">
+  <nav class="breadcrumb"><a href="/">Home</a> / <span class="current">Privacy Policy</span></nav>
+  <h1>Privacy Policy</h1>
+  <p class="article-meta-line">Last updated: July 2026</p>
+
+  <h2>Who We Are</h2>
+  <p>Gear Versus Tech is a product comparison website operated in the United Kingdom. Our website address is https://gearversustech.com.</p>
+
+  <h2>What Data We Collect</h2>
+  <p>We collect minimal data to operate our service:</p>
+  <ul>
+    <li><strong>Email address</strong> — when you subscribe to our newsletter via the inline form. Stored in Netlify Forms.</li>
+    <li><strong>Contact form submissions</strong> — name, email, and message when you use our contact form. Stored in Netlify Forms.</li>
+    <li><strong>Analytics</strong> — anonymous usage data via Cloudflare Web Analytics. No cookies. No personal identifiers.</li>
+  </ul>
+
+  <h2>How We Use Your Data</h2>
+  <ul>
+    <li>To send you our weekly comparison newsletter (if you subscribed).</li>
+    <li>To respond to your contact form inquiries.</li>
+    <li>To understand how visitors use our site so we can improve it.</li>
+  </ul>
+  <p>We never sell, rent, or share your personal data with third parties.</p>
+
+  <h2>Cookies</h2>
+  <p>Gear Versus Tech does not use tracking cookies. Our analytics (Cloudflare Web Analytics) are privacy-first and cookie-free.</p>
+
+  <h2>Affiliate Disclosure</h2>
+  <p>We participate in the Amazon Associates Program, eBay Partner Network, and Awin affiliate programmes. When you click a product link and make a purchase, we may earn a commission at no additional cost to you. This does not influence our comparisons or recommendations.</p>
+
+  <h2>Your Rights</h2>
+  <p>Under UK GDPR, you have the right to access, correct, or delete any personal data we hold about you. To exercise these rights, contact us at <a href="mailto:hello@gearversustech.com">hello@gearversustech.com</a>.</p>
+
+  <h2>Contact</h2>
+  <p>For privacy inquiries: <a href="mailto:hello@gearversustech.com">hello@gearversustech.com</a></p>
+</div>
+</BaseLayout>

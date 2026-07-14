@@ -1,15 +1,16 @@
 ---
-import WebGLBackground from '../components/WebGLBackground.astro';
 import '../styles/global.css';
+import '../styles/product-images.css';
+import HealthCheck from '../components/HealthCheck.astro';
 
 export interface Props {
   title: string;
   description: string;
-  ogImage?: string;
   schema?: string;
 }
 
 const { title, description, schema } = Astro.props;
+const pageTitle = title === 'Gear Versus Tech' ? title : `${title} \u00b7 Gear Versus Tech`;
 ---
 
 <!doctype html>
@@ -17,7 +18,7 @@ const { title, description, schema } = Astro.props;
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title === 'Gear Versus Tech' ? title : `${title} \u00b7 Gear Versus Tech`}</title>
+  <title>{pageTitle}</title>
   <meta name="description" content={description} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
@@ -26,10 +27,11 @@ const { title, description, schema } = Astro.props;
   <meta property="og:site_name" content="Gear Versus Tech" />
   <link rel="canonical" href={Astro.url.href} />
   {schema && <script type="application/ld+json" set:html={schema}></script>}
+  <!-- Cloudflare Web Analytics -->
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "REPLACE_WITH_CF_TOKEN"}'></script>
 </head>
 <body>
-  <WebGLBackground />
-
+  <HealthCheck />
   <header class="site-header" id="site-header">
     <div class="header-inner">
       <a href="/" class="logo">Gear<span>Versus</span>Tech</a>
@@ -47,22 +49,25 @@ const { title, description, schema } = Astro.props;
 
   <footer class="site-footer">
     <div class="container">
-      <p style="font-weight:700;color:var(--white);margin-bottom:0.5rem;">Gear Versus Tech</p>
-      <p style="font-size:0.85rem;color:var(--text-secondary);">We compare. You choose. Buy smarter.</p>
+      <p class="footer-brand">Gear Versus Tech</p>
+      <p class="footer-tagline">We compare. You choose. Buy smarter.</p>
       <div class="footer-links">
         <a href="/">Home</a>
         <a href="/smart-home/">Smart Home</a>
         <a href="/gaming/">Gaming</a>
         <a href="/best/">Best Picks</a>
         <a href="/contact/">Contact</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/disclosure/">Disclosure</a>
+        <a href="/methodology/">How We Test</a>
       </div>
       <p class="contact-email">
         <a href="mailto:hello@gearversustech.com">hello@gearversustech.com</a>
       </p>
       <p class="disclaimer">
         As an Amazon Associate, eBay Partner, and Awin affiliate, we earn from qualifying purchases.
-        This does not affect our comparisons. Prices and stock are checked regularly but may change.
-        Always confirm on the retailer's site before purchasing.
+        Our comparisons are based on testing and data, not commission rates.
+        Prices are checked regularly but may change. Always confirm on the retailer's site.
       </p>
     </div>
   </footer>
@@ -70,42 +75,22 @@ const { title, description, schema } = Astro.props;
 </html>
 
 <script>
-  // GSAP scroll effect on header
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
   gsap.registerPlugin(ScrollTrigger);
 
-  const header = document.getElementById('site-header');
-  if (header) {
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 20);
-    }, { passive: true });
-  }
-
-  // Card hover effect — track mouse for radial gradient
-  document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('mousemove', (e: Event) => {
-      const mouseEvent = e as MouseEvent;
-      const rect = (card as HTMLElement).getBoundingClientRect();
-      const x = mouseEvent.clientX - rect.left;
-      const y = mouseEvent.clientY - rect.top;
-      (card as HTMLElement).style.setProperty('--mx', `${x}px`);
-      (card as HTMLElement).style.setProperty('--my', `${y}px`);
-    });
-  });
-
-  // Fade-in on scroll
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        gsap.to(entry.target, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
+        gsap.to(entry.target, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
 
-  document.querySelectorAll('.card, .prod-card, .faq-item, .winner-banner, .verdict').forEach(el => {
-    gsap.set(el, { opacity: 0, y: 20 });
-    observer.observe(el);
+  document.querySelectorAll('.card, .prod-card, .faq-item, .winner-banner, .verdict, .compare-table-wrap').forEach(el => {
+    const element = el as HTMLElement;
+    gsap.set(element, { opacity: 0, y: 12 });
+    observer.observe(element);
   });
 </script>

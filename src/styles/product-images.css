@@ -1,0 +1,78 @@
+/* Product image styles — authentic review look */
+.product-image {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: #fff;
+  margin: 0.5rem 0 1rem;
+  object-fit: contain;
+}
+.product-image-small {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+  background: #fff;
+}
+.product-image-row {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin: 1rem 0;
+}
+.price-verified {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.15rem;
+}
+.price-verified::before {
+  content: "✓";
+  color: var(--green);
+  font-weight: 700;
+}
+.compatibility-badges {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  margin: 0.5rem 0;
+}
+.compat-badge {
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 100px;
+  background: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+}
+/* Our Pick / Budget Pick labels */
+.pick-label {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.3rem;
+}
+.pick-label.our-pick {
+  background: var(--accent);
+  color: #fff;
+}
+.pick-label.budget {
+  background: var(--green-light);
+  color: var(--green);
+  border: 1px solid var(--green-border);
+}
+.pick-label.upgrade {
+  background: var(--gold-light);
+  color: var(--gold);
+  border: 1px solid #fde68a;
+}
