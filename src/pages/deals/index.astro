@@ -1,0 +1,114 @@
+---
+export const prerender = false;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const deals = [
+  {
+    label: 'Refurbished Desktops',
+    emoji: '🖥️',
+    title: 'Up to 50% Off Refurbished Desktops',
+    desc: 'Apple, Dell, HP, Lenovo — certified refurbished with warranties. iMacs, gaming towers, workstations at half RRP.',
+    url: 'https://www.ebay.co.uk/e/_electronics/up-to-50-off-refurbished-desktops?mkcid=1&mkrid=710-53481-19255-0&siteid=3&campid=5339164583&toolid=20014&customid=gvt-deals-desktops&mkevt=1',
+    highlight: '115+ listings',
+  },
+  {
+    label: 'Refurbished Laptops',
+    emoji: '💻',
+    title: 'Up to 50% Off Refurbished Laptops',
+    desc: 'MacBooks, ThinkPads, Surfaces, and gaming laptops. Refurbished with 12-month warranties, up to half off.',
+    url: 'https://www.ebay.co.uk/e/_electronics/up-to-50-off-refurbished-laptops?mkcid=1&mkrid=710-53481-19255-0&siteid=3&campid=5339164583&toolid=20014&customid=gvt-deals-laptops&mkevt=1',
+    highlight: 'Hundreds of listings',
+  },
+  {
+    label: 'Refurbished Smartwatches',
+    emoji: '⌚',
+    title: 'Up to 50% Off Refurbished Smartwatches',
+    desc: 'Apple Watch Series 5-9, Samsung Galaxy Watch, Garmin, Fitbit. All refurbished, all with big savings.',
+    url: 'https://www.ebay.co.uk/e/_electronics/up-to-50-off-refurbished-smartwatches?mkcid=1&mkrid=710-53481-19255-0&siteid=3&campid=5339164583&toolid=20014&customid=gvt-deals-watches&mkevt=1',
+    highlight: '650+ listings',
+  },
+  {
+    label: 'Laptops Under £200',
+    emoji: '💰',
+    title: 'Refurbished Laptops Under £200',
+    desc: 'Budget-friendly refurbished laptops. Ideal for students, casual use, or a secondary machine.',
+    url: 'https://www.ebay.co.uk/e/_electronics/refurbished-laptops-under-200?mkcid=1&mkrid=710-53481-19255-0&siteid=3&campid=5339164583&toolid=20014&customid=gvt-deals-laptops200&mkevt=1',
+    highlight: 'Budget picks',
+  },
+  {
+    label: 'Opened — Never Used',
+    emoji: '📦',
+    title: 'Opened But Never Used Laptops',
+    desc: 'Box-open returns and ex-display laptops. Never actually used — just unboxed. Big discounts on like-new kit.',
+    url: 'https://www.ebay.co.uk/e/_electronics/opened-never-used-laptops?mkcid=1&mkrid=710-53481-19255-0&siteid=3&campid=5339164583&toolid=20014&customid=gvt-deals-openbox&mkevt=1',
+    highlight: 'Like-new condition',
+  },
+  {
+    label: 'HP Direct',
+    emoji: '🖨️',
+    title: 'HP Shop — Computing Direct',
+    desc: 'Official HP refurbished and clearance. Desktops, laptops, printers, and accessories direct from HP.',
+    url: 'https://www.ebay.co.uk/e/_electronics/hp-shop-computing-direct?mkcid=1&mkrid=710-53481-19255-0&siteid=3&campid=5339164583&toolid=20014&customid=gvt-deals-hp&mkevt=1',
+    highlight: 'Official HP store',
+  },
+  {
+    label: 'DJI Drones',
+    emoji: '🚁',
+    title: 'DJI Drone Deals',
+    desc: 'DJI Mini, Air, Mavic, and FPV drones. Refurbished and discounted — the best prices on DJI kit.',
+    url: 'https://www.ebay.co.uk/e/special-events/roe-dji?mkcid=1&mkrid=710-53481-19255-0&siteid=3&campid=5339164583&toolid=20014&customid=gvt-deals-dji&mkevt=1',
+    highlight: 'DJI authorised',
+  },
+];
+---
+
+<BaseLayout
+  title="Best Tech Deals"
+  description="Curated refurbished tech deals from eBay. Desktops, laptops, smartwatches, and drones at up to 50% off. All listings are certified refurbished with warranties."
+>
+<div class="container">
+  <section class="cat-header">
+    <h1>💰 Best Tech Deals</h1>
+    <p>Curated refurbished tech from eBay. Every listing is certified refurbished with a warranty. We update this page whenever new deals drop.</p>
+  </section>
+
+  <div class="grid-2">
+    {deals.map(d => (
+      <a href={d.url} class="card" target="_blank" rel="nofollow sponsored noopener">
+        <div class="card-cat-hero">{d.emoji}</div>
+        <div class="card-cat">{d.label}</div>
+        <div class="card-title">{d.title}</div>
+        <div class="card-desc">{d.desc}</div>
+        <div class="card-meta">
+          <span class="winner">{d.highlight}</span>
+        </div>
+      </a>
+    ))}
+  </div>
+
+  <div class="deals-disclosure">
+    <p><strong>How this works:</strong> These are curated eBay landing pages featuring certified refurbished tech. We earn a small commission (at no cost to you) if you buy through these links. All listings are on eBay UK and include buyer protection. Prices and availability change frequently — always confirm on eBay before purchasing.</p>
+    <p>Got questions about any of these categories? <a href="/contact/">Drop us a message</a> and we'll help you find the right deal.</p>
+  </div>
+</div>
+</BaseLayout>
+
+<style>
+.deals-disclosure {
+  margin: 3rem 0 4rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-warm);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.deals-disclosure p {
+  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+}
+.deals-disclosure strong {
+  color: var(--text-secondary);
+}
+</style>
