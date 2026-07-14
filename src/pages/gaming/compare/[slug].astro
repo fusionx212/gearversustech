@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { getArticle, getArticleProducts, productKey } from '../../../lib/supabase';
+import { getArticle, getArticleProducts, getComparedProducts, productKey } from '../../../lib/supabase';
 
 export const prerender = false;
 
@@ -16,6 +16,11 @@ const { title, description, category, subcategory, content_html, winner_name, wi
 // Product imagery, prices and ASINs come from gvt_affiliate_links, populated from the
 // Amazon Creators API by scripts/sync-amazon-products.mjs.
 const { winner, runnerup } = await getArticleProducts(article);
+const hasRunnerup = Boolean(runnerup_name && runnerup_rating);
+
+// Fetch ALL compared products (beyond just winner + runner-up)
+const excludeFromAlso = [winner_name, runnerup_name].filter(Boolean) as string[];
+const alsoCompared = await getComparedProducts(content_html, excludeFromAlso);
 
 const pageUrl = `https://gearversustech.com/${category}/compare/${slug}/`;
 
@@ -86,52 +91,80 @@ const CATEGORY_LABELS: Record<string, string> = {
   </p>
 
   {winner_name && winner_rating && (
-    <div class="winner-banner">
-      <div class="winner-badge">Our Pick</div>
-      <div class="winner-text">
-        <strong>{winner_name} — {winner_rating} / 10</strong>
-        <span>Best overall choice for most people</span>
-        {winner?.uk_price_gbp && <span class="product-price">£{winner.uk_price_gbp}</span>}
+    <div class={`vs-compare ${hasRunnerup ? '' : 'single'}`}>
+      <div class="vs-product winner">
+        <div class="vs-badge">Our Pick</div>
+        {winner?.image_url && (
+          <div class="vs-image-wrap">
+            <img class="vs-image" src={winner.image_url} alt={winner_name} loading="lazy" />
+          </div>
+        )}
+        <h3>{winner_name}</h3>
+        <div class="vs-sub">Best overall choice for most people</div>
+        <div class="vs-rating">{winner_rating} / 10</div>
+        {winner?.uk_price_gbp && <div class="vs-price">£{winner.uk_price_gbp}</div>}
+        <div class="cta-row">
+          <a class="btn btn-amazon" rel="nofollow sponsored" target="_blank" href={`/c/amazon/${winner?.link_key ?? productKey(winner_name)}`}>Amazon</a>
+          <a class="btn btn-ebay" rel="nofollow sponsored" target="_blank" href={`/c/ebay/${winner?.link_key ?? productKey(winner_name)}`}>eBay</a>
+        </div>
       </div>
-      {winner?.image_url && <img class="product-image-small" src={winner.image_url} alt={winner_name} loading="lazy" style="margin-left:auto;" />}
-    </div>
-  )}
 
-  {winner_name && (
-    <div class="cta-row">
-      <a class="btn btn-amazon" rel="nofollow sponsored" target="_blank" href={`/c/amazon/${winner?.link_key ?? productKey(winner_name)}`}>
-        Check price on Amazon
-      </a>
-      <a class="btn btn-ebay" rel="nofollow sponsored" target="_blank" href={`/c/ebay/${winner?.link_key ?? productKey(winner_name)}`}>
-        See it on eBay
-      </a>
-    </div>
-  )}
-
-  {runnerup_name && runnerup_rating && (
-    <div class="runnerup-banner">
-      <span class="pick-label budget">Runner-up</span>
-      <div>
-        <strong style="color:var(--text);">{runnerup_name} — {runnerup_rating} / 10</strong>
-        <span style="font-size:0.82rem;color:var(--text-secondary);display:block;">Best for buyers prioritising value</span>
-        {runnerup?.uk_price_gbp && <span class="product-price">£{runnerup.uk_price_gbp}</span>}
-      </div>
-      {runnerup?.image_url && <img class="product-image-small" src={runnerup.image_url} alt={runnerup_name} loading="lazy" style="margin-left:auto;" />}
-    </div>
-  )}
-
-  {runnerup_name && (
-    <div class="cta-row">
-      <a class="btn btn-amazon" rel="nofollow sponsored" target="_blank" href={`/c/amazon/${runnerup?.link_key ?? productKey(runnerup_name)}`}>
-        {runnerup_name} on Amazon
-      </a>
-      <a class="btn btn-ebay" rel="nofollow sponsored" target="_blank" href={`/c/ebay/${runnerup?.link_key ?? productKey(runnerup_name)}`}>
-        {runnerup_name} on eBay
-      </a>
+      {hasRunnerup && (
+        <>
+          <div class="vs-divider">VS</div>
+          <div class="vs-product runnerup">
+            <div class="vs-badge">Runner-up</div>
+            {runnerup?.image_url && (
+              <div class="vs-image-wrap">
+                <img class="vs-image" src={runnerup.image_url} alt={runnerup_name} loading="lazy" />
+              </div>
+            )}
+            <h3>{runnerup_name}</h3>
+            <div class="vs-sub">Best for buyers prioritising value</div>
+            <div class="vs-rating">{runnerup_rating} / 10</div>
+            {runnerup?.uk_price_gbp && <div class="vs-price">£{runnerup.uk_price_gbp}</div>}
+            <div class="cta-row">
+              <a class="btn btn-amazon" rel="nofollow sponsored" target="_blank" href={`/c/amazon/${runnerup?.link_key ?? productKey(runnerup_name)}`}>Amazon</a>
+              <a class="btn btn-ebay" rel="nofollow sponsored" target="_blank" href={`/c/ebay/${runnerup?.link_key ?? productKey(runnerup_name)}`}>eBay</a>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )}
 
   <article set:html={content_html} />
+
+  {alsoCompared.length > 0 && (
+    <section class="also-compared">
+      <h2>Also Compared</h2>
+      <div class="also-grid">
+        {alsoCompared.map((p) => (
+          <div class="also-card">
+            {p.image_url && (
+              <div class="also-image-wrap">
+                <img class="also-image" src={p.image_url} alt={p.product_name} loading="lazy" />
+              </div>
+            )}
+            <h4>{p.product_name}</h4>
+            {p.uk_price_gbp && <div class="also-price">£{p.uk_price_gbp}</div>}
+            <div class="cta-row">
+              <a class="btn btn-amazon btn-sm" rel="nofollow sponsored" target="_blank"
+                href={p.amazon_asin
+                  ? `https://www.amazon.co.uk/dp/${p.amazon_asin}?tag=gearversustech-21`
+                  : `https://www.amazon.co.uk/s?k=${encodeURIComponent(p.product_name)}&tag=gearversustech-21`}>
+                Amazon
+              </a>
+              <a class="btn btn-ebay btn-sm" rel="nofollow sponsored" target="_blank"
+                href={`https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(p.product_name)}&campid=5339164583`}>
+                eBay
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
 
   <hr />
 

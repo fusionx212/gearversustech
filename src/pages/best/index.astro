@@ -1,8 +1,10 @@
 ---
+export const prerender = false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getArticlesByCategory } from '../../lib/supabase';
+import { getArticlesByCategory, attachWinnerImages } from '../../lib/supabase';
 
-const articles = await getArticlesByCategory('best', 12);
+const articlesRaw = await getArticlesByCategory('best', 12);
+const articles = await attachWinnerImages(articlesRaw);
 ---
 
 <BaseLayout title="Best Picks and Roundups" description="Curated best-of roundups for smart home and gaming gear.">
@@ -15,6 +17,11 @@ const articles = await getArticlesByCategory('best', 12);
   <div class="grid-2">
     {articles.length > 0 ? articles.map(a => (
       <a href={`/best/compare/${a.slug}/`} class="card">
+        {a.winnerImage && (
+          <div class="card-image-wrap">
+            <img class="card-image" src={a.winnerImage} alt={a.winner_name ?? a.title} loading="lazy" />
+          </div>
+        )}
         <div class="card-cat">{a.subcategory || 'Best in Class'}</div>
         <div class="card-title">{a.title}</div>
         <div class="card-desc">{a.description}</div>

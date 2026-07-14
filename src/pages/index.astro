@@ -1,8 +1,10 @@
 ---
+export const prerender = false;
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getLatestArticles } from '../lib/supabase';
+import { getLatestArticles, attachWinnerImages } from '../lib/supabase';
 
-const articles = await getLatestArticles(12);
+const articlesRaw = await getLatestArticles(12);
+const articles = await attachWinnerImages(articlesRaw);
 
 const CATEGORY_LABELS: Record<string, string> = {
   'smart-home': 'Smart Home',
@@ -25,11 +27,13 @@ const CATEGORY_LABELS: Record<string, string> = {
 
   <div class="grid-2">
     <a href="/smart-home/" class="card">
+      <div class="card-cat-hero">🏠</div>
       <div class="card-cat">Smart Home</div>
       <div class="card-title">Smart Home Comparisons</div>
       <div class="card-desc">Hubs, sensors, lights, locks, thermostats. Matter, Zigbee, Z-Wave, Thread -- tested and compared.</div>
     </a>
     <a href="/gaming/" class="card">
+      <div class="card-cat-hero">🎮</div>
       <div class="card-cat">Gaming</div>
       <div class="card-title">Gaming Gear Comparisons</div>
       <div class="card-desc">Desks, chairs, monitors, keyboards, mice, headsets. Competitive analysis for every setup.</div>
@@ -42,6 +46,11 @@ const CATEGORY_LABELS: Record<string, string> = {
       <div class="grid-2">
         {articles.slice(0, 8).map(a => (
           <a href={`/${a.category}/compare/${a.slug}/`} class="card">
+            {a.winnerImage && (
+              <div class="card-image-wrap">
+                <img class="card-image" src={a.winnerImage} alt={a.winner_name ?? a.title} loading="lazy" />
+              </div>
+            )}
             <div class="card-cat">{a.subcategory || CATEGORY_LABELS[a.category]}</div>
             <div class="card-title">{a.title}</div>
             <div class="card-desc">{a.description}</div>

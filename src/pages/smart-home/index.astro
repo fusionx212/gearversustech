@@ -1,8 +1,10 @@
 ---
+export const prerender = false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getArticlesByCategory } from '../../lib/supabase';
+import { getArticlesByCategory, attachWinnerImages } from '../../lib/supabase';
 
-const articles = await getArticlesByCategory('smart-home', 12);
+const articlesRaw = await getArticlesByCategory('smart-home', 12);
+const articles = await attachWinnerImages(articlesRaw);
 ---
 
 <BaseLayout title="Smart Home Comparisons" description="Data-dense comparisons of smart home hubs, sensors, lights, doorbells, thermostats, and locks.">
@@ -15,6 +17,11 @@ const articles = await getArticlesByCategory('smart-home', 12);
   <div class="grid-2">
     {articles.map(a => (
       <a href={`/smart-home/compare/${a.slug}/`} class="card">
+        {a.winnerImage && (
+          <div class="card-image-wrap">
+            <img class="card-image" src={a.winnerImage} alt={a.winner_name ?? a.title} loading="lazy" />
+          </div>
+        )}
         <div class="card-cat">{a.subcategory || 'Smart Home'}</div>
         <div class="card-title">{a.title}</div>
         <div class="card-desc">{a.description}</div>

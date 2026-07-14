@@ -146,3 +146,51 @@ export async function getArticleProducts(article: {
     runnerup: article.runnerup_name ? byKey.get(productKey(article.runnerup_name)) : undefined,
   };
 }
+
+/** Batch-attach each article's winner product image (for card grids: homepage, category listings). */
+export async function attachWinnerImages<T extends { winner_name: string | null }>(
+  articles: T[]
+): Promise<(T & { winnerImage?: string })[]> {
+  const keys = [...new Set(articles.map((a) => a.winner_name).filter(Boolean).map((n) => productKey(n as string)))];
+  if (!keys.length) return articles;
+
+  const rows = await supabaseQuery<AffiliateLink>('gvt_affiliate_links', {
+    select: 'link_key,image_url',
+    link_key: `in.(${keys.join(',')})`,
+  });
+  const byKey = new Map(rows.map((r) => [r.link_key, r.image_url]));
+
+  return articles.map((a) => ({
+    ...a,
+    winnerImage: a.winner_name ? byKey.get(productKey(a.winner_name)) ?? undefined : undefined,
+  }));
+}
+
+/** Extract all product names from article content_html (H3 headings inside the content body).
+ *  Returns deduplicated list of product names that appear to be actual products (not section headers). */
+export function extractProductNamesFromContent(contentHtml: string): string[] {
+  const h3Regex = /<h3>([^<]+)<\/h3>/g;
+  const names: string[] = [];
+  let match;
+  while ((match = h3Regex.exec(contentHtml)) !== null) {
+    const name = match[1].trim();
+    // Skip section headers that look like non-product headings
+    if (/^(Best|Our|The|How|What|Why|When|Where|Which|Final|Verdict|Summary|Conclusion|FAQ)/i.test(name)) continue;
+    if (name.length < 3 || name.length > 120) continue;
+    names.push(name);
+  }
+  return [...new Set(names)];
+}
+
+/** Fetch affiliate links for all product names found in an article's content. */
+export async function getComparedProducts(contentHtml: string, excludeNames: string[] = []): Promise<AffiliateLink[]> {
+  const names = extractProductNamesFromContent(contentHtml);
+  const filtered = names.filter((n) => !excludeNames.includes(n));
+  if (!filtered.length) return [];
+
+  const keys = filtered.map(productKey);
+  return supabaseQuery<AffiliateLink>('gvt_affiliate_links', {
+    select: '*',
+    link_key: `in.(${keys.join(',')})`,
+  });
+}
