@@ -1,6 +1,10 @@
 [build]
   command = "npm run build"
   publish = "dist"
+  # BATCHED DEPLOYS (credit control): ~15 credits/~$0.10 per production deploy, flat.
+  # Plain git push → cancel free. Real deploy = fire build hook (sets $INCOMING_HOOK_TITLE).
+  # See C:\Users\dalec\netlify-release.ps1 + agent_docs/netlify-deploy-guard.md
+  ignore = "[ -z \"$INCOMING_HOOK_TITLE\" ] || git diff --quiet ${CACHED_COMMIT_REF:-HEAD~1} $COMMIT_REF -- . ':(exclude)README.md' ':(exclude)n8n-workflows' ':(exclude).github'"
 
 [[headers]]
   for = "/*"
