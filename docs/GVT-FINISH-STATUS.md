@@ -19,12 +19,14 @@
 | Printful POD | **BLOCKED** / prep | API product create 400 |
 | Social publish | **SKIPPED** | Telegram only |
 
-## Live kit URLs (after deploy)
+## Live kit URLs
 
 - https://gearversustech.com/kits/
 - https://gearversustech.com/kits/gaming-room-build-kit/
 - https://gearversustech.com/kits/uk-garage-gym-build-kit/
 - Example enriched compare: https://gearversustech.com/gaming/compare/wooting-60he-vs-razer-huntsman-v3-pro/
+- Kit mockup asset: https://gearversustech.com/images/kits/gaming-room-build-kit.webp
+- **Netlify prod:** `6a59310af48d45c42cc5b5c6` · **github/main:** `17195c62`
 
 ## NEEDS DALE
 
