@@ -1,0 +1,65 @@
+---
+export const prerender = false;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import KitCTA from '../../components/KitCTA.astro';
+import { getArticlesByCategory, attachWinnerImages } from '../../lib/supabase';
+
+// Until DB CHECK allows category=home-gym, home-gym spokes live as category=best + subcategory Home Gym.
+const articlesRaw = await getArticlesByCategory('best', 40);
+const homeGym = articlesRaw.filter(
+  (a) => (a.subcategory || '').toLowerCase().includes('home gym') || (a.subcategory || '').toLowerCase().includes('garage')
+);
+const articles = await attachWinnerImages(homeGym.length ? homeGym : articlesRaw.filter((a) => /gym|rack|floor|dumbbell/i.test(a.title + (a.description || ''))));
+---
+
+<BaseLayout
+  title="Home gym comparisons"
+  description="UK garage and small-room home gym comparisons — racks, flooring, dumbbells, noise for terraces."
+>
+
+<section class="hub-hero">
+  <div class="container-wide">
+    <p class="band-kicker" style="color:var(--accent);font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.5rem;">Garage / small room</p>
+    <h1>Home gym comparisons</h1>
+    <p>UK ceiling height, terrace noise, single-garage width. Head-to-head picks — then the build kit if you want the cart done.</p>
+    <div class="hero-cta" style="margin-top:1rem;">
+      <a class="btn btn-ghost" href="/spaces/garage-gym/">Garage gym hub</a>
+    </div>
+  </div>
+</section>
+
+<div class="hub-list">
+  {articles.length > 0 ? articles.map((a) => (
+    <a href={`/${a.category}/compare/${a.slug}/`} class="compare-row">
+      <div class="compare-row-thumb">
+        {a.winnerImage ? (
+          <img src={a.winnerImage} alt="" loading="lazy" />
+        ) : (
+          <span class="thumb-empty">No photo</span>
+        )}
+      </div>
+      <div class="compare-row-body">
+        <div class="card-cat">{a.subcategory || 'Home gym'}</div>
+        <div class="card-title">{a.title}</div>
+        <div class="card-desc">{a.description}</div>
+      </div>
+      <div class="compare-row-meta">
+        {a.winner_name && <span class="winner">{a.winner_name}</span>}
+        {a.winner_rating && <span class="rating">{a.winner_rating}/10</span>}
+      </div>
+    </a>
+  )) : (
+    <div class="hub-empty">
+      <p>First home-gym compares are seeding. <a href="/spaces/garage-gym/">Read the garage gym hub</a> or <a href="/gaming/">browse gaming</a>.</p>
+    </div>
+  )}
+</div>
+
+<div class="container">
+  <KitCTA
+    title="UK Garage Gym Build Kit"
+    blurb="Ceiling constraints, rack/flooring picks, noise notes, and a verified UK cart — mirrors the proven £29 kit pattern."
+    kitLabel="Get the Garage Gym Kit — £19"
+  />
+</div>
+</BaseLayout>

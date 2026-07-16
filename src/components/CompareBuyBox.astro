@@ -1,0 +1,119 @@
+---
+import { productKey } from '../lib/supabase';
+
+interface AffiliateLink {
+  link_key: string;
+  product_name: string;
+  amazon_asin: string | null;
+  uk_price_gbp: number | null;
+  image_url: string | null;
+}
+
+interface Props {
+  winnerName: string;
+  winnerRating: number;
+  runnerupName?: string | null;
+  runnerupRating?: number | null;
+  winner?: AffiliateLink;
+  runnerup?: AffiliateLink;
+}
+
+const {
+  winnerName,
+  winnerRating,
+  runnerupName,
+  runnerupRating,
+  winner,
+  runnerup,
+} = Astro.props;
+
+const hasRunnerup = Boolean(runnerupName && runnerupRating);
+
+function amazonReady(link?: AffiliateLink) {
+  return Boolean(link?.amazon_asin && link?.link_key);
+}
+
+function priceLabel(link?: AffiliateLink) {
+  if (link?.uk_price_gbp != null) return `£${link.uk_price_gbp}`;
+  return 'Price updating';
+}
+---
+
+<div class={`vs-compare ${hasRunnerup ? '' : 'single'}`}>
+  <div class={`vs-product winner ${!winner?.image_url && winner?.uk_price_gbp == null ? 'is-empty' : ''}`}>
+    <div class="vs-badge">Our Pick</div>
+    <div class="vs-image-wrap">
+      {winner?.image_url ? (
+        <img class="vs-image" src={winner.image_url} alt={winnerName} loading="eager" fetchpriority="high" />
+      ) : (
+        <span class="vs-image-empty">Product photo updating</span>
+      )}
+    </div>
+    <h3>{winnerName}</h3>
+    <div class="vs-sub">Best overall choice for most people</div>
+    <div class="vs-rating">{winnerRating} / 10</div>
+    <div class={`vs-price ${winner?.uk_price_gbp == null ? 'is-pending' : ''}`}>{priceLabel(winner)}</div>
+    {winner?.uk_price_gbp == null && (
+      <p class="vs-price-note">Confirm on retailer</p>
+    )}
+    <div class="cta-row">
+      {amazonReady(winner) ? (
+        <a
+          class="btn btn-amazon"
+          rel="nofollow sponsored"
+          target="_blank"
+          href={`/c/amazon/${winner?.link_key ?? productKey(winnerName)}`}
+        >Amazon</a>
+      ) : (
+        <span class="cta-fallback">Amazon link updating</span>
+      )}
+      <a
+        class="btn btn-ebay"
+        rel="nofollow sponsored"
+        target="_blank"
+        href={`/c/ebay/${winner?.link_key ?? productKey(winnerName)}`}
+      >eBay</a>
+    </div>
+  </div>
+
+  {hasRunnerup && (
+    <>
+      <div class="vs-divider" aria-hidden="true">VS</div>
+      <div class={`vs-product runnerup ${!runnerup?.image_url && runnerup?.uk_price_gbp == null ? 'is-empty' : ''}`}>
+        <div class="vs-badge">Runner-up</div>
+        <div class="vs-image-wrap">
+          {runnerup?.image_url ? (
+            <img class="vs-image" src={runnerup.image_url} alt={runnerupName!} loading="lazy" />
+          ) : (
+            <span class="vs-image-empty">Product photo updating</span>
+          )}
+        </div>
+        <h3>{runnerupName}</h3>
+        <div class="vs-sub">Best for buyers prioritising value</div>
+        <div class="vs-rating">{runnerupRating} / 10</div>
+        <div class={`vs-price ${runnerup?.uk_price_gbp == null ? 'is-pending' : ''}`}>{priceLabel(runnerup)}</div>
+        {runnerup?.uk_price_gbp == null && (
+          <p class="vs-price-note">Confirm on retailer</p>
+        )}
+        <div class="cta-row">
+          {amazonReady(runnerup) ? (
+            <a
+              class="btn btn-amazon"
+              rel="nofollow sponsored"
+              target="_blank"
+              href={`/c/amazon/${runnerup?.link_key ?? productKey(runnerupName!)}`}
+            >Amazon</a>
+          ) : (
+            <span class="cta-fallback">Amazon link updating</span>
+          )}
+          <a
+            class="btn btn-ebay"
+            rel="nofollow sponsored"
+            target="_blank"
+            href={`/c/ebay/${runnerup?.link_key ?? productKey(runnerupName!)}`}
+          >eBay</a>
+        </div>
+      </div>
+    </>
+  )}
+</div>

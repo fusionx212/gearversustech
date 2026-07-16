@@ -15,19 +15,11 @@ if (!article) {
 }
 
 const { title, description, category, subcategory, content_html, winner_name, winner_rating, runnerup_name, runnerup_rating } = article;
-
-// Product imagery, prices and ASINs come from gvt_affiliate_links, populated from the
-// Amazon Creators API by scripts/sync-amazon-products.mjs.
 const { winner, runnerup } = await getArticleProducts(article);
-
-// Fetch ALL compared products (beyond just winner + runner-up)
 const excludeFromAlso = [winner_name, runnerup_name].filter(Boolean) as string[];
 const alsoCompared = await getComparedProducts(content_html, excludeFromAlso);
-
 const pageUrl = `https://gearversustech.com/${category}/compare/${slug}/`;
 
-/** Product node carrying the rating and price we already show on the page — this is
- *  what earns the star rating and price in search results. */
 const productNode = (name: string, rating: number | null, link: typeof winner) => ({
   '@type': 'Product',
   name,
@@ -83,7 +75,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 <BaseLayout title={title} description={description} schema={schema}>
 <div class="container">
   <nav class="breadcrumb">
-    <a href="/">Home</a> / <a href={`/${category}/`}>{CATEGORY_LABELS[category]}</a> / <span class="current">{title}</span>
+    <a href="/">Home</a> / <a href={`/${category}/`}>{CATEGORY_LABELS[category] || category}</a> / <span class="current">{title}</span>
   </nav>
 
   <h1>{title}</h1>
@@ -133,7 +125,7 @@ const CATEGORY_LABELS: Record<string, string> = {
                 <span class="cta-fallback">Amazon updating</span>
               )}
               <a class="btn btn-ebay btn-sm" rel="nofollow sponsored" target="_blank"
-                href={`https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(p.product_name)}&campid=5339164583`}>
+                href={`https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURICommand(p.product_name)}&campid=5339164583`}>
                 eBay
               </a>
             </div>
@@ -144,9 +136,9 @@ const CATEGORY_LABELS: Record<string, string> = {
   )}
 
   <KitCTA
-    title="Gaming Room Build Kit"
-    blurb="Three UK budget tiers, shopping list, and cable plan — a decided cart for the desk you actually play on."
-    kitLabel="Get the Gaming Room Kit — £19"
+    title="UK Garage Gym Build Kit"
+    blurb="Ceiling height, noise for terraces, and a decided UK cart — skip another weekend of tabs."
+    kitLabel="Get the Garage Gym Kit — £19"
   />
   <EmailCapture />
 
@@ -158,10 +150,10 @@ const CATEGORY_LABELS: Record<string, string> = {
   </p>
 
   <section class="related">
-    <h2>Related Comparisons</h2>
+    <h2>Related</h2>
     <ul class="related-list">
-      <li><a href={`/${category}/`}>{CATEGORY_LABELS[category] ? `All ${CATEGORY_LABELS[category]} comparisons` : 'All comparisons'}</a></li>
-      <li><a href="/spaces/gaming-room/">Gaming room space hub</a></li>
+      <li><a href="/home-gym/">All home gym comparisons</a></li>
+      <li><a href="/spaces/garage-gym/">Garage gym space hub</a></li>
     </ul>
   </section>
 </div>

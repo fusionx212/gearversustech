@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import KitCTA from '../../components/KitCTA.astro';
+import EmailCapture from '../../components/EmailCapture.astro';
+import { getSpace, SPACES } from '../../lib/spaces';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return SPACES.map((s) => ({ params: { slug: s.slug } }));
+}
+
+const { slug } = Astro.params;
+const space = getSpace(slug as string);
+
+if (!space) {
+  return new Response('Space not found', { status: 404 });
+}
+---
+
+<BaseLayout title={space.name} description={space.lede}>
+
+<section class={`space-hub-hero theme-${space.theme}`}>
+  <div class="space-hub-hero-inner">
+    <p class="band-kicker">{space.kicker}</p>
+    <p class="home-hero-brand">Gear<span>Versus</span>Tech</p>
+    <h1>{space.headline}</h1>
+    <p class="lede">{space.lede}</p>
+    <div class="hero-cta">
+      <a class="btn btn-kit" href={space.categoryHref}>{space.categoryLabel}</a>
+      <a class="btn btn-ghost" href="#kit">Get the kit</a>
+    </div>
+  </div>
+</section>
+
+<section class="space-tiers container">
+  <h2>Budget tiers</h2>
+  <div class="tier-grid">
+    {space.tiers.map((t) => (
+      <div class="tier-card">
+        <p class="tier-label">{t.label}</p>
+        <p class="tier-budget">{t.budget}</p>
+        <p>{t.notes}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<section class="space-spokes container">
+  <h2>Start comparing</h2>
+  <ul class="related-list">
+    {space.spokes.map((s) => (
+      <li><a href={s.href}>{s.label}</a></li>
+    ))}
+  </ul>
+</section>
+
+<div class="container" id="pod">
+  <KitCTA title={`${space.kitTitle}`} kitLabel={`Get ${space.kitTitle} — £19`} />
+  <EmailCapture />
+</div>
+
+</BaseLayout>

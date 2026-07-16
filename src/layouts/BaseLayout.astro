@@ -26,6 +26,12 @@ const pageTitle = title === 'Gear Versus Tech' ? title : `${title} \u00b7 Gear V
   <meta property="og:url" content={Astro.url.href} />
   <meta property="og:site_name" content="Gear Versus Tech" />
   <link rel="canonical" href={Astro.url.href} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Source+Sans+3:wght@400;600&family=Space+Grotesk:wght@600;700&display=swap"
+    rel="stylesheet"
+  />
   {schema && <script type="application/ld+json" set:html={schema}></script>}
   <!-- Cloudflare Web Analytics -->
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "REPLACE_WITH_CF_TOKEN"}'></script>
@@ -35,11 +41,12 @@ const pageTitle = title === 'Gear Versus Tech' ? title : `${title} \u00b7 Gear V
   <header class="site-header" id="site-header">
     <div class="header-inner">
       <a href="/" class="logo">Gear<span>Versus</span>Tech</a>
-      <nav class="nav-links">
-        <a href="/smart-home/" class={Astro.url.pathname.startsWith('/smart-home') ? 'active' : ''}>Smart Home</a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/spaces/" class={Astro.url.pathname.startsWith('/spaces') ? 'active' : ''}>Spaces</a>
         <a href="/gaming/" class={Astro.url.pathname.startsWith('/gaming') ? 'active' : ''}>Gaming</a>
-        <a href="/best/" class={Astro.url.pathname.startsWith('/best') ? 'active' : ''}>Best Picks</a>
-        <a href="/deals/" class={Astro.url.pathname.startsWith('/deals') ? 'active' : ''}>💰 Deals</a>
+        <a href="/home-gym/" class={Astro.url.pathname.startsWith('/home-gym') ? 'active' : ''}>Home Gym</a>
+        <a href="/smart-home/" class={Astro.url.pathname.startsWith('/smart-home') ? 'active' : ''}>Smart Home</a>
+        <a href="/deals/" class={Astro.url.pathname.startsWith('/deals') ? 'active' : ''}>Deals</a>
       </nav>
     </div>
   </header>
@@ -54,10 +61,12 @@ const pageTitle = title === 'Gear Versus Tech' ? title : `${title} \u00b7 Gear V
       <p class="footer-tagline">We compare. You choose. Buy smarter.</p>
       <div class="footer-links">
         <a href="/">Home</a>
-        <a href="/smart-home/">Smart Home</a>
+        <a href="/spaces/">Spaces</a>
         <a href="/gaming/">Gaming</a>
+        <a href="/home-gym/">Home Gym</a>
+        <a href="/smart-home/">Smart Home</a>
         <a href="/best/">Best Picks</a>
-        <a href="/deals/">💰 Deals</a>
+        <a href="/deals/">Deals</a>
         <a href="/contact/">Contact</a>
         <a href="/privacy/">Privacy</a>
         <a href="/disclosure/">Disclosure</a>
@@ -81,18 +90,26 @@ const pageTitle = title === 'Gear Versus Tech' ? title : `${title} \u00b7 Gear V
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
   gsap.registerPlugin(ScrollTrigger);
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        gsap.to(entry.target, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          gsap.to(entry.target, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' });
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
 
-  document.querySelectorAll('.card, .prod-card, .faq-item, .winner-banner, .verdict, .compare-table-wrap').forEach(el => {
-    const element = el as HTMLElement;
-    gsap.set(element, { opacity: 0, y: 12 });
-    observer.observe(element);
-  });
+    document.querySelectorAll('.compare-row, .space-band, .vs-product, .faq-item, .verdict, .also-card').forEach(el => {
+      const element = el as HTMLElement;
+      gsap.set(element, { opacity: 0, y: 12 });
+      observer.observe(element);
+    });
+  }
+
+  const winnerBadge = document.querySelector('.vs-product.winner .vs-badge');
+  if (winnerBadge && !reduceMotion) {
+    gsap.fromTo(winnerBadge, { opacity: 0 }, { opacity: 1, duration: 0.35, delay: 0.05, ease: 'power2.out' });
+  }
 </script>

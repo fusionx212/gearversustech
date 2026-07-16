@@ -1,6 +1,7 @@
 ---
 export const prerender = false;
 import BaseLayout from '../layouts/BaseLayout.astro';
+import KitCTA from '../components/KitCTA.astro';
 import { getLatestArticles, attachWinnerImages } from '../lib/supabase';
 
 const articlesRaw = await getLatestArticles(12);
@@ -9,60 +10,91 @@ const articles = await attachWinnerImages(articlesRaw);
 const CATEGORY_LABELS: Record<string, string> = {
   'smart-home': 'Smart Home',
   'gaming': 'Gaming',
+  'home-gym': 'Home Gym',
   'best': 'Best in Class',
 };
 ---
 
 <BaseLayout
   title="Gear Versus Tech"
-  description="Authoritative product comparisons for smart home automation and gaming gear. Cost, problems, versus matchups, reviews, and best-in-class picks."
+  description="UK decision engine for gaming rooms, garage gyms, and smart homes — head-to-head compares, live buy boxes, and build kits."
 >
 
-<div class="container">
-  <section class="hero">
-    <div class="hero-badge">Independent Comparisons</div>
-    <h1>We Compare. You Choose. Buy Smarter.</h1>
-    <p>Authoritative head-to-head comparisons across Smart Home and Gaming. Cost breakdowns, honest drawbacks, and data-backed verdicts. No sponsored rankings.</p>
-  </section>
-
-  <div class="grid-2">
-    <a href="/smart-home/" class="card">
-      <div class="card-cat-hero">🏠</div>
-      <div class="card-cat">Smart Home</div>
-      <div class="card-title">Smart Home Comparisons</div>
-      <div class="card-desc">Hubs, sensors, lights, locks, thermostats. Matter, Zigbee, Z-Wave, Thread -- tested and compared.</div>
-    </a>
-    <a href="/gaming/" class="card">
-      <div class="card-cat-hero">🎮</div>
-      <div class="card-cat">Gaming</div>
-      <div class="card-title">Gaming Gear Comparisons</div>
-      <div class="card-desc">Desks, chairs, monitors, keyboards, mice, headsets. Competitive analysis for every setup.</div>
-    </a>
+<section class="home-hero">
+  <div class="home-hero-inner">
+    <p class="home-hero-brand">Gear<span>Versus</span>Tech</p>
+    <h1>We compare. You choose. Buy smarter.</h1>
+    <p class="lede">Head-to-head picks for real UK rooms — gaming desks, garage gyms, man caves — honest drawbacks, real prices, optional build kits.</p>
+    <div class="hero-cta">
+      <a class="btn btn-kit" href="/spaces/">Browse room hubs</a>
+      <a class="btn btn-ghost" href="/gaming/">Gaming compares</a>
+    </div>
   </div>
+</section>
 
-  {articles.length > 0 && (
-    <>
-      <div class="section-label"><span>Latest Comparisons</span><span class="count">New</span></div>
-      <div class="grid-2">
-        {articles.slice(0, 8).map(a => (
-          <a href={`/${a.category}/compare/${a.slug}/`} class="card">
-            {a.winnerImage && (
-              <div class="card-image-wrap">
-                <img class="card-image" src={a.winnerImage} alt={a.winner_name ?? a.title} loading="lazy" />
-              </div>
-            )}
-            <div class="card-cat">{a.subcategory || CATEGORY_LABELS[a.category]}</div>
-            <div class="card-title">{a.title}</div>
-            <div class="card-desc">{a.description}</div>
-            <div class="card-meta">
-              {a.winner_name && <span class="winner">Winner: {a.winner_name}</span>}
-              {a.winner_rating && <span class="rating">{a.winner_rating}</span>}
-            </div>
-          </a>
-        ))}
-      </div>
-    </>
-  )}
+<section class="space-band gaming">
+  <div class="space-band-inner">
+    <p class="band-kicker">Room</p>
+    <h2>Gaming desk</h2>
+    <p>Monitors, chairs, keyboards, mice, headsets — ranked for the setup you actually play on.</p>
+    <div class="band-actions">
+      <a class="btn btn-kit" href="/spaces/gaming-room/">Gaming room hub</a>
+      <a class="btn btn-ghost" href="/gaming/">Comparisons</a>
+    </div>
+  </div>
+</section>
+
+<section class="space-band gym">
+  <div class="space-band-inner">
+    <p class="band-kicker">Room</p>
+    <h2>Garage gym</h2>
+    <p>UK 2.4m ceilings, terrace noise, single-garage width. Racks, flooring, and carts that fit.</p>
+    <div class="band-actions">
+      <a class="btn btn-kit" href="/spaces/garage-gym/">Garage gym hub</a>
+      <a class="btn btn-ghost" href="/home-gym/">Comparisons</a>
+    </div>
+  </div>
+</section>
+
+<section class="space-band smart-home">
+  <div class="space-band-inner">
+    <p class="band-kicker">Room</p>
+    <h2>Smart home</h2>
+    <p>Hubs, sensors, lights, locks, thermostats. Matter, Zigbee, Z-Wave, Thread — tested head-to-head.</p>
+    <div class="band-actions">
+      <a class="btn btn-kit" href="/smart-home/">Smart home comparisons</a>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <KitCTA />
 </div>
+
+{articles.length > 0 && (
+  <section class="latest-section">
+    <div class="section-label"><span>Latest comparisons</span><span class="count">{articles.length}</span></div>
+    {articles.slice(0, 8).map(a => (
+      <a href={`/${a.category}/compare/${a.slug}/`} class="compare-row">
+        <div class="compare-row-thumb">
+          {a.winnerImage ? (
+            <img src={a.winnerImage} alt="" loading="lazy" />
+          ) : (
+            <span class="thumb-empty">No photo</span>
+          )}
+        </div>
+        <div class="compare-row-body">
+          <div class="card-cat">{a.subcategory || CATEGORY_LABELS[a.category]}</div>
+          <div class="card-title">{a.title}</div>
+          <div class="card-desc">{a.description}</div>
+        </div>
+        <div class="compare-row-meta">
+          {a.winner_name && <span class="winner">{a.winner_name}</span>}
+          {a.winner_rating && <span class="rating">{a.winner_rating}/10</span>}
+        </div>
+      </a>
+    ))}
+  </section>
+)}
 
 </BaseLayout>

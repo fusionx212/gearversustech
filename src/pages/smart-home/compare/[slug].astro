@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { getArticle, getArticleProducts, getComparedProducts, productKey } from '../../../lib/supabase';
+import CompareBuyBox from '../../../components/CompareBuyBox.astro';
+import { getArticle, getArticleProducts, getComparedProducts } from '../../../lib/supabase';
 
 export const prerender = false;
 
@@ -16,7 +17,6 @@ const { title, description, category, subcategory, content_html, winner_name, wi
 // Product imagery, prices and ASINs come from gvt_affiliate_links, populated from the
 // Amazon Creators API by scripts/sync-amazon-products.mjs.
 const { winner, runnerup } = await getArticleProducts(article);
-const hasRunnerup = Boolean(runnerup_name && runnerup_rating);
 
 // Fetch ALL compared products (beyond just winner + runner-up)
 const excludeFromAlso = [winner_name, runnerup_name].filter(Boolean) as string[];
@@ -30,7 +30,7 @@ const productNode = (name: string, rating: number | null, link: typeof winner) =
   '@type': 'Product',
   name,
   ...(link?.image_url ? { image: link.image_url } : {}),
-  ...(link?.uk_price_gbp
+  ...(link?.uk_price_gbp && link?.amazon_asin
     ? {
         offers: {
           '@type': 'Offer',
@@ -91,46 +91,14 @@ const CATEGORY_LABELS: Record<string, string> = {
   </p>
 
   {winner_name && winner_rating && (
-    <div class={`vs-compare ${hasRunnerup ? '' : 'single'}`}>
-      <div class="vs-product winner">
-        <div class="vs-badge">Our Pick</div>
-        {winner?.image_url && (
-          <div class="vs-image-wrap">
-            <img class="vs-image" src={winner.image_url} alt={winner_name} loading="lazy" />
-          </div>
-        )}
-        <h3>{winner_name}</h3>
-        <div class="vs-sub">Best overall choice for most people</div>
-        <div class="vs-rating">{winner_rating} / 10</div>
-        {winner?.uk_price_gbp && <div class="vs-price">£{winner.uk_price_gbp}</div>}
-        <div class="cta-row">
-          <a class="btn btn-amazon" rel="nofollow sponsored" target="_blank" href={`/c/amazon/${winner?.link_key ?? productKey(winner_name)}`}>Amazon</a>
-          <a class="btn btn-ebay" rel="nofollow sponsored" target="_blank" href={`/c/ebay/${winner?.link_key ?? productKey(winner_name)}`}>eBay</a>
-        </div>
-      </div>
-
-      {hasRunnerup && (
-        <>
-          <div class="vs-divider">VS</div>
-          <div class="vs-product runnerup">
-            <div class="vs-badge">Runner-up</div>
-            {runnerup?.image_url && (
-              <div class="vs-image-wrap">
-                <img class="vs-image" src={runnerup.image_url} alt={runnerup_name} loading="lazy" />
-              </div>
-            )}
-            <h3>{runnerup_name}</h3>
-            <div class="vs-sub">Best for buyers prioritising value</div>
-            <div class="vs-rating">{runnerup_rating} / 10</div>
-            {runnerup?.uk_price_gbp && <div class="vs-price">£{runnerup.uk_price_gbp}</div>}
-            <div class="cta-row">
-              <a class="btn btn-amazon" rel="nofollow sponsored" target="_blank" href={`/c/amazon/${runnerup?.link_key ?? productKey(runnerup_name)}`}>Amazon</a>
-              <a class="btn btn-ebay" rel="nofollow sponsored" target="_blank" href={`/c/ebay/${runnerup?.link_key ?? productKey(runnerup_name)}`}>eBay</a>
-            </div>
-          </div>
-        </>
-      )}
-    </div>
+    <CompareBuyBox
+      winnerName={winner_name}
+      winnerRating={winner_rating}
+      runnerupName={runnerup_name}
+      runnerupRating={runnerup_rating}
+      winner={winner}
+      runnerup={runnerup}
+    />
   )}
 
   <article set:html={content_html} />
@@ -141,20 +109,26 @@ const CATEGORY_LABELS: Record<string, string> = {
       <div class="also-grid">
         {alsoCompared.map((p) => (
           <div class="also-card">
-            {p.image_url && (
-              <div class="also-image-wrap">
+            <div class="also-image-wrap">
+              {p.image_url ? (
                 <img class="also-image" src={p.image_url} alt={p.product_name} loading="lazy" />
-              </div>
-            )}
+              ) : (
+                <span class="vs-image-empty">Updating</span>
+              )}
+            </div>
             <h4>{p.product_name}</h4>
-            {p.uk_price_gbp && <div class="also-price">£{p.uk_price_gbp}</div>}
+            <div class={`also-price ${p.uk_price_gbp == null ? 'vs-price is-pending' : ''}`}>
+              {p.uk_price_gbp != null ? `£${p.uk_price_gbp}` : 'Price updating'}
+            </div>
             <div class="cta-row">
-              <a class="btn btn-amazon btn-sm" rel="nofollow sponsored" target="_blank"
-                href={p.amazon_asin
-                  ? `https://www.amazon.co.uk/dp/${p.amazon_asin}?tag=gearversustech-21`
-                  : `https://www.amazon.co.uk/s?k=${encodeURIComponent(p.product_name)}&tag=gearversustech-21`}>
-                Amazon
-              </a>
+              {p.amazon_asin ? (
+                <a class="btn btn-amazon btn-sm" rel="nofollow sponsored" target="_blank"
+                  href={`https://www.amazon.co.uk/dp/${p.amazon_asin}?tag=gearversustech-21`}>
+                  Amazon
+                </a>
+              ) : (
+                <span class="cta-fallback">Amazon updating</span>
+              )}
               <a class="btn btn-ebay btn-sm" rel="nofollow sponsored" target="_blank"
                 href={`https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(p.product_name)}&campid=5339164583`}>
                 eBay

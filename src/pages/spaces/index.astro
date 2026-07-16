@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SPACES } from '../../lib/spaces';
+---
+
+<BaseLayout
+  title="Room hubs"
+  description="UK room-build hubs — gaming desk, garage gym, man cave, pub shed. Budget tiers, compares, and kit CTAs."
+>
+
+<section class="hub-hero">
+  <div class="container-wide">
+    <p class="band-kicker" style="color:var(--accent);font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.5rem;">Spaces</p>
+    <h1>Build the room, not a wishlist</h1>
+    <p>Four UK space hubs. Each one leads to head-to-head compares and an optional build kit.</p>
+  </div>
+</section>
+
+<div class="spaces-grid container-wide">
+  {SPACES.map((s) => (
+    <a href={`/spaces/${s.slug}/`} class={`space-card theme-${s.theme}`}>
+      <p class="band-kicker">{s.kicker}</p>
+      <h2>{s.name}</h2>
+      <p>{s.lede}</p>
+      <span class="space-card-cta">Open hub →</span>
+    </a>
+  ))}
+</div>
+
+</BaseLayout>

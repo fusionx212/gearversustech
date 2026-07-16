@@ -1,16 +1,30 @@
-<!doctype html>
-<html lang="en-GB">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thank you · Gear Versus Tech</title>
-<link rel="stylesheet" href="/styles/global.css">
-</head>
-<body style="display:flex;align-items:center;justify-content:center;min-height:80vh;text-align:center;background:var(--bg-warm);font-family:system-ui,sans-serif;">
-<div style="max-width:400px;padding:2rem;">
-  <h1 style="color:var(--accent);margin-bottom:0.5rem;">Subscribed.</h1>
-  <p style="color:var(--text-secondary);">Check your inbox for a confirmation. One email per week — no spam.</p>
-  <a href="/" style="color:var(--accent);">Back to Gear Versus Tech</a>
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import KitCTA from '../components/KitCTA.astro';
+---
+
+<BaseLayout
+  title="You're on the list"
+  description="Thanks for subscribing to Gear Versus Tech — new compares and kit drops, one email a week."
+>
+
+<section class="hub-hero">
+  <div class="container" style="text-align:center;max-width:36rem;margin:0 auto;">
+    <p class="band-kicker" style="color:var(--accent);font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.5rem;">Subscribed</p>
+    <h1>You're on the list.</h1>
+    <p>One email a week — new versus matchups, UK stock notes, and kit drops. No spam.</p>
+    <div class="hero-cta" style="justify-content:center;margin-top:1.25rem;">
+      <a class="btn btn-kit" href="/spaces/">Browse room hubs</a>
+      <a class="btn btn-ghost" href="/gaming/">Gaming compares</a>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <KitCTA
+    title="Want the cart decided now?"
+    blurb="Grab a build kit while you wait for the next email — UK lists, budget tiers, layout notes."
+  />
 </div>
-</body>
-</html>
+
+</BaseLayout>

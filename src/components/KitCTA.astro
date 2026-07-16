@@ -1,0 +1,42 @@
+---
+import { getKitUrl, getPodUrl } from '../lib/kit';
+
+interface Props {
+  title?: string;
+  blurb?: string;
+  kitLabel?: string;
+}
+
+const {
+  title = 'Skip the research. Get the kit.',
+  blurb = 'UK-verified shopping list, three budget tiers, and layout notes — a decided cart, not another essay.',
+  kitLabel = 'Get the Build Kit — £19',
+} = Astro.props;
+
+const kitUrl = getKitUrl();
+const podUrl = getPodUrl();
+---
+
+<section class="kit-cta" id="kit">
+  <div class="kit-cta-inner">
+    <p class="kit-kicker">Digital product</p>
+    <h2>{title}</h2>
+    <p>{blurb}</p>
+    <div class="kit-actions">
+      {kitUrl ? (
+        <a class="btn btn-kit" href={kitUrl} rel="noopener">
+          {kitLabel}
+        </a>
+      ) : (
+        <a class="btn btn-kit" href="/contact/?interest=kit">
+          {kitLabel} <span class="kit-soon">(link soon)</span>
+        </a>
+      )}
+      {podUrl ? (
+        <a class="btn btn-pod" href={podUrl} rel="noopener">Wall art packs</a>
+      ) : (
+        <a class="btn btn-pod" href="/spaces/#pod" aria-disabled="true">POD packs (coming)</a>
+      )}
+    </div>
+  </div>
+</section>

@@ -4,7 +4,7 @@ const SUPABASE_URL = 'https://zfinuyrubvqkexihgszz.supabase.co';
 
 export const GET: APIRoute = async () => {
   const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/gvt_articles?select=slug,updated_at&published=eq.true&order=created_at.desc&limit=1000`,
+    `${SUPABASE_URL}/rest/v1/gvt_articles?select=slug,category,updated_at&published=eq.true&order=created_at.desc&limit=1000`,
     {
       headers: {
         apikey: import.meta.env.SUPABASE_ANON_KEY || '',
@@ -20,14 +20,16 @@ export const GET: APIRoute = async () => {
   }
 
   const articles = await res.json();
-  const urls = (articles as { slug: string; updated_at: string }[]).map(
-    (a) =>
-      `  <url>
-    <loc>https://gearversustech.com/smart-home/compare/${a.slug}/</loc>
+  const urls = (articles as { slug: string; category: string; updated_at: string }[]).map(
+    (a) => {
+      const cat = a.category || 'smart-home';
+      return `  <url>
+    <loc>https://gearversustech.com/${cat}/compare/${a.slug}/</loc>
     <lastmod>${new Date(a.updated_at).toISOString().split('T')[0]}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-  </url>`
+  </url>`;
+    }
   ).join('\n');
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
