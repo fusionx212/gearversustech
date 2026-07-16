@@ -2,10 +2,15 @@
 export const prerender = false;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import KitCTA from '../components/KitCTA.astro';
+import EmailCapture from '../components/EmailCapture.astro';
 import { getLatestArticles, attachWinnerImages } from '../lib/supabase';
 
 const articlesRaw = await getLatestArticles(12);
 const articles = await attachWinnerImages(articlesRaw);
+const featured = articles.find((a) => a.winnerImage) || articles[0] || null;
+const listArticles = featured
+  ? articles.filter((a) => a.slug !== featured.slug).slice(0, 10)
+  : articles.slice(0, 10);
 
 const CATEGORY_LABELS: Record<string, string> = {
   'smart-home': 'Smart Home',
@@ -13,68 +18,76 @@ const CATEGORY_LABELS: Record<string, string> = {
   'home-gym': 'Home Gym',
   'best': 'Best in Class',
 };
+
+const CATEGORIES = [
+  { href: '/gaming/', label: 'Gaming', note: 'Monitors, chairs, keyboards, headsets' },
+  { href: '/smart-home/', label: 'Smart home', note: 'Hubs, lights, locks, sensors' },
+  { href: '/home-gym/', label: 'Home gym', note: 'Racks, flooring, cardio, free weights' },
+  { href: '/best/', label: 'Best picks', note: 'Category winners & under-£X lists' },
+];
 ---
 
 <BaseLayout
   title="Gear Versus Tech"
-  description="UK decision engine for gaming rooms, garage gyms, and smart homes — head-to-head compares, live buy boxes, and build kits."
+  description="Head-to-head UK tech comparisons — clear winners, drawbacks, live buy boxes, and best-under-£X picks."
 >
 
 <section class="home-hero">
   <div class="home-hero-inner">
     <p class="home-hero-brand">Gear<span>Versus</span>Tech</p>
-    <h1>We compare. You choose. Buy smarter.</h1>
-    <p class="lede">Head-to-head picks for real UK rooms — gaming desks, garage gyms, man caves — honest drawbacks, real prices, optional build kits.</p>
+    <h1>Head-to-head compares. Clear winners.</h1>
+    <p class="lede">We rank products side by side — scores, drawbacks, and live UK prices — so you can buy the right one without reading ten reviews.</p>
     <div class="hero-cta">
-      <a class="btn btn-kit" href="/spaces/">Browse room hubs</a>
-      <a class="btn btn-ghost" href="/gaming/">Gaming compares</a>
+      <a class="btn btn-kit" href="#latest">Latest compares</a>
+      <a class="btn btn-ghost" href="/methodology/">How we pick winners</a>
     </div>
   </div>
 </section>
 
-<section class="space-band gaming">
-  <div class="space-band-inner">
-    <p class="band-kicker">Room</p>
-    <h2>Gaming desk</h2>
-    <p>Monitors, chairs, keyboards, mice, headsets — ranked for the setup you actually play on.</p>
-    <div class="band-actions">
-      <a class="btn btn-kit" href="/spaces/gaming-room/">Gaming room hub</a>
-      <a class="btn btn-ghost" href="/gaming/">Comparisons</a>
-    </div>
+<nav class="cat-path" aria-label="Comparison categories">
+  <div class="cat-path-inner">
+    {CATEGORIES.map((c) => (
+      <a href={c.href} class="cat-path-link">
+        <span class="cat-path-label">{c.label}</span>
+        <span class="cat-path-note">{c.note}</span>
+      </a>
+    ))}
   </div>
-</section>
+</nav>
 
-<section class="space-band gym">
-  <div class="space-band-inner">
-    <p class="band-kicker">Room</p>
-    <h2>Garage gym</h2>
-    <p>UK 2.4m ceilings, terrace noise, single-garage width. Racks, flooring, and carts that fit.</p>
-    <div class="band-actions">
-      <a class="btn btn-kit" href="/spaces/garage-gym/">Garage gym hub</a>
-      <a class="btn btn-ghost" href="/home-gym/">Comparisons</a>
+{featured && (
+  <section class="featured-compare" id="featured">
+    <div class="featured-compare-inner">
+      <div class="section-label"><span>Featured compare</span></div>
+      <a href={`/${featured.category}/compare/${featured.slug}/`} class="featured-compare-link">
+        <div class="featured-compare-stage">
+          {featured.winnerImage ? (
+            <img src={featured.winnerImage} alt="" loading="eager" />
+          ) : (
+            <span class="thumb-empty">No photo</span>
+          )}
+        </div>
+        <div class="featured-compare-copy">
+          <div class="card-cat">{featured.subcategory || CATEGORY_LABELS[featured.category]}</div>
+          <h2>{featured.title}</h2>
+          <p>{featured.description}</p>
+          {(featured.winner_name || featured.winner_rating) && (
+            <p class="featured-meta">
+              {featured.winner_name && <span class="winner">Our pick: {featured.winner_name}</span>}
+              {featured.winner_rating && <span class="rating">{featured.winner_rating}/10</span>}
+            </p>
+          )}
+          <span class="featured-cta">See verdict &amp; buy boxes →</span>
+        </div>
+      </a>
     </div>
-  </div>
-</section>
+  </section>
+)}
 
-<section class="space-band smart-home">
-  <div class="space-band-inner">
-    <p class="band-kicker">Room</p>
-    <h2>Smart home</h2>
-    <p>Hubs, sensors, lights, locks, thermostats. Matter, Zigbee, Z-Wave, Thread — tested head-to-head.</p>
-    <div class="band-actions">
-      <a class="btn btn-kit" href="/smart-home/">Smart home comparisons</a>
-    </div>
-  </div>
-</section>
-
-<div class="container">
-  <KitCTA />
-</div>
-
-{articles.length > 0 && (
-  <section class="latest-section">
-    <div class="section-label"><span>Latest comparisons</span><span class="count">{articles.length}</span></div>
-    {articles.slice(0, 8).map(a => (
+{listArticles.length > 0 && (
+  <section class="latest-section" id="latest">
+    <div class="section-label"><span>Latest comparisons</span><span class="count">{listArticles.length}</span></div>
+    {listArticles.map((a) => (
       <a href={`/${a.category}/compare/${a.slug}/`} class="compare-row">
         <div class="compare-row-thumb">
           {a.winnerImage ? (
@@ -96,5 +109,37 @@ const CATEGORY_LABELS: Record<string, string> = {
     ))}
   </section>
 )}
+
+<section class="method-lite" id="how-we-pick">
+  <div class="method-lite-inner">
+    <div class="section-label"><span>How we pick winners</span></div>
+    <div class="method-lite-grid">
+      <div>
+        <h3>Scores that mean something</h3>
+        <p>Performance 40%, value 25%, build 20%, ease of use 15%. Out of 10 — weighted, not vibes.</p>
+      </div>
+      <div>
+        <h3>Drawbacks first</h3>
+        <p>Every compare lists who should <em>not</em> buy. If the cheaper option wins for most people, it wins.</p>
+      </div>
+      <div>
+        <h3>Live UK buy boxes</h3>
+        <p>Amazon and eBay prices at publish time. Affiliate links may earn us a cut — rankings are never sold.</p>
+      </div>
+    </div>
+    <p class="method-lite-more"><a href="/methodology/">Full methodology →</a></p>
+  </div>
+</section>
+
+<div class="container home-convert">
+  <KitCTA
+    title="Want the decided cart?"
+    blurb="Optional build kits for when a compare is done and you just want the shopping list — not required to use the site."
+  />
+  <EmailCapture />
+  <p class="home-spaces-quiet">
+    Also browsing by room? <a href="/spaces/">Room guides</a> (optional).
+  </p>
+</div>
 
 </BaseLayout>
