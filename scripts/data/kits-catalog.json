@@ -10,49 +10,59 @@
       "compare_hub_href": "/gaming/",
       "hero_image_url": "/images/kits/gaming-room-build-kit.webp",
       "kit_mockup_url": "/images/kits/gaming-room-build-kit.webp",
-      "description": "UK-verified gaming room shopping list: three budget tiers, layout notes, cable plan, and decided Amazon carts — not another essay.",
-      "honest_take": "Pay for this when a compare already answered “which keyboard/mouse” and you want the full desk stack decided for a UK room (depth, ISO, neighbours). Skip if you only need one product — use the free compare pages.",
-      "review_summary": "Digital kit buyers (pattern from similar Garage Gym $29 kits) praise decided carts and tier clarity; complaints cluster on wanting live price sync and more ISO-UK SKUs. Our stack reviews: Wooting/Keychron HE boards win FPS praise but punish Synapse-haters less than Razer; Superlight 2 stays the boring reliable mouse; 27\" QD-OLED (Alienware) is loved for motion and feared for burn-in on static Discord; Cloud III Wireless is the flat-noise default; Tapo plugs are the renter power kill-switch. Across the stack, owners praise ‘it just works on a 120cm desk’ and complain about RGB software bloat and OLED care anxiety.",
+      "description": "UK gaming room build: cinematic desk setup plus three complete tiers — each with a prebuilt gaming PC, desk, monitor, keyboard, mouse, and headset (chair from Solid up).",
+      "honest_take": "Pay for this when you want the whole room cart decided — PC included — not just a keyboard essay. Skip if you only need one peripheral compare. Re-check Amazon SI pages: GPU configs churn; we pin ASINs that matched at publish time and list eBay UK alternatives for price checks.",
+      "review_summary": "Room-stack owners praise decided PC+desk+panel carts over floating SKU sheets. Recurring themes: RTX 4060 towers are the honest 1080p start; 4070 Ti class unlocks 1440p high refresh; 4080 Super is the OLED headroom tier. Peripheral reviews stay the same — Superlight 2 boring-reliable, Cloud III flat-default, Wooting/Keychron HE for Rapid Trigger, Alienware QD-OLED loved for motion and feared for burn-in on static Discord. Complaints: SI ASIN config drift, RGB software bloat, and desk depth surprises on UK box rooms.",
       "who_for": [
-        "UK gamers building a first proper desk in a bedroom or box room",
-        "People who finished 1–2 compares and want the rest of the cart decided",
+        "UK gamers building a first proper desk (bedroom, box room, or shed shell)",
+        "Buyers who want a prebuilt PC plus matching desk/monitor/peripherals in one tier",
         "Flat dwellers who need closed-back audio and cable discipline"
       ],
       "who_not_for": [
         "Anyone who only needs a single product recommendation (use free compares)",
-        "Collectors who already own HE boards + OLED and just want novelty",
-        "Buyers who refuse any affiliate links or Amazon UK stock"
+        "Custom builders who already own a tower and just want one peripheral",
+        "Buyers who refuse affiliate links or Amazon/eBay UK stock"
       ],
-      "setup_notes": "Measure desk depth before the monitor; prefer a VESA arm on shallow UK desks. Run one power strip + Tapo on the PC/OLED for standby kill. Keep a quiet daytime typing profile if you share walls. Cable spine along the rear edge — not across the mousepad.",
+      "setup_notes": "Buy the PC + desk depth first, then the panel. Prefer a VESA arm on shallow UK desks. Run one power strip + Tapo on the PC/monitor for standby kill. Cable spine along the rear edge — not across the mousepad. Measure stairs before the chair.",
       "tier_labels": [
-        { "id": "starter", "label": "Starter", "budget": "≤ £500", "blurb": "Playable desk: solid wireless mouse, closed headset, bias light, smart plug. Board can wait if budget is brutal." },
-        { "id": "solid", "label": "Solid", "budget": "≤ £1,500", "blurb": "HE/TKL board + light FPS mouse + 27\" high-refresh panel + chair that lasts WFH days." },
-        { "id": "no-compromise", "label": "No compromise", "budget": "≤ £5,000", "blurb": "Wooting-class HE, QD-OLED 27\", planar or premium wireless audio, furniture-grade chair, full cable/power plan." }
+        { "id": "starter", "label": "Starter", "budget": "~£1,200–1,500", "blurb": "Complete playable room: RTX 4060-class prebuilt + 120cm desk + 27″ 165Hz FHD + starter board/mouse/headset." },
+        { "id": "solid", "label": "Solid", "budget": "~£2,500–3,200", "blurb": "1440p room: 4070 Ti-class PC + deeper desk + high-refresh 27″ + HE board + chair." },
+        { "id": "no-compromise", "label": "No compromise", "budget": "~£4,500–6,000", "blurb": "4080 Super-class PC + furniture desk + QD-OLED + Wooting HE + premium audio + chair." }
       ],
       "items": [
         {
           "tier": "starter",
+          "sort_order": 5,
+          "product_name": "SCAN Argen RTX 4060 Gaming PC (i5-12400F)",
+          "link_key": "scan-argen-rtx-4060-gaming-pc",
+          "score_out_of_10": 8.1,
+          "why_in_kit": "Decided Starter tower — RTX 4060 + 16GB for 1080p/1440p medium–high. Amazon SCAN listing; eBay GTR Harbinger as UK price-check twin.",
+          "compare_href": "/gaming/",
+          "notes": "Re-read live GPU line — SI ASINs churn."
+        },
+        {
+          "tier": "starter",
           "sort_order": 10,
-          "product_name": "Logitech G Pro X Superlight 2",
-          "link_key": "logitech-g-pro-x-superlight-2",
-          "score_out_of_10": 8.4,
-          "why_in_kit": "Light, reliable FPS shape that does not demand a £200 board first — biggest aim upgrade per pound in the starter tier.",
-          "compare_href": "/gaming/compare/best-fps-mouse-uk-2026/",
-          "notes": "Primary mouse across all tiers if shape fits."
+          "product_name": "MAIDeSITe Standing Desk 120x60",
+          "link_key": "maidesite-standing-desk-120x60",
+          "score_out_of_10": 8.1,
+          "why_in_kit": "120cm depth/width band that fits UK box rooms and compact sheds without overhanging the wall.",
+          "compare_href": "/best/compare/desk-size-for-garden-shed-uk/",
+          "notes": "Measure internal width + chair roll zone first."
+        },
+        {
+          "tier": "starter",
+          "sort_order": 15,
+          "product_name": "AOC 27G2SP 27\" 165Hz FHD Gaming Monitor",
+          "link_key": "aoc-27g2sp-gaming-monitor",
+          "score_out_of_10": 8.0,
+          "why_in_kit": "Matches RTX 4060 at 1080p high refresh without OLED burn-in anxiety.",
+          "compare_href": "/best/compare/best-27-inch-gaming-monitors-2026/",
+          "notes": "Upgrade path → Alienware in Solid+."
         },
         {
           "tier": "starter",
           "sort_order": 20,
-          "product_name": "HyperX Cloud III Wireless",
-          "link_key": "hyperx-cloud-iii-wireless",
-          "score_out_of_10": 8.7,
-          "why_in_kit": "Closed cups for UK flats; mic good enough for Discord without Audeze money.",
-          "compare_href": "/gaming/compare/headset-for-flats-neighbours-uk/",
-          "notes": "Prefer over open-backs in terraces."
-        },
-        {
-          "tier": "starter",
-          "sort_order": 30,
           "product_name": "Corsair K70 Core",
           "link_key": "corsair-k70-core",
           "score_out_of_10": 7.4,
@@ -62,57 +72,87 @@
         },
         {
           "tier": "starter",
-          "sort_order": 40,
-          "product_name": "Govee Gaming Light Kit G1",
-          "link_key": "govee-g1",
-          "score_out_of_10": 8.3,
-          "why_in_kit": "Bias/RGB vibe without Hue Sync Box tax; removable mounting for renters.",
-          "compare_href": "/smart-home/compare/best-smart-bulb-under-15-uk/",
-          "notes": "Mind adhesive vs deposit."
+          "sort_order": 25,
+          "product_name": "Logitech G Pro X Superlight 2",
+          "link_key": "logitech-g-pro-x-superlight-2",
+          "score_out_of_10": 8.4,
+          "why_in_kit": "Light, reliable FPS shape — biggest aim upgrade per pound in Starter.",
+          "compare_href": "/gaming/compare/best-fps-mouse-uk-2026/",
+          "notes": "Primary mouse across tiers if shape fits."
         },
         {
           "tier": "starter",
-          "sort_order": 50,
+          "sort_order": 30,
+          "product_name": "HyperX Cloud III Wireless",
+          "link_key": "hyperx-cloud-iii-wireless",
+          "score_out_of_10": 8.7,
+          "why_in_kit": "Closed cups for UK flats; mic good enough for Discord without Audeze money.",
+          "compare_href": "/gaming/compare/headset-for-flats-neighbours-uk/",
+          "notes": "Prefer over open-backs in terraces."
+        },
+        {
+          "tier": "starter",
+          "sort_order": 40,
           "product_name": "TP-Link Tapo P110",
           "link_key": "tp-link-tapo-p110",
           "score_out_of_10": 8.8,
-          "why_in_kit": "Renter-safe power kill + kWh monitoring for PC/OLED standby.",
+          "why_in_kit": "Renter-safe power kill + kWh monitoring for PC/monitor standby.",
           "compare_href": "/smart-home/compare/renter-safe-smart-home-starter-uk/",
           "notes": "Pack of 2–3 recommended."
         },
         {
           "tier": "solid",
+          "sort_order": 5,
+          "product_name": "Stormforce Crystal RTX 4070 Ti Gaming PC (i7-12700F)",
+          "link_key": "stormforce-crystal-rtx-4070-ti-gaming-pc",
+          "score_out_of_10": 8.5,
+          "why_in_kit": "Solid 1440p tower — 4070 Ti class for high refresh on 27″. Amazon Stormforce primary; eBay PCSPECIALIST Flux as priced alternative.",
+          "compare_href": "/gaming/",
+          "notes": "Confirm RAM (some configs ship 16GB)."
+        },
+        {
+          "tier": "solid",
           "sort_order": 10,
+          "product_name": "MAIDeSITe Standing Desk 140x70",
+          "link_key": "maidesite-standing-desk-140x70",
+          "score_out_of_10": 8.4,
+          "why_in_kit": "140cm dual-monitor / tower+arm width for Solid rooms and 10×8 shells.",
+          "compare_href": "/best/compare/desk-size-for-garden-shed-uk/",
+          "notes": null
+        },
+        {
+          "tier": "solid",
+          "sort_order": 15,
+          "product_name": "Alienware AW2725DF",
+          "link_key": "alienware-aw2725df",
+          "score_out_of_10": 8.7,
+          "why_in_kit": "27″ high-refresh panel that fits UK desk depth better than ultrawide.",
+          "compare_href": "/best/compare/best-27-inch-gaming-monitors-2026/",
+          "notes": "Enable pixel care; hide static overlays."
+        },
+        {
+          "tier": "solid",
+          "sort_order": 20,
           "product_name": "Keychron K2 HE",
           "link_key": "keychron-k2-he",
           "score_out_of_10": 8.8,
-          "why_in_kit": "HE feel + wireless + work/game dual use — the UK ISO-friendly step before Wooting money.",
+          "why_in_kit": "HE feel + wireless + work/game dual use — UK ISO-friendly step before Wooting money.",
           "compare_href": "/gaming/compare/keychron-vs-logitech-work-game/",
           "notes": "Solid-tier default board."
         },
         {
           "tier": "solid",
-          "sort_order": 20,
+          "sort_order": 25,
           "product_name": "Logitech G Pro X Superlight 2",
           "link_key": "logitech-g-pro-x-superlight-2",
           "score_out_of_10": 8.4,
-          "why_in_kit": "Same mouse as starter — do not churn peripherals when upgrading the board/monitor.",
+          "why_in_kit": "Same mouse as Starter — do not churn peripherals when upgrading the PC/panel.",
           "compare_href": "/gaming/compare/best-wireless-gaming-mouse-under-80-uk/",
           "notes": "Keep if shape fits; else Viper V3 Pro."
         },
         {
           "tier": "solid",
           "sort_order": 30,
-          "product_name": "Alienware AW2725DF",
-          "link_key": "alienware-aw2725df",
-          "score_out_of_10": 8.7,
-          "why_in_kit": "27\" high-refresh gaming panel that fits UK desk depth better than ultrawide.",
-          "compare_href": "/best/compare/best-27-inch-gaming-monitors-2026/",
-          "notes": "Enable pixel care; hide static overlays."
-        },
-        {
-          "tier": "solid",
-          "sort_order": 40,
           "product_name": "HyperX Cloud III Wireless",
           "link_key": "hyperx-cloud-iii-wireless",
           "score_out_of_10": 8.7,
@@ -122,7 +162,7 @@
         },
         {
           "tier": "solid",
-          "sort_order": 50,
+          "sort_order": 35,
           "product_name": "Noblechairs Hero",
           "link_key": "noblechairs-hero",
           "score_out_of_10": 8.4,
@@ -132,17 +172,47 @@
         },
         {
           "tier": "solid",
-          "sort_order": 60,
+          "sort_order": 40,
           "product_name": "TP-Link Tapo P110",
           "link_key": "tp-link-tapo-p110",
           "score_out_of_10": 8.8,
-          "why_in_kit": "Keep the kill-switch when the OLED arrives — standby adds up.",
+          "why_in_kit": "Keep the kill-switch when the high-refresh panel arrives — standby adds up.",
           "compare_href": "/smart-home/compare/no-hub-smart-plug-stack-uk/",
           "notes": null
         },
         {
           "tier": "no-compromise",
+          "sort_order": 5,
+          "product_name": "CyberPowerPC Luxe RTX 4080 Super Gaming PC (Ryzen 9 7900X)",
+          "link_key": "cyberpowerpc-luxe-rtx-4080-super-gaming-pc",
+          "score_out_of_10": 8.8,
+          "why_in_kit": "No-compromise GPU for QD-OLED 1440p/4K high. Amazon Luxe primary; eBay 4080 Super customs for price checks — verify seller feedback.",
+          "compare_href": "/gaming/",
+          "notes": "Always re-read live GPU naming on SI pages."
+        },
+        {
+          "tier": "no-compromise",
           "sort_order": 10,
+          "product_name": "FLEXISPOT E6 MAX Standing Desk 140x80",
+          "link_key": "flexispot-e6-max-standing-desk-140x80",
+          "score_out_of_10": 8.3,
+          "why_in_kit": "Deep furniture-grade desk when the room finally allows tower + arm + pad sprawl.",
+          "compare_href": "/best/compare/desk-size-for-garden-shed-uk/",
+          "notes": "Reject for true 6×4 storage sheds."
+        },
+        {
+          "tier": "no-compromise",
+          "sort_order": 15,
+          "product_name": "Alienware AW2725DF",
+          "link_key": "alienware-aw2725df",
+          "score_out_of_10": 8.7,
+          "why_in_kit": "27″ QD-OLED class panel; add arm + pixel hygiene.",
+          "compare_href": "/gaming/compare/oled-vs-ips-gaming-monitor-uk/",
+          "notes": "LG 27GR95QE if Alienware street price spikes."
+        },
+        {
+          "tier": "no-compromise",
+          "sort_order": 20,
           "product_name": "Wooting 80HE",
           "link_key": "wooting-80he",
           "score_out_of_10": 9.3,
@@ -152,17 +222,7 @@
         },
         {
           "tier": "no-compromise",
-          "sort_order": 15,
-          "product_name": "Wooting 60HE",
-          "link_key": "wooting-60he",
-          "score_out_of_10": 8.5,
-          "why_in_kit": "Optional 60% path for competitive FPS on shallow desks — ANSI caveat for UK typists.",
-          "compare_href": "/gaming/compare/wooting-60he-vs-razer-huntsman-v3-pro/",
-          "notes": "Alt to 80HE, not both."
-        },
-        {
-          "tier": "no-compromise",
-          "sort_order": 20,
+          "sort_order": 25,
           "product_name": "Razer Viper V3 Pro",
           "link_key": "razer-viper-v3-pro",
           "score_out_of_10": 8.8,
@@ -173,26 +233,6 @@
         {
           "tier": "no-compromise",
           "sort_order": 30,
-          "product_name": "Alienware AW2725DF",
-          "link_key": "alienware-aw2725df",
-          "score_out_of_10": 8.7,
-          "why_in_kit": "Keep 27\" QD-OLED class panel; add arm + pixel hygiene.",
-          "compare_href": "/gaming/compare/oled-vs-ips-gaming-monitor-uk/",
-          "notes": "LG 27GR95QE if Alienware street price spikes."
-        },
-        {
-          "tier": "no-compromise",
-          "sort_order": 35,
-          "product_name": "LG 27GR95QE",
-          "link_key": "lg-27gr95qe",
-          "score_out_of_10": 8.6,
-          "why_in_kit": "OLED alt when Alienware is silly money — budget a VESA arm.",
-          "compare_href": "/best/compare/best-1440p-gaming-monitor-under-400-uk/",
-          "notes": "Alt monitor, not dual buy."
-        },
-        {
-          "tier": "no-compromise",
-          "sort_order": 40,
           "product_name": "Audeze Maxwell",
           "link_key": "audeze-maxwell",
           "score_out_of_10": 8.9,
@@ -202,31 +242,21 @@
         },
         {
           "tier": "no-compromise",
-          "sort_order": 50,
+          "sort_order": 35,
           "product_name": "Noblechairs Hero",
           "link_key": "noblechairs-hero",
           "score_out_of_10": 8.4,
-          "why_in_kit": "Still the value furniture pick; spend the rest on panel/board not logo chairs.",
+          "why_in_kit": "Value furniture pick — spend the rest on GPU/panel not logo chairs.",
           "compare_href": "/gaming/compare/best-gaming-chair-under-300-uk/",
           "notes": null
         },
         {
           "tier": "no-compromise",
-          "sort_order": 60,
-          "product_name": "Philips Hue Play Sync Box 8K",
-          "link_key": "philips-hue-play-sync-box-8k",
-          "score_out_of_10": 7.8,
-          "why_in_kit": "Only if you already run Hue — graded honestly; Govee covers vibe cheaper.",
-          "compare_href": "/spaces/gaming-room/",
-          "notes": "Optional cinema flex."
-        },
-        {
-          "tier": "no-compromise",
-          "sort_order": 70,
+          "sort_order": 40,
           "product_name": "TP-Link Tapo P110",
           "link_key": "tp-link-tapo-p110",
           "score_out_of_10": 8.8,
-          "why_in_kit": "Non-negotiable power hygiene when OLED + mini-PC/PS sit on one strip.",
+          "why_in_kit": "Non-negotiable power hygiene when OLED + tower sit on one strip.",
           "compare_href": "/smart-home/compare/renter-safe-smart-home-starter-uk/",
           "notes": null
         }

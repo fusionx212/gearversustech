@@ -1564,19 +1564,88 @@ article table { width: 100%; }
   align-items: start;
   margin: 1rem 0 2rem;
 }
+.kit-detail-hero--room {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.35fr);
+}
 @media (max-width: 900px) {
-  .kit-detail-hero { grid-template-columns: 1fr; }
+  .kit-detail-hero,
+  .kit-detail-hero--room { grid-template-columns: 1fr; }
 }
 .kit-detail-mockup img {
   width: 100%;
   border-radius: var(--radius);
   border: 1px solid var(--border);
   background: var(--stage);
+  aspect-ratio: 18 / 10.5;
+  object-fit: cover;
 }
 .kit-detail-mockup figcaption {
   font-size: 0.85rem;
   color: var(--text-muted);
   margin-top: 0.45rem;
+}
+.kit-tiers--primary { margin-top: 0.5rem; }
+.kit-tier-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin: 0 0 1.75rem;
+}
+@media (max-width: 900px) {
+  .kit-tier-summary { grid-template-columns: 1fr; }
+}
+.kit-tier-summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem 1.05rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.kit-tier-summary-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.kit-tier-summary-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.kit-tier-summary-budget {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.kit-tier-summary-card strong {
+  font-size: 0.98rem;
+  line-height: 1.35;
+}
+.kit-tier-summary-blurb {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+.kit-item-card--pc {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  grid-column: 1 / -1;
+  grid-template-columns: 120px 1fr;
+}
+.kit-pc-badge {
+  display: inline-block;
+  margin-right: 0.4rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
 }
 .kit-who {
   display: grid;

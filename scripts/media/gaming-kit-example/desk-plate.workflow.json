@@ -1,0 +1,59 @@
+{
+  "3": {
+    "class_type": "KSampler",
+    "inputs": {
+      "seed": 918273645,
+      "steps": 34,
+      "cfg": 5.0,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": ["4", 0],
+      "positive": ["6", 0],
+      "negative": ["7", 0],
+      "latent_image": ["5", 0]
+    }
+  },
+  "4": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "juggernaut_xl_v10.safetensors"
+    }
+  },
+  "5": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "width": 1536,
+      "height": 896,
+      "batch_size": 1
+    }
+  },
+  "6": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "cinematic photograph of an EMPTY premium UK gaming desk ready for product staging, completely empty black desk mat and dark walnut desktop, NO monitor, NO keyboard, NO mouse, NO headset, NO speakers, NO chair in frame, only the empty desk surface and charcoal wall with soft intentional cyan and magenta RGB ambient glow, subtle LED strip under empty desk front edge, clean cable-managed bedroom corner, shallow depth of field, 35mm lens, moody night interior photography, sharp realistic wood grain, product photography staging plate, no people, no text, no logos, high detail professional photo",
+      "clip": ["4", 1]
+    }
+  },
+  "7": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "monitor, keyboard, mouse, headset, speakers, chair, computer, PC tower, screen, display, peripherals, gear, products, people, hands, blurry, muddy, collage, watermark, text, logo, cluttered junk, plastic toy look, oversaturated neon vomit, cartoon, anime, illustration, low quality, jpeg artifacts, deformed furniture, messy cables pile, cardboard",
+      "clip": ["4", 1]
+    }
+  },
+  "8": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["3", 0],
+      "vae": ["4", 2]
+    }
+  },
+  "9": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "filename_prefix": "gvt_gaming_desk_plate",
+      "images": ["8", 0]
+    }
+  }
+}

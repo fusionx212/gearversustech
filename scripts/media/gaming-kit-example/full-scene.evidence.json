@@ -1,0 +1,46 @@
+{
+  "prompt_id": "13e7851c-ba83-431b-9e74-d9df6f53b74d",
+  "started_at": "2026-07-16T19:50:40.582Z",
+  "completed_at": "2026-07-16T19:50:51.156Z",
+  "workflow_sha256": "1bc94686f00d794ab044e3e253e1ae7c17f11a353f4fbf5ac0a8994f8d29e5dd",
+  "params_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+  "outputs": [
+    {
+      "node_id": "9",
+      "media_type": "images",
+      "filename": "gvt_gaming_full_scene_00001_.png",
+      "subfolder": "",
+      "type": "output"
+    }
+  ],
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "13e7851c-ba83-431b-9e74-d9df6f53b74d",
+          "timestamp": 1784231440588
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "4"
+          ],
+          "prompt_id": "13e7851c-ba83-431b-9e74-d9df6f53b74d",
+          "timestamp": 1784231440589
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "13e7851c-ba83-431b-9e74-d9df6f53b74d",
+          "timestamp": 1784231450720
+        }
+      ]
+    ]
+  }
+}

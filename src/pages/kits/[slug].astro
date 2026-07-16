@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import EmailCapture from '../../components/EmailCapture.astro';
+import SpaceFitPanel from '../../components/SpaceFitPanel.astro';
 import { getKitUrl } from '../../lib/kit';
 import {
   getKit,
@@ -29,6 +30,7 @@ const items = kit ? await attachKitItemProducts(await getKitItems(kit.slug)) : [
 const tiers = kit?.tier_labels || [];
 const buyUrl = kit?.stripe_payment_link || getKitUrl(kit?.slug);
 const mockup = kit?.kit_mockup_url || kit?.hero_image_url;
+const isGamingRoom = slug === 'gaming-room-build-kit';
 
 function tierItems(tierId: string) {
   return items.filter((i) => i.tier === tierId);
@@ -43,6 +45,14 @@ function productPhoto(item: (typeof items)[0]) {
 function scoreOf(item: (typeof items)[0]) {
   return item.score_out_of_10 ?? item.product?.score_out_of_10 ?? null;
 }
+
+function isPcLine(item: (typeof items)[0]) {
+  return /gaming pc|prebuilt|laptop/i.test(item.product_name || '');
+}
+
+function tierAnchorPc(tierId: string) {
+  return tierItems(tierId).find(isPcLine) || tierItems(tierId)[0];
+}
 ---
 
 {kit && (
@@ -54,7 +64,7 @@ function scoreOf(item: (typeof items)[0]) {
         <span class="current">{kit.name}</span>
       </nav>
 
-      <header class="kit-detail-hero">
+      <header class={`kit-detail-hero${isGamingRoom ? ' kit-detail-hero--room' : ''}`}>
         <div class="kit-detail-copy">
           <p class="kit-kicker">Digital kit · £{kit.price_gbp}</p>
           <h1>{kit.name}</h1>
@@ -67,11 +77,9 @@ function scoreOf(item: (typeof items)[0]) {
             ) : (
               <a class="btn btn-kit" href="/contact/?interest=kit">Buy kit (link soon)</a>
             )}
+            <a class="btn btn-ghost" href="#tiers">See PC tiers</a>
             {kit.compare_hub_href && (
               <a class="btn btn-ghost" href={kit.compare_hub_href}>Browse free compares</a>
-            )}
-            {kit.space_slug && (
-              <a class="btn btn-ghost" href={`/spaces/${kit.space_slug}/`}>Room hub</a>
             )}
           </div>
         </div>
@@ -79,17 +87,104 @@ function scoreOf(item: (typeof items)[0]) {
           <figure class="kit-detail-mockup">
             <img
               src={mockup}
-              alt={`${kit.name} — full kit staged in-room from real product photos`}
-              width="900"
-              height="560"
+              alt={
+                isGamingRoom
+                  ? `${kit.name} — cinematic gaming desk room scene`
+                  : `${kit.name} — kit staged in-room`
+              }
+              width="1800"
+              height="1050"
               fetchpriority="high"
             />
             <figcaption>
-              Full kit-in-room mockup — real Amazon product cutouts staged together (not AI lookalikes).
+              {isGamingRoom
+                ? 'Cinematic desk room — products sit in-scene. Exact SKUs and affiliate carts live in the tiers below (not a floating SKU collage).'
+                : 'Full kit-in-room mockup from verified product photos.'}
             </figcaption>
           </figure>
         )}
       </header>
+
+      <section class="kit-tiers kit-tiers--primary" id="tiers">
+        <h2>{isGamingRoom ? 'Budget tiers (PC included)' : "What's in the pack"}</h2>
+        <p class="kit-tiers-lede">
+          {isGamingRoom
+            ? 'Each tier is a complete room cart: prebuilt gaming PC (Amazon UK + eBay UK) plus desk, monitor, keyboard, mouse, headset — chair from Solid up. Grades are honest.'
+            : 'Every line item below is part of the decided cart. Grades are honest — some starter picks are deliberately mid-7s.'}
+        </p>
+
+        {isGamingRoom && (
+          <div class="kit-tier-summary">
+            {tiers.map((t) => {
+              const pc = tierAnchorPc(t.id);
+              if (!pc) return null;
+              return (
+                <a class="kit-tier-summary-card" href={`#tier-${t.id}`}>
+                  <span class="kit-tier-summary-label">{t.label}</span>
+                  <span class="kit-tier-summary-budget">{t.budget}</span>
+                  <strong>{pc.product_name}</strong>
+                  <span class="kit-tier-summary-blurb">{t.blurb}</span>
+                </a>
+              );
+            })}
+          </div>
+        )}
+
+        {tiers.map((t) => {
+          const list = tierItems(t.id);
+          if (!list.length) return null;
+          return (
+            <div class="kit-tier-block" id={`tier-${t.id}`}>
+              <header class="kit-tier-head">
+                <h3>{t.label} <span class="tier-budget">{t.budget}</span></h3>
+                <p>{t.blurb}</p>
+              </header>
+              <div class="kit-item-grid">
+                {list.map((item) => {
+                  const photo = productPhoto(item);
+                  const score = scoreOf(item);
+                  const pc = isPcLine(item);
+                  return (
+                    <article class={`kit-item-card${pc ? ' kit-item-card--pc' : ''}`}>
+                      <div class="kit-item-photo">
+                        {photo ? (
+                          <img src={photo} alt={item.product_name} width="200" height="200" loading="lazy" />
+                        ) : (
+                          <span class="kit-item-photo-empty">Photo pending verified ASIN</span>
+                        )}
+                      </div>
+                      <div class="kit-item-body">
+                        <h4>
+                          {pc && <span class="kit-pc-badge">PC</span>}
+                          {item.product_name}
+                        </h4>
+                        {score != null && (
+                          <p class="kit-item-score">{score}/10</p>
+                        )}
+                        {item.why_in_kit && <p class="kit-item-why">{item.why_in_kit}</p>}
+                        {item.product?.review_summary && (
+                          <p class="kit-item-review"><strong>Reviews:</strong> {item.product.review_summary}</p>
+                        )}
+                        <div class="kit-item-links">
+                          {item.compare_href && (
+                            <a href={item.compare_href}>Compare spoke →</a>
+                          )}
+                          {item.link_key && item.product?.amazon_asin && (
+                            <a href={`/c/amazon/${item.link_key}`} rel="nofollow sponsored">Amazon UK</a>
+                          )}
+                          {item.link_key && (
+                            <a href={`/c/ebay/${item.link_key}`} rel="nofollow sponsored">eBay UK</a>
+                          )}
+                        </div>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </section>
 
       <section class="kit-who">
         <div>
@@ -120,68 +215,45 @@ function scoreOf(item: (typeof items)[0]) {
         </section>
       )}
 
-      <section class="kit-tiers" id="contents">
-        <h2>What's in the pack</h2>
-        <p class="kit-tiers-lede">
-          Every line item below is part of the decided cart. Grades are honest — some starter picks are deliberately mid-7s.
-        </p>
-
-        {tiers.map((t) => {
-          const list = tierItems(t.id);
-          if (!list.length) return null;
-          return (
-            <div class="kit-tier-block" id={`tier-${t.id}`}>
-              <header class="kit-tier-head">
-                <h3>{t.label} <span class="tier-budget">{t.budget}</span></h3>
-                <p>{t.blurb}</p>
-              </header>
-              <div class="kit-item-grid">
-                {list.map((item) => {
-                  const photo = productPhoto(item);
-                  const score = scoreOf(item);
-                  return (
-                    <article class="kit-item-card">
-                      <div class="kit-item-photo">
-                        {photo ? (
-                          <img src={photo} alt={item.product_name} width="200" height="200" loading="lazy" />
-                        ) : (
-                          <span class="kit-item-photo-empty">Photo pending verified ASIN</span>
-                        )}
-                      </div>
-                      <div class="kit-item-body">
-                        <h4>{item.product_name}</h4>
-                        {score != null && (
-                          <p class="kit-item-score">{score}/10</p>
-                        )}
-                        {item.why_in_kit && <p class="kit-item-why">{item.why_in_kit}</p>}
-                        {item.product?.review_summary && (
-                          <p class="kit-item-review"><strong>Reviews:</strong> {item.product.review_summary}</p>
-                        )}
-                        <div class="kit-item-links">
-                          {item.compare_href && (
-                            <a href={item.compare_href}>Compare spoke →</a>
-                          )}
-                          {item.product?.amazon_asin && item.link_key && (
-                            <a href={`/c/amazon/${item.link_key}`} rel="nofollow sponsored">Amazon</a>
-                          )}
-                          {item.product?.mockup_url && (
-                            <a href={item.product.mockup_url}>In-room mockup</a>
-                          )}
-                        </div>
-                      </div>
-                    </article>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })}
-      </section>
-
       {kit.setup_notes && (
         <section class="kit-setup">
           <h2>Setup notes</h2>
           <p>{kit.setup_notes}</p>
+        </section>
+      )}
+
+      {slug === 'gaming-room-build-kit' && <SpaceFitPanel mode="gaming" />}
+      {slug === 'uk-garage-gym-build-kit' && <SpaceFitPanel mode="gym" />}
+      {(slug === 'shed-garden-office-setup-pack' || slug === 'shed-gym-setup-pack') && (
+        <SpaceFitPanel mode={slug === 'shed-gym-setup-pack' ? 'gym' : 'gaming'} />
+      )}
+
+      {(slug === 'gaming-room-build-kit' ||
+        slug === 'uk-garage-gym-build-kit' ||
+        slug === 'shed-garden-office-setup-pack' ||
+        slug === 'shed-gym-setup-pack') && (
+        <section class="kit-setup kit-sheds">
+          <h2>Shell compares (by use-case)</h2>
+          <p>
+            Hub with Gaming / Gym / Man cave / Office / Summer house journeys:
+            <a href="/best/garden-sheds/">Garden space fitting hub</a>.
+          </p>
+          <ul class="kit-shed-links">
+            {slug.includes('gym') ? (
+              <>
+                <li><a href="/best/compare/shed-gym-fit-journey-uk/">Shed gym fit journey</a></li>
+                <li><a href="/best/compare/best-shed-for-home-gym-uk/">Best shed for home gym</a></li>
+                <li><a href="/best/compare/summerhouse-seasonal-vs-year-round-uk/">Seasonal vs year-round</a></li>
+              </>
+            ) : (
+              <>
+                <li><a href="/best/compare/gaming-shed-fit-journey-uk/">Gaming shed fit journey</a></li>
+                <li><a href="/best/compare/desk-size-for-garden-shed-uk/">Desk size vs shed band</a></li>
+                <li><a href="/best/compare/garden-office-fit-journey-uk/">Garden office journey</a></li>
+                <li><a href="/best/compare/man-cave-shed-fit-journey-uk/">Man cave journey</a></li>
+              </>
+            )}
+          </ul>
         </section>
       )}
 
@@ -191,6 +263,7 @@ function scoreOf(item: (typeof items)[0]) {
             Get {kit.name} — £{kit.price_gbp}
           </a>
         ) : null}
+        <a class="btn btn-ghost" href="#tiers">Back to PC tiers</a>
         <a class="btn btn-ghost" href="/kits/">All kits</a>
       </div>
 

@@ -1,0 +1,64 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "juggernaut_xl_v10.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "gvt_gaming_kit_preblend.png"
+    }
+  },
+  "3": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "cinematic photograph of a premium UK gaming desk, real Wooting compact mechanical keyboard, Logitech Superlight mouse, HyperX Cloud headset, Alienware QD-OLED monitor, intentional cyan and magenta RGB lighting, sharp product detail, cohesive lighting, professional interior photo, seamless scene, high detail",
+      "clip": ["1", 1]
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "collage, cutout edges, floating objects, muddy, blurry, watermark, text overlay, logo spam, deformed products, extra fingers, cartoon, anime, low quality, jpeg artifacts",
+      "clip": ["1", 1]
+    }
+  },
+  "5": {
+    "class_type": "VAEEncode",
+    "inputs": {
+      "pixels": ["2", 0],
+      "vae": ["1", 2]
+    }
+  },
+  "6": {
+    "class_type": "KSampler",
+    "inputs": {
+      "seed": 777001122,
+      "steps": 22,
+      "cfg": 4.5,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 0.28,
+      "model": ["1", 0],
+      "positive": ["3", 0],
+      "negative": ["4", 0],
+      "latent_image": ["5", 0]
+    }
+  },
+  "7": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["6", 0],
+      "vae": ["1", 2]
+    }
+  },
+  "8": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "filename_prefix": "gvt_gaming_kit_blend",
+      "images": ["7", 0]
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "prompt_id": "3a10de0e-c58b-4538-8e10-8b95924b9ea6",
+  "started_at": "2026-07-16T19:47:29.313Z",
+  "completed_at": "2026-07-16T19:47:40.137Z",
+  "workflow_sha256": "e1fdfb97bc34fa53d4fe42486bd6881400855439cd5bfa941f59a7323468f4ad",
+  "params_sha256": "9f5c8a7b3f7834fa255650a8b667fabac94a04cdd7927cbf8d1c8bda334575e8",
+  "outputs": [
+    {
+      "node_id": "9",
+      "media_type": "images",
+      "filename": "gvt_gaming_desk_plate_00002_.png",
+      "subfolder": "",
+      "type": "output"
+    }
+  ],
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "3a10de0e-c58b-4538-8e10-8b95924b9ea6",
+          "timestamp": 1784231249320
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "4",
+            "5"
+          ],
+          "prompt_id": "3a10de0e-c58b-4538-8e10-8b95924b9ea6",
+          "timestamp": 1784231249321
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "3a10de0e-c58b-4538-8e10-8b95924b9ea6",
+          "timestamp": 1784231259831
+        }
+      ]
+    ]
+  }
+}

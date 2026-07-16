@@ -1,0 +1,59 @@
+{
+  "3": {
+    "class_type": "KSampler",
+    "inputs": {
+      "seed": 2026071619,
+      "steps": 34,
+      "cfg": 5.0,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": ["4", 0],
+      "positive": ["6", 0],
+      "negative": ["7", 0],
+      "latent_image": ["5", 0]
+    }
+  },
+  "4": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "juggernaut_xl_v10.safetensors"
+    }
+  },
+  "5": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "width": 1536,
+      "height": 896,
+      "batch_size": 1
+    }
+  },
+  "6": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "cinematic photograph, premium UK gaming desk setup, single 27 inch ultrawide-bezel black gaming monitor showing dark atmospheric game scene, compact black 60 percent mechanical gaming keyboard with subtle RGB, matte black wireless esports mouse to the right, black closed-back wireless gaming headset resting on right side of desk, intentional cyan bias light on charcoal wall, magenta LED strip under desk front edge, dark walnut desk, large black desk mat, clean cable management, shallow depth of field, 35mm lens, moody night photography, sharp realistic product detail, professional interior photo, no people, no text overlays, no watermarks, no logos on screen, cohesive lighting",
+      "clip": ["4", 1]
+    }
+  },
+  "7": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "collage, cutout, floating objects, triple monitor clutter, product packaging, box, watermark, readable text, logo spam, people, hands, muddy, blurry, cartoon, anime, deformed keyboard, extra mice, cluttered junk, oversaturated neon vomit, low quality, jpeg artifacts",
+      "clip": ["4", 1]
+    }
+  },
+  "8": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["3", 0],
+      "vae": ["4", 2]
+    }
+  },
+  "9": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "filename_prefix": "gvt_gaming_full_scene",
+      "images": ["8", 0]
+    }
+  }
+}
