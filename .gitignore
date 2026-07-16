@@ -8,3 +8,6 @@ videos/
 .env
 .env.local
 
+
+tmp/
+
