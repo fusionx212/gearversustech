@@ -27,42 +27,102 @@
 
 # Home-gym spokes moved from /best/compare/ → /home-gym/compare/
 [[redirects]]
-  from = "/best/compare/adjustable-dumbbells-uk-head-to-head/*"
+  from = "/best/compare/adjustable-dumbbells-uk-head-to-head"
   to = "/home-gym/compare/adjustable-dumbbells-uk-head-to-head/"
   status = 301
+  force = true
 [[redirects]]
-  from = "/best/compare/best-rack-for-single-garage-uk/*"
+  from = "/best/compare/adjustable-dumbbells-uk-head-to-head/"
+  to = "/home-gym/compare/adjustable-dumbbells-uk-head-to-head/"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/best/compare/best-rack-for-single-garage-uk"
   to = "/home-gym/compare/best-rack-for-single-garage-uk/"
   status = 301
+  force = true
 [[redirects]]
-  from = "/best/compare/garage-gym-under-2-4m-ceiling-uk/*"
+  from = "/best/compare/best-rack-for-single-garage-uk/"
+  to = "/home-gym/compare/best-rack-for-single-garage-uk/"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/best/compare/garage-gym-under-2-4m-ceiling-uk"
   to = "/home-gym/compare/garage-gym-under-2-4m-ceiling-uk/"
   status = 301
+  force = true
 [[redirects]]
-  from = "/best/compare/home-gym-under-1000-uk/*"
+  from = "/best/compare/garage-gym-under-2-4m-ceiling-uk/"
+  to = "/home-gym/compare/garage-gym-under-2-4m-ceiling-uk/"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/best/compare/home-gym-under-1000-uk"
   to = "/home-gym/compare/home-gym-under-1000-uk/"
   status = 301
+  force = true
 [[redirects]]
-  from = "/best/compare/home-gym-under-2500-uk/*"
+  from = "/best/compare/home-gym-under-1000-uk/"
+  to = "/home-gym/compare/home-gym-under-1000-uk/"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/best/compare/home-gym-under-2500-uk"
   to = "/home-gym/compare/home-gym-under-2500-uk/"
   status = 301
+  force = true
 [[redirects]]
-  from = "/best/compare/home-gym-under-500-uk/*"
+  from = "/best/compare/home-gym-under-2500-uk/"
+  to = "/home-gym/compare/home-gym-under-2500-uk/"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/best/compare/home-gym-under-500-uk"
   to = "/home-gym/compare/home-gym-under-500-uk/"
   status = 301
+  force = true
 [[redirects]]
-  from = "/best/compare/mirafit-vs-rogue-uk/*"
+  from = "/best/compare/home-gym-under-500-uk/"
+  to = "/home-gym/compare/home-gym-under-500-uk/"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/best/compare/mirafit-vs-rogue-uk"
   to = "/home-gym/compare/mirafit-vs-rogue-uk/"
   status = 301
+  force = true
 [[redirects]]
-  from = "/best/compare/neighbour-friendly-cardio-uk/*"
+  from = "/best/compare/mirafit-vs-rogue-uk/"
+  to = "/home-gym/compare/mirafit-vs-rogue-uk/"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/best/compare/neighbour-friendly-cardio-uk"
   to = "/home-gym/compare/neighbour-friendly-cardio-uk/"
   status = 301
+  force = true
 [[redirects]]
-  from = "/best/compare/rubber-flooring-noise-terraces-uk/*"
+  from = "/best/compare/neighbour-friendly-cardio-uk/"
+  to = "/home-gym/compare/neighbour-friendly-cardio-uk/"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/best/compare/rubber-flooring-noise-terraces-uk"
   to = "/home-gym/compare/rubber-flooring-noise-terraces-uk/"
   status = 301
+  force = true
 [[redirects]]
-  from = "/best/compare/wall-mount-vs-freestanding-rack-uk/*"
+  from = "/best/compare/rubber-flooring-noise-terraces-uk/"
+  to = "/home-gym/compare/rubber-flooring-noise-terraces-uk/"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/best/compare/wall-mount-vs-freestanding-rack-uk"
   to = "/home-gym/compare/wall-mount-vs-freestanding-rack-uk/"
   status = 301
+  force = true
+[[redirects]]
+  from = "/best/compare/wall-mount-vs-freestanding-rack-uk/"
+  to = "/home-gym/compare/wall-mount-vs-freestanding-rack-uk/"
+  status = 301
+  force = true
