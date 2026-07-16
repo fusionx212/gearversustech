@@ -1,31 +1,46 @@
 # Amazon Creators API sync — blocked
 
-**Date:** 2026-07-16  
+**Date:** 2026-07-16 (updated finish pass)  
 **Script:** `scripts/sync-amazon-products.mjs`  
-**Status:** BLOCKED — cannot refresh ASINs/images/prices
+**Runner:** `scripts/_run-amazon-sync.mjs` (maps UKAirConTracker `.env.local` Creators keys → `AMZ_ID`/`AMZ_SECRET` read-only)  
+**Status:** BLOCKED — token fails with `invalid_client`
 
-## Missing credentials
+## Credential search (names only — no values logged)
 
-Local `.env` and `C:\Users\dalec\.secrets\master.env` do not define:
+| Location | Result |
+|---|---|
+| `C:\Users\dalec\.secrets\master.env` | No `AMZ_*` / `AMAZON_CREATORS_*` |
+| `C:\Users\dalec\repos\gearversustech\.env` | No Amazon keys |
+| Netlify env (gearversustech) | No Amazon keys |
+| `C:\Users\dalec\projects\ukaircontracker\.env.local` | `AMAZON_CREATORS_API_CLIENT_ID` + `_SECRET` present (read-only check) |
+| Mapped dry-run | **FAIL** `Client authentication failed` / `invalid_client` |
 
-- `AMZ_ID` (Creators API client id)
-- `AMZ_SECRET` (Creators API client secret)
+UKAirConTracker was **not modified**. Keys appear expired/revoked or not valid for Creators API LwA.
 
-Dry-run fails with Amazon `invalid_request` / missing `client_id`.
+## Manual buy-box progress (without API)
 
-## Unblock
+| Product | Action |
+|---|---|
+| Wooting 60HE | Upserted ASIN `B0DJY46XTF` on `link_key=wooting-60he` (Amazon CTA works; image/price still need API) |
+| Secretlab / Homey | Still D2C — skip Amazon; eBay/Awin later |
+| Mirafit / generic gym names | No verified ASINs — left empty (do not invent ASINs) |
+| Razer Viper V3 Pro / SmartThings Station | Not upserted without API title confirmation |
 
-1. Create/retrieve LwA credentials for Amazon Creators API (UK marketplace, tag `gearversustech-21`).
-2. Add `AMZ_ID` / `AMZ_SECRET` to local `.env` (from master secrets — never commit).
+## Unblock (NEEDS DALE)
+
+1. Create/retrieve fresh LwA credentials for Amazon Creators API (UK marketplace, tag `gearversustech-21`).
+2. Add `AMZ_ID` / `AMZ_SECRET` to GVT `.env` + Netlify (never commit). Prefer GVT Associates credentials, not another site’s stale keys.
 3. Run:
 
 ```bash
 node --env-file=.env scripts/sync-amazon-products.mjs
 node --env-file=.env scripts/sync-amazon-products.mjs --write
+# optional known ASINs + GetItems enrich:
+node --env-file=.env scripts/upsert-known-asins.mjs --with-api
 ```
 
-4. Re-check buy-box readiness (winner + runner both need `amazon_asin` + `image_url`).
+4. Re-check buy-box readiness (winner + runner both need `amazon_asin` + ideally `image_url` + price).
 
-## Known gaps until sync
+## Coverage snapshot (pre-fresh-credentials)
 
-D2C / non-Amazon or never-synced names will stay empty: Wooting 60HE, Secretlab Titan Evo, Mirafit/Rogue gym SKUs, Razer Viper V3 Pro (if not yet linked), SmartThings Station, generic “adjustable dumbbells”, etc.
+Taken during finish pass: ~59 published compares; ~33 with both sides image+ASIN; remainder partial/empty mostly D2C + gym generics + sync misses.

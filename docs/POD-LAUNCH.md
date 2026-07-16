@@ -1,8 +1,8 @@
 # GVT Printful POD launch checklist
 
-**Status:** API key present in estate secrets (`PRINTFUL_API_KEY`). Site CTAs use `PUBLIC_PRINTFUL_STORE_URL` when set; otherwise “POD packs (coming)” placeholder.
+**Status:** API key present (`PRINTFUL_API_KEY`). Probe 2026-07-16: 4 stores visible (3 native + PolicyandplayDesign Etsy). Product list API returned 400 — create designs in Printful dashboard first, then set `PUBLIC_PRINTFUL_STORE_URL`. Site CTAs stay “POD packs (coming)” until that URL is set.
 
-**Do not publish to Etsy/social until Telegram approve.** This doc is draft-only.
+**Do not publish to Etsy/social until Telegram approve.** Distribution copy stays in `docs/DISTRIBUTION-PACKET-01.md` (draft only).
 
 ## Products to create (manual or API)
 

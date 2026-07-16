@@ -49,9 +49,9 @@ export const SPACES: SpaceHub[] = [
       { label: 'Full bay', budget: '≤ £2,500', notes: 'Rack + plates, flooring stack, power for fan/heater.' },
     ],
     spokes: [
-      { href: '/best/compare/best-rack-for-single-garage-uk/', label: 'Best rack for single garage' },
-      { href: '/best/compare/mirafit-vs-rogue-uk/', label: 'Mirafit vs Rogue UK' },
-      { href: '/best/compare/home-gym-under-1000-uk/', label: 'Home gym under £1,000' },
+      { href: '/home-gym/compare/best-rack-for-single-garage-uk/', label: 'Best rack for single garage' },
+      { href: '/home-gym/compare/mirafit-vs-rogue-uk/', label: 'Mirafit vs Rogue UK' },
+      { href: '/home-gym/compare/home-gym-under-1000-uk/', label: 'Home gym under £1,000' },
       { href: '/home-gym/', label: 'All home gym compares' },
     ],
     kitTitle: 'UK Garage Gym Build Kit',

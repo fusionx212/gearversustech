@@ -5,17 +5,7 @@ import KitCTA from '../../components/KitCTA.astro';
 import CategoryClusterList from '../../components/CategoryClusterList.astro';
 import { getArticlesByCategory, attachWinnerImages } from '../../lib/supabase';
 
-// Until DB CHECK allows category=home-gym, home-gym spokes live as category=best + subcategory Home Gym.
-const articlesRaw = await getArticlesByCategory('best', 40);
-const homeGym = articlesRaw.filter(
-  (a) =>
-    (a.subcategory || '').toLowerCase().includes('home gym') ||
-    (a.subcategory || '').toLowerCase().includes('garage')
-);
-const filtered = homeGym.length
-  ? homeGym
-  : articlesRaw.filter((a) => /gym|rack|floor|dumbbell/i.test(a.title + (a.description || '')));
-const articles = await attachWinnerImages(filtered);
+const articles = await attachWinnerImages(await getArticlesByCategory('home-gym', 40));
 ---
 
 <BaseLayout

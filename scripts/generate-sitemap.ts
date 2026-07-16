@@ -1,8 +1,22 @@
 // Build-time sitemap generator — runs during `astro build`
-// Queries Supabase and writes a static XML file to dist/
-import { writeFileSync } from 'fs';
+// Queries Supabase and writes a static XML file to public/
+import { readFileSync, writeFileSync } from 'fs';
 
-const SUPABASE_URL = 'https://zfinuyrubvqkexihgszz.supabase.co';
+// Load local .env when Netlify/CLI did not inject keys (never commit .env).
+try {
+  for (const line of readFileSync('.env', 'utf8').split(/\r?\n/)) {
+    const m = line.match(/^([^#=\s]+)\s*=\s*(.*)$/);
+    if (!m) continue;
+    const key = m[1];
+    if (process.env[key]) continue;
+    process.env[key] = m[2].replace(/^["']|["']$/g, '').trim();
+  }
+} catch {
+  /* .env optional on Netlify */
+}
+
+const SUPABASE_URL =
+  process.env.SUPABASE_URL || 'https://zfinuyrubvqkexihgszz.supabase.co';
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || '';
 
 async function generate() {

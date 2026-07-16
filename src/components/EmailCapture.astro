@@ -70,8 +70,8 @@
   <h3>Get kit drops &amp; UK stock notes</h3>
   <p>New versus matchups, garage-gym / gaming-room kit alerts, and deal notes. One email a week.</p>
 
-  <!-- ESP (Brevo/Mailchimp) blocked — no BREVO_API_KEY / MAILCHIMP_API_KEY in estate secrets.
-       Netlify Forms remains the capture rail until ESP is wired. -->
+  <!-- ESP: Brevo/Mailchimp keys not in estate secrets. RESEND_API_KEY exists on Netlify/master.env
+       but subscribe function not shipped yet — Netlify Forms remains the capture rail. -->
   <form name="subscribe" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you/">
     <input type="hidden" name="form-name" value="subscribe" />
     <input type="hidden" name="source" value="gvt-site" />
@@ -79,5 +79,5 @@
     <input type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
     <button type="submit" class="btn-submit">Subscribe</button>
   </form>
-  <p class="privacy">One email per week. Unsubscribe any time. <a href="/privacy/">Privacy</a>.</p>
+  <p class="privacy">One email per week. Confirmation page next. Unsubscribe any time. <a href="/privacy/">Privacy</a>.</p>
 </div>
