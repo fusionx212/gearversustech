@@ -1,0 +1,52 @@
+---
+import type { ArticleCard } from '../lib/supabase';
+import { clusterBySubcategory } from '../lib/supabase';
+
+interface Item extends ArticleCard {
+  winnerImage?: string;
+}
+
+interface Props {
+  articles: Item[];
+  emptyHtml?: string;
+}
+
+const { articles, emptyHtml } = Astro.props;
+const clusters = clusterBySubcategory(articles);
+---
+
+{articles.length === 0 ? (
+  <div class="hub-empty" set:html={emptyHtml || '<p>Comparisons coming soon.</p>'} />
+) : (
+  <div class="hub-clusters">
+    {clusters.map((cluster) => (
+      <section class="hub-cluster" aria-labelledby={`cluster-${cluster.label.replace(/\s+/g, '-').toLowerCase()}`}>
+        <div class="hub-cluster-head">
+          <h2 id={`cluster-${cluster.label.replace(/\s+/g, '-').toLowerCase()}`}>{cluster.label}</h2>
+          <span class="hub-cluster-count">{cluster.items.length}</span>
+        </div>
+        <div class="hub-list hub-list-clustered">
+          {cluster.items.map((a) => (
+            <a href={`/${a.category}/compare/${a.slug}/`} class="compare-row">
+              <div class="compare-row-thumb">
+                {a.winnerImage ? (
+                  <img src={a.winnerImage} alt="" loading="lazy" />
+                ) : (
+                  <span class="thumb-empty">No photo</span>
+                )}
+              </div>
+              <div class="compare-row-body">
+                <div class="card-title">{a.title}</div>
+                <div class="card-desc">{a.description}</div>
+              </div>
+              <div class="compare-row-meta">
+                {a.winner_name && <span class="winner">{a.winner_name}</span>}
+                {a.winner_rating && <span class="rating">{a.winner_rating}/10</span>}
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+)}

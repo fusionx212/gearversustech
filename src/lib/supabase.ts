@@ -4,7 +4,7 @@
 const SUPABASE_URL = import.meta.env.SUPABASE_URL || 'https://zfinuyrubvqkexihgszz.supabase.co';
 const SUPABASE_ANON_KEY = import.meta.env.SUPABASE_ANON_KEY || '';
 
-interface Article {
+export interface Article {
   slug: string;
   title: string;
   description: string;
@@ -193,4 +193,68 @@ export async function getComparedProducts(contentHtml: string, excludeNames: str
     select: '*',
     link_key: `in.(${keys.join(',')})`,
   });
+}
+
+export type ArticleCard = Pick<
+  Article,
+  'slug' | 'title' | 'description' | 'category' | 'subcategory' | 'winner_name' | 'winner_rating' | 'runnerup_name' | 'runnerup_rating' | 'created_at'
+>;
+
+/** Related compares: prefer same subcategory (any category), then same category. */
+export async function getRelatedArticles(
+  category: string,
+  subcategory: string | null | undefined,
+  excludeSlug: string,
+  limit = 6
+): Promise<ArticleCard[]> {
+  const select =
+    'slug,title,description,category,subcategory,winner_name,winner_rating,runnerup_name,runnerup_rating,created_at';
+
+  let pool: ArticleCard[] = [];
+  if (subcategory) {
+    // Cross-category topical cluster (e.g. Gaming Keyboards in gaming + best)
+    pool = await supabaseQuery<ArticleCard>('gvt_articles', {
+      select,
+      subcategory: `eq.${subcategory}`,
+      published: 'eq.true',
+      order: 'updated_at.desc',
+      limit: String(limit + 4),
+    });
+  }
+
+  const filtered = pool.filter((a) => a.slug !== excludeSlug);
+  if (filtered.length >= limit) return filtered.slice(0, limit);
+
+  const more = await supabaseQuery<ArticleCard>('gvt_articles', {
+    select,
+    category: `eq.${category}`,
+    published: 'eq.true',
+    order: 'updated_at.desc',
+    limit: String(limit + 8),
+  });
+
+  const seen = new Set(filtered.map((a) => a.slug));
+  for (const a of more) {
+    if (a.slug === excludeSlug || seen.has(a.slug)) continue;
+    filtered.push(a);
+    seen.add(a.slug);
+    if (filtered.length >= limit) break;
+  }
+  return filtered;
+}
+
+/** Group articles into subcategory clusters for category indexes. */
+export function clusterBySubcategory<T extends { subcategory: string | null | undefined }>(
+  articles: T[],
+  fallback = 'More compares'
+): { label: string; items: T[] }[] {
+  const map = new Map<string, T[]>();
+  for (const a of articles) {
+    const label = (a.subcategory || '').trim() || fallback;
+    if (!map.has(label)) map.set(label, []);
+    map.get(label)!.push(a);
+  }
+  return [...map.entries()]
+    .sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]))
+    .map(([label, items]) => ({ label, items }));
 }

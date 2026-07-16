@@ -1,45 +1,28 @@
 ---
 export const prerender = false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import CategoryClusterList from '../../components/CategoryClusterList.astro';
 import { getArticlesByCategory, attachWinnerImages } from '../../lib/supabase';
 
-const articlesRaw = await getArticlesByCategory('best', 12);
+const articlesRaw = await getArticlesByCategory('best', 40);
 const articles = await attachWinnerImages(articlesRaw);
 ---
 
-<BaseLayout title="Best Picks and Roundups" description="Curated best-of roundups for smart home and gaming gear.">
+<BaseLayout
+  title="Best Picks and Under-£Y Roundups"
+  description="Best-of and best-under-£Y UK tech roundups — category winners with live buy boxes."
+>
 
 <section class="hub-hero">
   <div class="container-wide">
-    <p class="band-kicker" style="color:var(--accent);font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.5rem;">Best picks</p>
-    <h1>Best picks and roundups</h1>
-    <p>Curated rankings across Smart Home and Gaming. Every product tested. Every list updated monthly.</p>
+    <p class="hub-kicker">Best / under £Y</p>
+    <h1>Best picks and under-£ roundups</h1>
+    <p>Category winners and budget bands. Same scoring as our A vs B pages — ranked for UK shoppers.</p>
   </div>
 </section>
 
-<div class="hub-list">
-  {articles.length > 0 ? articles.map(a => (
-    <a href={`/best/compare/${a.slug}/`} class="compare-row">
-      <div class="compare-row-thumb">
-        {a.winnerImage ? (
-          <img src={a.winnerImage} alt="" loading="lazy" />
-        ) : (
-          <span class="thumb-empty">No photo</span>
-        )}
-      </div>
-      <div class="compare-row-body">
-        <div class="card-cat">{a.subcategory || 'Best in Class'}</div>
-        <div class="card-title">{a.title}</div>
-        <div class="card-desc">{a.description}</div>
-      </div>
-      <div class="compare-row-meta">
-        {a.winner_name && <span class="winner">{a.winner_name}</span>}
-      </div>
-    </a>
-  )) : (
-    <div class="hub-empty">
-      <p>Best-in-class roundups coming soon.</p>
-    </div>
-  )}
-</div>
+<CategoryClusterList
+  articles={articles}
+  emptyHtml="<p>Best-in-class roundups coming soon.</p>"
+/>
 </BaseLayout>

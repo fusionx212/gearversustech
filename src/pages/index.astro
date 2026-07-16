@@ -5,7 +5,7 @@ import KitCTA from '../components/KitCTA.astro';
 import EmailCapture from '../components/EmailCapture.astro';
 import { getLatestArticles, attachWinnerImages } from '../lib/supabase';
 
-const articlesRaw = await getLatestArticles(12);
+const articlesRaw = await getLatestArticles(14);
 const articles = await attachWinnerImages(articlesRaw);
 const featured = articles.find((a) => a.winnerImage) || articles[0] || null;
 const listArticles = featured
@@ -14,33 +14,47 @@ const listArticles = featured
 
 const CATEGORY_LABELS: Record<string, string> = {
   'smart-home': 'Smart Home',
-  'gaming': 'Gaming',
+  gaming: 'Gaming',
   'home-gym': 'Home Gym',
-  'best': 'Best in Class',
+  best: 'Best in Class',
 };
 
 const CATEGORIES = [
   { href: '/gaming/', label: 'Gaming', note: 'Monitors, chairs, keyboards, headsets' },
   { href: '/smart-home/', label: 'Smart home', note: 'Hubs, lights, locks, sensors' },
   { href: '/home-gym/', label: 'Home gym', note: 'Racks, flooring, cardio, free weights' },
-  { href: '/best/', label: 'Best picks', note: 'Category winners & under-£X lists' },
+  { href: '/best/', label: 'Best / under £Y', note: 'Category winners & budget bands' },
+];
+
+const INTENTS = [
+  { href: '/gaming/', label: 'A vs B compares' },
+  { href: '/best/', label: 'Best under £Y' },
+  { href: '/methodology/', label: 'How we score' },
+  { href: '/deals/', label: 'UK deals' },
 ];
 ---
 
 <BaseLayout
   title="Gear Versus Tech"
-  description="Head-to-head UK tech comparisons — clear winners, drawbacks, live buy boxes, and best-under-£X picks."
+  description="UK tech comparison engine — X vs Y and best-under-£Y picks with scores, drawbacks, and live Amazon/eBay buy boxes."
 >
 
 <section class="home-hero">
   <div class="home-hero-inner">
     <p class="home-hero-brand">Gear<span>Versus</span>Tech</p>
-    <h1>Head-to-head compares. Clear winners.</h1>
-    <p class="lede">We rank products side by side — scores, drawbacks, and live UK prices — so you can buy the right one without reading ten reviews.</p>
+    <h1>UK comparison engine. Clear winners.</h1>
+    <p class="lede">
+      Head-to-head scores, who should skip, and live UK prices — so you get the compare you searched for, then buy without ten more tabs.
+    </p>
     <div class="hero-cta">
       <a class="btn btn-kit" href="#latest">Latest compares</a>
       <a class="btn btn-ghost" href="/methodology/">How we pick winners</a>
     </div>
+    <nav class="intent-rail" aria-label="How to browse">
+      {INTENTS.map((i) => (
+        <a href={i.href} class="intent-chip">{i.label}</a>
+      ))}
+    </nav>
   </div>
 </section>
 
@@ -138,7 +152,7 @@ const CATEGORIES = [
   />
   <EmailCapture />
   <p class="home-spaces-quiet">
-    Also browsing by room? <a href="/spaces/">Room guides</a> (optional).
+    Also browsing by room? <a href="/spaces/">Room guides</a> (secondary).
   </p>
 </div>
 

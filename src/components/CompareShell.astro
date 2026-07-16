@@ -1,0 +1,318 @@
+---
+/**
+ * Shared compare page body — verdict-first, buy boxes, sticky CTA,
+ * related cluster, AEO FAQ. Category slug pages fetch data then render this.
+ */
+import CompareBuyBox from './CompareBuyBox.astro';
+import KitCTA from './KitCTA.astro';
+import EmailCapture from './EmailCapture.astro';
+import { productKey, type ArticleCard } from '../lib/supabase';
+
+interface AffiliateLink {
+  link_key: string;
+  product_name: string;
+  amazon_asin: string | null;
+  uk_price_gbp: number | null;
+  image_url: string | null;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  category: string;
+  subcategory: string | null | undefined;
+  contentHtml: string;
+  updatedAt: string;
+  winnerName: string | null;
+  winnerRating: number | null;
+  runnerupName: string | null;
+  runnerupRating: number | null;
+  winner?: AffiliateLink;
+  runnerup?: AffiliateLink;
+  alsoCompared?: AffiliateLink[];
+  related?: ArticleCard[];
+  kitTitle?: string;
+  kitBlurb?: string;
+  kitLabel?: string;
+}
+
+const {
+  title,
+  description,
+  category,
+  subcategory,
+  contentHtml,
+  updatedAt,
+  winnerName,
+  winnerRating,
+  runnerupName,
+  runnerupRating,
+  winner,
+  runnerup,
+  alsoCompared = [],
+  related = [],
+  kitTitle,
+  kitBlurb,
+  kitLabel,
+} = Astro.props;
+
+const CATEGORY_LABELS: Record<string, string> = {
+  'smart-home': 'Smart Home',
+  gaming: 'Gaming',
+  'home-gym': 'Home Gym',
+  best: 'Best Picks',
+};
+
+const catLabel = CATEGORY_LABELS[category] || category;
+const updatedLabel = new Date(updatedAt).toLocaleDateString('en-GB', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+});
+
+const winnerPrice =
+  winner?.uk_price_gbp != null ? `£${winner.uk_price_gbp}` : null;
+const runnerPrice =
+  runnerup?.uk_price_gbp != null ? `£${runnerup.uk_price_gbp}` : null;
+
+const winnerAmazonHref =
+  winner?.amazon_asin && winner?.link_key
+    ? `/c/amazon/${winner.link_key}`
+    : null;
+const winnerEbayHref = `/c/ebay/${winner?.link_key ?? (winnerName ? productKey(winnerName) : '')}`;
+
+const faqs: { q: string; a: string }[] = [];
+if (winnerName && runnerupName) {
+  faqs.push({
+    q: `Which is better: ${winnerName} or ${runnerupName}?`,
+    a: `${winnerName} is our pick${winnerRating ? ` (${winnerRating}/10)` : ''}${runnerupRating ? ` vs ${runnerupName} at ${runnerupRating}/10` : ''}. ${description}`,
+  });
+} else if (winnerName) {
+  faqs.push({
+    q: `What is the best pick in this comparison?`,
+    a: `${winnerName} is our pick${winnerRating ? ` at ${winnerRating}/10` : ''}. ${description}`,
+  });
+}
+if (winnerName) {
+  faqs.push({
+    q: `How much does the ${winnerName} cost in the UK?`,
+    a: winnerPrice
+      ? `Around ${winnerPrice} on Amazon UK at last check (${updatedLabel}). Confirm on the retailer — prices move.`
+      : `UK price is updating — check Amazon or eBay via the buy boxes above. We never invent a price.`,
+  });
+}
+if (runnerupName) {
+  faqs.push({
+    q: `Who should buy the ${runnerupName} instead?`,
+    a: `Choose ${runnerupName} if you prioritise value over the overall winner${runnerPrice ? ` (about ${runnerPrice} UK)` : ''}. See the score breakdown and drawbacks in the article.`,
+  });
+}
+faqs.push({
+  q: 'How does Gear Versus Tech score products?',
+  a: 'Performance 40%, value 25%, build 20%, ease of use 15% — out of 10. Rankings are never sold. Full detail on our methodology page.',
+});
+
+const spaceHub =
+  category === 'gaming'
+    ? { href: '/spaces/gaming-room/', label: 'Gaming room space hub' }
+    : category === 'home-gym' || (subcategory || '').toLowerCase().includes('gym')
+      ? { href: '/spaces/garage-gym/', label: 'Garage gym space hub' }
+      : category === 'smart-home'
+        ? { href: '/spaces/', label: 'Room guides' }
+        : null;
+---
+
+<div class="container compare-page">
+  <nav class="breadcrumb">
+    <a href="/">Home</a> /
+    <a href={`/${category}/`}>{catLabel}</a> /
+    <span class="current">{title}</span>
+  </nav>
+
+  <h1>{title}</h1>
+  <p class="article-meta-line">
+    Updated {updatedLabel}
+    {subcategory && (
+      <>
+        <span class="sep">|</span> {subcategory}
+      </>
+    )}
+    <span class="sep">|</span> <a href="/methodology/">How we test</a>
+  </p>
+
+  {winnerName && winnerRating != null && (
+    <aside class="verdict-first" aria-label="Quick verdict">
+      <div class="verdict-first-label">Quick verdict</div>
+      <p class="verdict-first-pick">
+        <strong>Our pick:</strong> {winnerName}
+        <span class="verdict-first-score">{winnerRating}/10</span>
+        {winnerPrice && <span class="verdict-first-price">{winnerPrice}</span>}
+      </p>
+      {runnerupName && (
+        <p class="verdict-first-alt">
+          <strong>Runner-up:</strong> {runnerupName}
+          {runnerupRating != null && <span class="verdict-first-score">{runnerupRating}/10</span>}
+          {runnerPrice && <span class="verdict-first-price">{runnerPrice}</span>}
+          <span class="verdict-first-why"> — best if you prioritise value</span>
+        </p>
+      )}
+      <p class="verdict-first-desc">{description}</p>
+    </aside>
+  )}
+
+  {winnerName && winnerRating != null && (
+    <CompareBuyBox
+      winnerName={winnerName}
+      winnerRating={winnerRating}
+      runnerupName={runnerupName}
+      runnerupRating={runnerupRating}
+      winner={winner}
+      runnerup={runnerup}
+    />
+  )}
+
+  <article class="compare-body" set:html={contentHtml} />
+
+  {alsoCompared.length > 0 && (
+    <section class="also-compared">
+      <h2>Also compared</h2>
+      <div class="also-grid">
+        {alsoCompared.map((p) => (
+          <div class="also-card">
+            <div class="also-image-wrap">
+              {p.image_url ? (
+                <img class="also-image" src={p.image_url} alt={p.product_name} loading="lazy" />
+              ) : (
+                <span class="vs-image-empty">Updating</span>
+              )}
+            </div>
+            <h4>{p.product_name}</h4>
+            <div class={`also-price ${p.uk_price_gbp == null ? 'vs-price is-pending' : ''}`}>
+              {p.uk_price_gbp != null ? `£${p.uk_price_gbp}` : 'Price updating'}
+            </div>
+            <div class="cta-row">
+              {p.amazon_asin ? (
+                <a
+                  class="btn btn-amazon btn-sm"
+                  rel="nofollow sponsored"
+                  target="_blank"
+                  href={`https://www.amazon.co.uk/dp/${p.amazon_asin}?tag=gearversustech-21`}
+                >
+                  Amazon
+                </a>
+              ) : (
+                <span class="cta-fallback">Amazon updating</span>
+              )}
+              <a
+                class="btn btn-ebay btn-sm"
+                rel="nofollow sponsored"
+                target="_blank"
+                href={`https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(p.product_name)}&campid=5339164583`}
+              >
+                eBay
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {faqs.length > 0 && (
+    <section class="faq-section" id="faq" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">FAQ</h2>
+      {faqs.map((f) => (
+        <details class="faq-item">
+          <summary>{f.q}</summary>
+          <div class="faq-answer"><p>{f.a}</p></div>
+        </details>
+      ))}
+    </section>
+  )}
+
+  {kitTitle && (
+    <KitCTA title={kitTitle} blurb={kitBlurb} kitLabel={kitLabel} />
+  )}
+  <EmailCapture />
+
+  <hr />
+
+  <p class="compare-legal">
+    Prices checked via the Amazon Creators API and may since have changed.
+    <a href="/disclosure/">Affiliate disclosure</a> · <a href="/methodology/">How we test</a>
+  </p>
+
+  <section class="related">
+    <h2>Related comparisons</h2>
+    {related.length > 0 ? (
+      <ul class="related-list related-cluster">
+        {related.map((r) => (
+          <li>
+            <a href={`/${r.category}/compare/${r.slug}/`}>
+              {r.title}
+              {r.winner_name && (
+                <span class="related-winner"> — {r.winner_name}</span>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <ul class="related-list">
+        <li>
+          <a href={`/${category}/`}>
+            All {catLabel} comparisons
+          </a>
+        </li>
+      </ul>
+    )}
+    <p class="related-more">
+      <a href={`/${category}/`}>Browse all {catLabel} compares →</a>
+      {spaceHub && (
+        <>
+          {' '}
+          · <a href={spaceHub.href}>{spaceHub.label}</a>
+        </>
+      )}
+    </p>
+  </section>
+</div>
+
+{winnerName && (
+  <div class="sticky-buy" id="sticky-buy" hidden>
+    <div class="sticky-buy-inner">
+      <div class="sticky-buy-copy">
+        <span class="sticky-buy-label">Our pick</span>
+        <span class="sticky-buy-name">{winnerName}</span>
+        {winnerPrice && <span class="sticky-buy-price">{winnerPrice}</span>}
+      </div>
+      <div class="sticky-buy-ctas">
+        {winnerAmazonHref ? (
+          <a class="btn btn-amazon btn-sm" rel="nofollow sponsored" target="_blank" href={winnerAmazonHref}>
+            Amazon
+          </a>
+        ) : (
+          <span class="cta-fallback">Amazon updating</span>
+        )}
+        <a class="btn btn-ebay btn-sm" rel="nofollow sponsored" target="_blank" href={winnerEbayHref}>
+          eBay
+        </a>
+      </div>
+    </div>
+  </div>
+)}
+
+<script>
+  const bar = document.getElementById('sticky-buy');
+  const box = document.querySelector('.vs-compare');
+  if (bar && box) {
+    const sync = () => {
+      const rect = box.getBoundingClientRect();
+      // Show once the buy box has scrolled above the header band
+      bar.hidden = rect.bottom > 96;
+    };
+    sync();
+    window.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+  }
+</script>

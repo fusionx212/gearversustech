@@ -444,6 +444,211 @@ a:hover { color: var(--accent-hover); }
   margin: 0.5rem 0 2rem;
 }
 
+/* Intent rail (Wirecutter/RTINGS-style entry chips) */
+.intent-rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+.intent-chip {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  background: rgba(21, 26, 31, 0.65);
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: border-color var(--transition), color var(--transition), background var(--transition);
+}
+.intent-chip:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+  text-decoration: none;
+}
+
+/* Hub kicker (replace inline styles) */
+.hub-kicker {
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+/* Category subcategory clusters */
+.hub-clusters {
+  max-width: var(--buybox-width);
+  margin: 0 auto;
+  padding: 0 1.5rem 2rem;
+}
+.hub-cluster {
+  margin-bottom: 2rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1.25rem;
+}
+.hub-cluster:first-child {
+  border-top: none;
+  padding-top: 0.5rem;
+}
+.hub-cluster-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  margin-bottom: 0.35rem;
+}
+.hub-cluster-head h2 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text);
+}
+.hub-cluster-count {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+.hub-list-clustered {
+  padding: 0;
+  max-width: none;
+  margin: 0;
+}
+
+/* Verdict-first strip (Wirecutter pick hierarchy) */
+.verdict-first {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin: 1.25rem 0 1.5rem;
+}
+.verdict-first-label {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.45rem;
+}
+.verdict-first-pick,
+.verdict-first-alt {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.45;
+}
+.verdict-first-score {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--success);
+  margin-left: 0.4rem;
+}
+.verdict-first-price {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-left: 0.45rem;
+}
+.verdict-first-why {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+.verdict-first-desc {
+  margin: 0.55rem 0 0;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  max-width: 62ch;
+}
+
+.compare-legal {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.related-cluster .related-winner {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+.related-more {
+  font-size: 0.88rem;
+  margin-top: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* Sticky buy bar — early conversion without dark patterns */
+.sticky-buy {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  background: rgba(12, 15, 18, 0.94);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  padding: 0.65rem 1rem;
+  padding-bottom: max(0.65rem, env(safe-area-inset-bottom));
+}
+.sticky-buy[hidden] { display: none !important; }
+.sticky-buy-inner {
+  max-width: var(--buybox-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.sticky-buy-copy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.65rem;
+  min-width: 0;
+}
+.sticky-buy-label {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.sticky-buy-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 42vw;
+}
+.sticky-buy-price {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--success);
+}
+.sticky-buy-ctas {
+  display: flex;
+  gap: 0.45rem;
+  flex-shrink: 0;
+}
+@media (max-width: 560px) {
+  .sticky-buy-name { max-width: 36vw; font-size: 0.82rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sticky-buy { backdrop-filter: none; }
+}
+
+/* Room for sticky bar on compare pages */
+.compare-page { padding-bottom: 5rem; }
+
 /* Latest list (rows, not card theatre) */
 .latest-section {
   padding: 3rem 0 4rem;

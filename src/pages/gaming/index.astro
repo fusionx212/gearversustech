@@ -2,51 +2,34 @@
 export const prerender = false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import KitCTA from '../../components/KitCTA.astro';
+import CategoryClusterList from '../../components/CategoryClusterList.astro';
 import { getArticlesByCategory, attachWinnerImages } from '../../lib/supabase';
 
-const articlesRaw = await getArticlesByCategory('gaming', 12);
+const articlesRaw = await getArticlesByCategory('gaming', 40);
 const articles = await attachWinnerImages(articlesRaw);
 ---
 
-<BaseLayout title="Gaming Gear Comparisons" description="Data-dense comparisons of gaming desks, chairs, monitors, keyboards, mice, and headsets.">
+<BaseLayout
+  title="Gaming Gear Comparisons"
+  description="Head-to-head UK gaming comparisons — monitors, chairs, keyboards, mice, headsets. Clear winners and live buy boxes."
+>
 
 <section class="hub-hero">
   <div class="container-wide">
-    <p class="band-kicker" style="color:var(--accent);font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.5rem;">Gaming desk</p>
+    <p class="hub-kicker">Gaming</p>
     <h1>Gaming gear comparisons</h1>
-    <p>Desks, chairs, monitors, keyboards, mice, headsets. Competitive comparisons for every setup, every budget, every game.</p>
+    <p>X vs Y and best-under-£Y picks for desks that actually get used. Clustered by gear type so the graph fits together.</p>
     <div class="hero-cta" style="margin-top:1rem;">
-      <a class="btn btn-ghost" href="/spaces/gaming-room/">Gaming room hub</a>
+      <a class="btn btn-ghost" href="/best/">Best / under-£ picks</a>
+      <a class="btn btn-ghost" href="/spaces/gaming-room/">Room guide (secondary)</a>
     </div>
   </div>
 </section>
 
-<div class="hub-list">
-  {articles.length > 0 ? articles.map(a => (
-    <a href={`/gaming/compare/${a.slug}/`} class="compare-row">
-      <div class="compare-row-thumb">
-        {a.winnerImage ? (
-          <img src={a.winnerImage} alt="" loading="lazy" />
-        ) : (
-          <span class="thumb-empty">No photo</span>
-        )}
-      </div>
-      <div class="compare-row-body">
-        <div class="card-cat">{a.subcategory || 'Gaming'}</div>
-        <div class="card-title">{a.title}</div>
-        <div class="card-desc">{a.description}</div>
-      </div>
-      <div class="compare-row-meta">
-        {a.winner_name && <span class="winner">{a.winner_name}</span>}
-        {a.winner_rating && <span class="rating">{a.winner_rating}/10</span>}
-      </div>
-    </a>
-  )) : (
-    <div class="hub-empty">
-      <p>Gaming comparisons coming soon. <a href="/smart-home/compare/homey-pro-vs-aqara-hub-m3/">See our Smart Home comparisons</a>.</p>
-    </div>
-  )}
-</div>
+<CategoryClusterList
+  articles={articles}
+  emptyHtml={`<p>Gaming comparisons coming soon. <a href="/smart-home/">See Smart Home compares</a>.</p>`}
+/>
 
 <div class="container">
   <KitCTA

@@ -1,157 +1,60 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import CompareBuyBox from '../../../components/CompareBuyBox.astro';
-import { getArticle, getArticleProducts, getComparedProducts } from '../../../lib/supabase';
+import CompareShell from '../../../components/CompareShell.astro';
+import {
+  getArticle,
+  getArticleProducts,
+  getComparedProducts,
+  getRelatedArticles,
+} from '../../../lib/supabase';
+import { buildCompareSchema } from '../../../lib/compare-schema';
 
 export const prerender = false;
 
 const { slug } = Astro.params;
 const article = await getArticle(slug as string);
+if (!article) return new Response('Article not found', { status: 404 });
 
-if (!article) {
-  return new Response('Article not found', { status: 404 });
-}
-
-const { title, description, category, subcategory, content_html, winner_name, winner_rating, runnerup_name, runnerup_rating } = article;
-
-// Product imagery, prices and ASINs come from gvt_affiliate_links, populated from the
-// Amazon Creators API by scripts/sync-amazon-products.mjs.
 const { winner, runnerup } = await getArticleProducts(article);
-
-// Fetch ALL compared products (beyond just winner + runner-up)
-const excludeFromAlso = [winner_name, runnerup_name].filter(Boolean) as string[];
-const alsoCompared = await getComparedProducts(content_html, excludeFromAlso);
-
-const pageUrl = `https://gearversustech.com/${category}/compare/${slug}/`;
-
-/** Product node carrying the rating and price we already show on the page — this is
- *  what earns the star rating and price in search results. */
-const productNode = (name: string, rating: number | null, link: typeof winner) => ({
-  '@type': 'Product',
-  name,
-  ...(link?.image_url ? { image: link.image_url } : {}),
-  ...(link?.uk_price_gbp && link?.amazon_asin
-    ? {
-        offers: {
-          '@type': 'Offer',
-          price: link.uk_price_gbp,
-          priceCurrency: 'GBP',
-          availability: 'https://schema.org/InStock',
-          url: `https://gearversustech.com/c/amazon/${link.link_key}`,
-        },
-      }
-    : {}),
-  ...(rating
-    ? {
-        review: {
-          '@type': 'Review',
-          reviewRating: { '@type': 'Rating', ratingValue: rating, bestRating: 10, worstRating: 1 },
-          author: { '@type': 'Organization', name: 'Gear Versus Tech' },
-        },
-      }
-    : {}),
+const alsoCompared = await getComparedProducts(
+  article.content_html,
+  [article.winner_name, article.runnerup_name].filter(Boolean) as string[]
+);
+const related = await getRelatedArticles(article.category, article.subcategory, article.slug, 6);
+const pageUrl = `https://gearversustech.com/${article.category}/compare/${slug}/`;
+const schema = buildCompareSchema({
+  title: article.title,
+  description: article.description,
+  pageUrl,
+  createdAt: article.created_at,
+  updatedAt: article.updated_at,
+  winnerName: article.winner_name,
+  winnerRating: article.winner_rating,
+  runnerupName: article.runnerup_name,
+  runnerupRating: article.runnerup_rating,
+  winner,
+  runnerup,
 });
-
-const schema = JSON.stringify({
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'Article',
-      headline: title,
-      description,
-      datePublished: article.created_at,
-      dateModified: article.updated_at,
-      author: { '@type': 'Organization', name: 'Gear Versus Tech' },
-      publisher: { '@type': 'Organization', name: 'Gear Versus Tech', url: 'https://gearversustech.com' },
-      mainEntityOfPage: pageUrl,
-    },
-    ...(winner_name && winner_rating ? [productNode(winner_name, winner_rating, winner)] : []),
-    ...(runnerup_name && runnerup_rating ? [productNode(runnerup_name, runnerup_rating, runnerup)] : []),
-  ],
-});
-
-const CATEGORY_LABELS: Record<string, string> = {
-  'smart-home': 'Smart Home',
-  'gaming': 'Gaming',
-  'best': 'Best Picks',
-};
 ---
 
-<BaseLayout title={title} description={description} schema={schema}>
-<div class="container">
-  <nav class="breadcrumb">
-    <a href="/">Home</a> / <a href={`/${category}/`}>{CATEGORY_LABELS[category]}</a> / <span class="current">{title}</span>
-  </nav>
-
-  <h1>{title}</h1>
-  <p class="article-meta-line">
-    Updated {new Date(article.updated_at).toLocaleDateString('en-GB', { month: 'long', day: 'numeric', year: 'numeric' })}
-    <span class="sep">|</span> {subcategory}
-    <span class="sep">|</span> <a href="/methodology/">How we test</a>
-  </p>
-
-  {winner_name && winner_rating && (
-    <CompareBuyBox
-      winnerName={winner_name}
-      winnerRating={winner_rating}
-      runnerupName={runnerup_name}
-      runnerupRating={runnerup_rating}
-      winner={winner}
-      runnerup={runnerup}
-    />
-  )}
-
-  <article set:html={content_html} />
-
-  {alsoCompared.length > 0 && (
-    <section class="also-compared">
-      <h2>Also Compared</h2>
-      <div class="also-grid">
-        {alsoCompared.map((p) => (
-          <div class="also-card">
-            <div class="also-image-wrap">
-              {p.image_url ? (
-                <img class="also-image" src={p.image_url} alt={p.product_name} loading="lazy" />
-              ) : (
-                <span class="vs-image-empty">Updating</span>
-              )}
-            </div>
-            <h4>{p.product_name}</h4>
-            <div class={`also-price ${p.uk_price_gbp == null ? 'vs-price is-pending' : ''}`}>
-              {p.uk_price_gbp != null ? `£${p.uk_price_gbp}` : 'Price updating'}
-            </div>
-            <div class="cta-row">
-              {p.amazon_asin ? (
-                <a class="btn btn-amazon btn-sm" rel="nofollow sponsored" target="_blank"
-                  href={`https://www.amazon.co.uk/dp/${p.amazon_asin}?tag=gearversustech-21`}>
-                  Amazon
-                </a>
-              ) : (
-                <span class="cta-fallback">Amazon updating</span>
-              )}
-              <a class="btn btn-ebay btn-sm" rel="nofollow sponsored" target="_blank"
-                href={`https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(p.product_name)}&campid=5339164583`}>
-                eBay
-              </a>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  )}
-
-  <hr />
-
-  <p style="font-size:0.78rem;color:var(--text-muted);">
-    Prices checked July 2026 via the Amazon Creators API and may since have changed.
-    <a href="/disclosure/">Affiliate disclosure</a> · <a href="/methodology/">How we test</a>
-  </p>
-
-  <section class="related">
-    <h2>Related Comparisons</h2>
-    <ul class="related-list">
-      <li><a href={`/${category}/`}>All {CATEGORY_LABELS[category]} comparisons</a></li>
-    </ul>
-  </section>
-</div>
+<BaseLayout title={article.title} description={article.description} schema={schema}>
+  <CompareShell
+    title={article.title}
+    description={article.description}
+    category={article.category}
+    subcategory={article.subcategory}
+    contentHtml={article.content_html}
+    updatedAt={article.updated_at}
+    winnerName={article.winner_name}
+    winnerRating={article.winner_rating}
+    runnerupName={article.runnerup_name}
+    runnerupRating={article.runnerup_rating}
+    winner={winner}
+    runnerup={runnerup}
+    alsoCompared={alsoCompared}
+    related={related}
+    kitTitle="Smart Home Starter Kit"
+    kitBlurb="Hub + essentials shortlist for a UK flat — Matter-ready where it matters."
+    kitLabel="Get the Smart Home Kit — £19"
+  />
 </BaseLayout>

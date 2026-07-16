@@ -1,46 +1,28 @@
 ---
 export const prerender = false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import CategoryClusterList from '../../components/CategoryClusterList.astro';
 import { getArticlesByCategory, attachWinnerImages } from '../../lib/supabase';
 
-const articlesRaw = await getArticlesByCategory('smart-home', 12);
+const articlesRaw = await getArticlesByCategory('smart-home', 40);
 const articles = await attachWinnerImages(articlesRaw);
 ---
 
-<BaseLayout title="Smart Home Comparisons" description="Data-dense comparisons of smart home hubs, sensors, lights, doorbells, thermostats, and locks.">
+<BaseLayout
+  title="Smart Home Comparisons"
+  description="Head-to-head UK smart home comparisons — hubs, sensors, lights, locks, thermostats. Matter, Zigbee, Thread."
+>
 
 <section class="hub-hero">
   <div class="container-wide">
-    <p class="band-kicker" style="color:var(--accent);font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.5rem;">Smart home</p>
+    <p class="hub-kicker">Smart home</p>
     <h1>Smart home comparisons</h1>
-    <p>Hubs, sensors, lights, locks, thermostats. Matter, Zigbee, Z-Wave, Thread — tested head-to-head so you buy the right device the first time.</p>
+    <p>Hubs, sensors, lights, locks. Compared head-to-head so you buy the right device the first time — not a lifestyle gallery.</p>
   </div>
 </section>
 
-<div class="hub-list">
-  {articles.length > 0 ? articles.map(a => (
-    <a href={`/smart-home/compare/${a.slug}/`} class="compare-row">
-      <div class="compare-row-thumb">
-        {a.winnerImage ? (
-          <img src={a.winnerImage} alt="" loading="lazy" />
-        ) : (
-          <span class="thumb-empty">No photo</span>
-        )}
-      </div>
-      <div class="compare-row-body">
-        <div class="card-cat">{a.subcategory || 'Smart Home'}</div>
-        <div class="card-title">{a.title}</div>
-        <div class="card-desc">{a.description}</div>
-      </div>
-      <div class="compare-row-meta">
-        {a.winner_name && <span class="winner">{a.winner_name}</span>}
-        {a.winner_rating && <span class="rating">{a.winner_rating}/10</span>}
-      </div>
-    </a>
-  )) : (
-    <div class="hub-empty">
-      <p>Smart home comparisons coming soon.</p>
-    </div>
-  )}
-</div>
+<CategoryClusterList
+  articles={articles}
+  emptyHtml="<p>Smart home comparisons coming soon.</p>"
+/>
 </BaseLayout>
