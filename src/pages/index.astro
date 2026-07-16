@@ -20,35 +20,35 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 const CATEGORIES = [
-  { href: '/gaming/', label: 'Gaming', note: 'Monitors, chairs, keyboards, headsets' },
+  { href: '/gaming/', label: 'Gaming compares', note: 'Monitors, chairs, keyboards, headsets' },
   { href: '/smart-home/', label: 'Smart home', note: 'Hubs, lights, locks, sensors' },
+  { href: '/best/', label: 'Best picks', note: 'Category winners & budget bands' },
   { href: '/home-gym/', label: 'Home gym', note: 'Racks, flooring, cardio, free weights' },
-  { href: '/best/', label: 'Best / under £Y', note: 'Category winners & budget bands' },
 ];
 
 const INTENTS = [
-  { href: '/gaming/', label: 'A vs B compares' },
-  { href: '/best/', label: 'Best under £Y' },
-  { href: '/methodology/', label: 'How we score' },
-  { href: '/deals/', label: 'UK deals' },
+  { href: '/gaming/', label: 'X vs Y' },
+  { href: '/best/', label: 'Best under £X' },
+  { href: '/smart-home/', label: 'Smart home stacks' },
+  { href: '/home-gym/', label: 'Garage gym picks' },
 ];
 ---
 
 <BaseLayout
   title="Gear Versus Tech"
-  description="UK tech comparison engine — X vs Y and best-under-£Y picks with scores, drawbacks, and live Amazon/eBay buy boxes."
+  description="UK tech comparison engine — X vs Y and best-under-£X picks with scores, drawbacks, and live Amazon/eBay buy boxes."
 >
 
 <section class="home-hero">
   <div class="home-hero-inner">
     <p class="home-hero-brand">Gear<span>Versus</span>Tech</p>
-    <h1>UK comparison engine. Clear winners.</h1>
+    <h1>Find the right product. Compare first.</h1>
     <p class="lede">
-      Head-to-head scores, who should skip, and live UK prices — so you get the compare you searched for, then buy without ten more tabs.
+      UK gear comparisons with clear winners, who should skip, and live prices — so you buy once, not after ten more tabs.
     </p>
     <div class="hero-cta">
       <a class="btn btn-kit" href="#latest">Latest compares</a>
-      <a class="btn btn-ghost" href="/methodology/">How we pick winners</a>
+      <a class="btn btn-ghost" href="/best/">Best under £X</a>
     </div>
     <nav class="intent-rail" aria-label="How to browse">
       {INTENTS.map((i) => (
@@ -151,9 +151,6 @@ const INTENTS = [
     blurb="Optional build kits for when a compare is done and you just want the shopping list — not required to use the site."
   />
   <EmailCapture />
-  <p class="home-spaces-quiet">
-    Also browsing by room? <a href="/spaces/">Room guides</a> (secondary).
-  </p>
 </div>
 
 </BaseLayout>
