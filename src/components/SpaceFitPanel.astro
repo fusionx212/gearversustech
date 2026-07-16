@@ -1,0 +1,123 @@
+---
+/**
+ * Will-it-fit + simple layout schematic for kit pages.
+ */
+interface Props {
+  mode: 'gaming' | 'gym';
+}
+
+const { mode } = Astro.props;
+
+const gaming = mode === 'gaming';
+---
+
+<section class="kit-setup space-fit-panel">
+  <h2>Will it fit?</h2>
+  {gaming ? (
+    <>
+      <p>
+        Measure <strong>internal</strong> floor before you buy a shell. Chair roll needs ~80–100cm behind the desk.
+        Full journey: <a href="/best/garden-sheds/#gaming">Garden space fitting hub</a>.
+      </p>
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr><th>Desk</th><th>Min shell band</th><th>Reject</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>120×60cm</td><td>8×8 summerhouse</td><td>6×4 storage</td></tr>
+            <tr><td>140×70cm</td><td>10×8</td><td>8×6 no roll zone</td></tr>
+            <tr><td>140×80 / 160cm</td><td>12×8 / insulated office</td><td>Most 8×8</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </>
+  ) : (
+    <>
+      <p>
+        Racks need <strong>headroom</strong> and a <strong>solid base + thick floor</strong>.
+        Hub: <a href="/best/garden-sheds/#gym">Shed gym fitting</a>.
+      </p>
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr><th>Kit level</th><th>Min shell</th><th>Reject</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Mats + adjustables</td><td>8×6 clear</td><td>Cluttered 6×4</td></tr>
+            <tr><td>Half rack</td><td>HD 8×6+, eaves ≥~2.3m</td><td>Thin OSB / low eaves</td></tr>
+            <tr><td>Full bay</td><td>10×8+ or garage / pod</td><td>Any springy floor</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </>
+  )}
+
+  <h3>Layout schematic</h3>
+  <figure class="fit-schematic" aria-label="Simple top-down layout">
+    {gaming ? (
+      <svg viewBox="0 0 320 200" width="100%" height="auto" role="img">
+        <title>Top-down shed desk layout</title>
+        <rect x="8" y="8" width="304" height="184" fill="none" stroke="currentColor" stroke-width="2" />
+        <text x="16" y="28" font-size="11" fill="currentColor" opacity="0.7">DOOR</text>
+        <rect x="8" y="70" width="14" height="50" fill="currentColor" opacity="0.35" />
+        <rect x="100" y="40" width="140" height="55" fill="none" stroke="currentColor" stroke-width="2" />
+        <text x="125" y="72" font-size="12" fill="currentColor">DESK 120–140</text>
+        <ellipse cx="170" cy="130" rx="28" ry="22" fill="none" stroke="currentColor" stroke-width="2" />
+        <text x="152" y="134" font-size="10" fill="currentColor">CHAIR</text>
+        <text x="100" y="175" font-size="10" fill="currentColor" opacity="0.75">roll zone ~80–100cm</text>
+        <rect x="260" y="30" width="40" height="70" fill="none" stroke="currentColor" stroke-dasharray="4 3" />
+        <text x="268" y="68" font-size="9" fill="currentColor" opacity="0.7">WIN</text>
+      </svg>
+    ) : (
+      <svg viewBox="0 0 320 200" width="100%" height="auto" role="img">
+        <title>Top-down shed gym layout</title>
+        <rect x="8" y="8" width="304" height="184" fill="none" stroke="currentColor" stroke-width="2" />
+        <rect x="8" y="70" width="14" height="50" fill="currentColor" opacity="0.35" />
+        <text x="16" y="28" font-size="11" fill="currentColor" opacity="0.7">DOOR</text>
+        <rect x="50" y="50" width="90" height="110" fill="none" stroke="currentColor" stroke-width="2" />
+        <text x="68" y="108" font-size="12" fill="currentColor">RACK</text>
+        <rect x="160" y="60" width="120" height="90" fill="none" stroke="currentColor" stroke-dasharray="4 3" />
+        <text x="185" y="108" font-size="12" fill="currentColor">MAT LANE</text>
+        <text x="50" y="180" font-size="10" fill="currentColor" opacity="0.75">keep bar path clear of door swing</text>
+      </svg>
+    )}
+    <figcaption>
+      Schematic only — measure your shell. Power: outdoor-rated RCD path for interim use; permanent rooms need an electrician.
+    </figcaption>
+  </figure>
+
+  <p>
+    {gaming ? (
+      <>
+        Setup pack: <a href="/kits/shed-garden-office-setup-pack/">Shed / Garden Office Setup Pack</a>
+        {' · '}
+        <a href="/best/compare/gaming-shed-fit-journey-uk/">Gaming shed journey</a>
+      </>
+    ) : (
+      <>
+        Setup pack: <a href="/kits/shed-gym-setup-pack/">Shed Gym Setup Pack</a>
+        {' · '}
+        <a href="/best/compare/shed-gym-fit-journey-uk/">Shed gym journey</a>
+      </>
+    )}
+  </p>
+</section>
+
+<style>
+  .fit-schematic {
+    margin: 1rem 0;
+    max-width: 420px;
+    color: var(--text, #e8e4dc);
+  }
+  .fit-schematic svg {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border, #333);
+    border-radius: 4px;
+  }
+  .fit-schematic figcaption {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin-top: 0.5rem;
+  }
+</style>

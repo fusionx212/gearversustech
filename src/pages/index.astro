@@ -5,12 +5,40 @@ import KitCTA from '../components/KitCTA.astro';
 import EmailCapture from '../components/EmailCapture.astro';
 import { getLatestArticles, attachWinnerImages } from '../lib/supabase';
 
-const articlesRaw = await getLatestArticles(14);
+/** Garden shed / outdoor-setup compares — keep out of the in-home #latest wall. */
+function isGardenShedArticle(a: {
+  slug: string;
+  title: string;
+  subcategory?: string | null;
+}): boolean {
+  const sub = (a.subcategory || '').toLowerCase();
+  if (sub.includes('garden shed') || sub === 'sheds') return true;
+  return /shed|garden[\s-]?office|summerhouse|summer[\s-]?house|man[\s-]?cave|desk[\s-]?size/i.test(
+    `${a.slug} ${a.title}`
+  );
+}
+
+const articlesRaw = await getLatestArticles(40);
 const articles = await attachWinnerImages(articlesRaw);
-const featured = articles.find((a) => a.winnerImage) || articles[0] || null;
+
+const gearArticles = articles.filter((a) => !isGardenShedArticle(a));
+const gardenArticles = articles.filter((a) => isGardenShedArticle(a));
+
+// Featured: prefer in-home/gear so garden doesn't own the hero slot
+const featured =
+  gearArticles.find((a) => a.winnerImage) ||
+  gearArticles[0] ||
+  articles.find((a) => a.winnerImage) ||
+  articles[0] ||
+  null;
+
 const listArticles = featured
-  ? articles.filter((a) => a.slug !== featured.slug).slice(0, 10)
-  : articles.slice(0, 10);
+  ? gearArticles.filter((a) => a.slug !== featured.slug).slice(0, 10)
+  : gearArticles.slice(0, 10);
+
+const gardenList = featured
+  ? gardenArticles.filter((a) => a.slug !== featured.slug).slice(0, 8)
+  : gardenArticles.slice(0, 8);
 
 const CATEGORY_LABELS: Record<string, string> = {
   'smart-home': 'Smart Home',
@@ -22,15 +50,30 @@ const CATEGORY_LABELS: Record<string, string> = {
 const CATEGORIES = [
   { href: '/gaming/', label: 'Gaming compares', note: 'Monitors, chairs, keyboards, headsets' },
   { href: '/smart-home/', label: 'Smart home', note: 'Hubs, lights, locks, sensors' },
-  { href: '/best/', label: 'Best picks', note: 'Category winners & budget bands' },
   { href: '/home-gym/', label: 'Home gym', note: 'Racks, flooring, cardio, free weights' },
+  { href: '/best/garden-sheds/', label: 'Garden sheds', note: 'Offices, gyms, man caves outdoors' },
 ];
 
 const INTENTS = [
   { href: '/gaming/', label: 'X vs Y' },
   { href: '/best/', label: 'Best under £X' },
   { href: '/smart-home/', label: 'Smart home stacks' },
-  { href: '/home-gym/', label: 'Garage gym picks' },
+  { href: '/best/garden-sheds/', label: 'Garden shed setups' },
+];
+
+const PACKS = [
+  {
+    href: '/kits/gaming-room-build-kit/',
+    kicker: 'In-home pack',
+    title: 'Gaming Room kit',
+    note: 'Desk, chair, lighting — decided cart for indoor setups.',
+  },
+  {
+    href: '/best/garden-sheds/',
+    kicker: 'Garden shed setups',
+    title: 'Outdoor fitting hub',
+    note: 'Summer house, garden office, man cave, shed gym — then the pack.',
+  },
 ];
 ---
 
@@ -48,7 +91,7 @@ const INTENTS = [
     </p>
     <div class="hero-cta">
       <a class="btn btn-kit" href="#latest">Latest compares</a>
-      <a class="btn btn-ghost" href="/best/">Best under £X</a>
+      <a class="btn btn-ghost" href="#garden-sheds">Garden sheds</a>
     </div>
     <nav class="intent-rail" aria-label="How to browse">
       {INTENTS.map((i) => (
@@ -98,9 +141,25 @@ const INTENTS = [
   </section>
 )}
 
+<section class="pack-strip" id="packs" aria-label="Setup packs">
+  <div class="pack-strip-inner">
+    {PACKS.map((p) => (
+      <a href={p.href} class="pack-strip-card">
+        <span class="pack-strip-kicker">{p.kicker}</span>
+        <strong class="pack-strip-title">{p.title}</strong>
+        <span class="pack-strip-note">{p.note}</span>
+      </a>
+    ))}
+  </div>
+</section>
+
 {listArticles.length > 0 && (
   <section class="latest-section" id="latest">
-    <div class="section-label"><span>Latest comparisons</span><span class="count">{listArticles.length}</span></div>
+    <div class="section-label">
+      <span>Latest comparisons</span>
+      <span class="count">{listArticles.length}</span>
+    </div>
+    <p class="section-lede">In-home gear — gaming, smart home, home gym, and best-in-class picks.</p>
     {listArticles.map((a) => (
       <a href={`/${a.category}/compare/${a.slug}/`} class="compare-row">
         <div class="compare-row-thumb">
@@ -121,6 +180,46 @@ const INTENTS = [
         </div>
       </a>
     ))}
+  </section>
+)}
+
+{gardenList.length > 0 && (
+  <section class="latest-section garden-section" id="garden-sheds">
+    <div class="section-label">
+      <span>Garden sheds &amp; outdoor setups</span>
+      <span class="count">{gardenList.length}</span>
+    </div>
+    <p class="section-lede">
+      Size the shell, plan power, then fit out —
+      <a href="/best/garden-sheds/">full garden space hub</a>.
+    </p>
+    {gardenList.map((a) => (
+      <a href={`/${a.category}/compare/${a.slug}/`} class="compare-row">
+        <div class="compare-row-thumb">
+          {a.winnerImage ? (
+            <img src={a.winnerImage} alt="" loading="lazy" />
+          ) : (
+            <span class="thumb-empty">No photo</span>
+          )}
+        </div>
+        <div class="compare-row-body">
+          <div class="card-cat">{a.subcategory || CATEGORY_LABELS[a.category]}</div>
+          <div class="card-title">{a.title}</div>
+          <div class="card-desc">{a.description}</div>
+        </div>
+        <div class="compare-row-meta">
+          {a.winner_name && <span class="winner">{a.winner_name}</span>}
+          {a.winner_rating && <span class="rating">{a.winner_rating}/10</span>}
+        </div>
+      </a>
+    ))}
+    <p class="section-more">
+      <a href="/best/garden-sheds/">All garden shed journeys →</a>
+      {' · '}
+      <a href="/kits/shed-garden-office-setup-pack/">Garden office pack</a>
+      {' · '}
+      <a href="/kits/shed-gym-setup-pack/">Shed gym pack</a>
+    </p>
   </section>
 )}
 

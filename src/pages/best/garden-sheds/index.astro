@@ -1,0 +1,215 @@
+---
+export const prerender = false;
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getArticlesByCategory, attachWinnerImages, clusterBySubcategory } from '../../../lib/supabase';
+
+const allBest = await getArticlesByCategory('best', 80);
+const shedArts = await attachWinnerImages(
+  allBest.filter((a) => (a.subcategory || '').toLowerCase().includes('garden shed') ||
+    /shed|garden.office|summerhouse|summer.house|man.cave|desk.size/i.test(a.slug + a.title))
+);
+const clusters = clusterBySubcategory(shedArts, 'Garden Sheds');
+// clusters: { label, items }[]
+
+const journeys = [
+  {
+    id: 'gaming',
+    title: 'Gaming shed / desk room',
+    kit: { href: '/kits/gaming-room-build-kit/', label: 'Gaming Room Build Kit' },
+    pack: { href: '/kits/shed-garden-office-setup-pack/', label: 'Shed / Garden Office Setup Pack' },
+    guide: '/best/compare/gaming-shed-fit-journey-uk/',
+    blurb: 'Desk width × chair roll × glare. Reject 6×4 storage sheds for dual monitors.',
+  },
+  {
+    id: 'gym',
+    title: 'Home / shed gym',
+    kit: { href: '/kits/uk-garage-gym-build-kit/', label: 'UK Garage Gym Build Kit' },
+    pack: { href: '/kits/shed-gym-setup-pack/', label: 'Shed Gym Setup Pack' },
+    guide: '/best/compare/shed-gym-fit-journey-uk/',
+    blurb: 'Eaves height, floor load, mats, ventilation, neighbour noise — then the gym kit.',
+  },
+  {
+    id: 'man-cave',
+    title: 'Man cave',
+    kit: { href: '/kits/gaming-room-build-kit/', label: 'Gaming Room Build Kit' },
+    pack: { href: '/kits/shed-garden-office-setup-pack/', label: 'Setup Pack' },
+    guide: '/best/compare/man-cave-shed-fit-journey-uk/',
+    blurb: 'Seating depth + screen distance. Log cabin / 10×8+ beats a window-only box.',
+  },
+  {
+    id: 'office',
+    title: 'Garden office (year-round)',
+    kit: { href: '/kits/gaming-room-build-kit/', label: 'Gaming Room Build Kit' },
+    pack: { href: '/kits/shed-garden-office-setup-pack/', label: 'Setup Pack (insulated tier)' },
+    guide: '/best/compare/garden-office-fit-journey-uk/',
+    blurb: 'Insulated shells for WFH winters. Summerhouses need a lining plan first.',
+  },
+  {
+    id: 'summer',
+    title: 'Summer house (seasonal)',
+    kit: { href: '/kits/gaming-room-build-kit/', label: 'Gaming Room kit (when dry)' },
+    pack: { href: '/kits/shed-garden-office-setup-pack/', label: 'Setup Pack (compact tier)' },
+    guide: '/best/compare/summerhouse-seasonal-vs-year-round-uk/',
+    blurb: 'Honest seasonal use — do not pretend unlined styrene glass is a January office.',
+  },
+];
+
+const steps = [
+  { n: '1', t: 'Size', d: 'Measure internal floor and eaves. Match desk/rack footprint. Reject too-small shells.' },
+  { n: '2', t: 'Power', d: 'Temporary outdoor-rated RCD accessories vs permanent electrician circuit. No indoor leads under doors.' },
+  { n: '3', t: 'Layout', d: 'Door swing, glare, ventilation, cable routes, noise to neighbours.' },
+  { n: '4', t: 'Fit-out', d: 'Desk/mat/lining or gym flooring + lights — Amazon + eBay via /c/ rails.' },
+  { n: '5', t: 'Gear kit', d: 'Gaming Room or Garage Gym kit last — peripherals after the room works.' },
+];
+---
+
+<BaseLayout
+  title="Garden Space Fitting Hub — Sheds, Offices, Summer Houses"
+  description="UK journey: measure → power → layout → fit-out → kit. Gaming, gym, man cave, garden office, summer house."
+>
+
+<section class="hub-hero">
+  <div class="container-wide">
+    <p class="hub-kicker">Best · Garden sheds</p>
+    <h1>Garden space fitting hub</h1>
+    <p>
+      Comparison-first spoke — not a lifestyle homepage. Pick a use-case, size the shell, plan power,
+      then buy fit-out and the right kit. Affiliate links: Amazon UK + eBay Partner Network.
+    </p>
+    <p>
+      <a class="btn btn-ghost" href="/best/compare/garden-space-fit-journey-uk/">Full journey overview</a>
+      <a class="btn btn-ghost" href="/best/">All best picks</a>
+    </p>
+  </div>
+</section>
+
+<section class="container journey-steps">
+  <h2>The customer journey (every use-case)</h2>
+  <ol class="journey-step-list">
+    {steps.map((s) => (
+      <li>
+        <span class="journey-n">{s.n}</span>
+        <strong>{s.t}</strong>
+        <p>{s.d}</p>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<section class="container journey-usecases">
+  <h2>Choose your use-case</h2>
+  <div class="usecase-grid">
+    {journeys.map((j) => (
+      <article class="usecase-card" id={j.id}>
+        <h3>{j.title}</h3>
+        <p>{j.blurb}</p>
+        <ul>
+          <li><a href={j.guide}>Fit journey guide →</a></li>
+          <li><a href={j.pack.href}>{j.pack.label}</a></li>
+          <li><a href={j.kit.href}>{j.kit.label}</a></li>
+        </ul>
+      </article>
+    ))}
+  </div>
+</section>
+
+<section class="container">
+  <h2>Size cheat-sheet (desk / rack)</h2>
+  <div class="table-wrap">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Setup</th>
+          <th>Min internal (approx)</th>
+          <th>Honest reject</th>
+          <th>Shell band</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>120cm gaming desk</td><td>~2.1×2.0m + door</td><td>6×4 storage</td><td>8×8 summerhouse</td></tr>
+        <tr><td>140cm dual monitor</td><td>~2.5×2.2m</td><td>8×6 no roll</td><td>10×8+</td></tr>
+        <tr><td>Half rack gym</td><td>Headroom ≥2.3m + floor load</td><td>Thin OSB / low eaves</td><td>HD 8×6+ / pod</td></tr>
+        <tr><td>Man cave + TV</td><td>Viewing depth ~2.4m</td><td>Window-only box</td><td>10×8 / cabin</td></tr>
+        <tr><td>Year-round office</td><td>Insulated shell</td><td>Unlined summerhouse winter</td><td>Insulated garden office</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="hub-note">Always measure <em>internal</em> floor — marketing 10×8 is external. Planning/power: check your local authority and use a qualified electrician for permanent outdoor circuits.</p>
+</section>
+
+<section class="container">
+  <h2>Shell &amp; journey compares</h2>
+  {shedArts.length === 0 ? (
+    <p>Compares seeding…</p>
+  ) : (
+    <div class="hub-clusters">
+      {clusters.map((cluster) => (
+        <div class="hub-cluster">
+          <h3>{cluster.label}</h3>
+          <ul class="hub-article-list">
+            {cluster.items.map((a) => (
+              <li>
+                <a href={`/best/compare/${a.slug}/`}>{a.title}</a>
+                {a.winner_name && <span class="hub-winner"> — {a.winner_name}</span>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  )}
+</section>
+
+<section class="container journey-packs">
+  <h2>Setup packs (then gear kits)</h2>
+  <div class="usecase-grid">
+    <a class="usecase-card" href="/kits/shed-garden-office-setup-pack/">
+      <h3>Shed / Garden Office Setup Pack — £19</h3>
+      <p>Shell bands + power accessories + desk size + lining → Gaming Room kit.</p>
+    </a>
+    <a class="usecase-card" href="/kits/shed-gym-setup-pack/">
+      <h3>Shed Gym Setup Pack — £19</h3>
+      <p>HD shed / insulated pod path → Garage Gym kit.</p>
+    </a>
+  </div>
+</section>
+
+</BaseLayout>
+
+<style>
+  .journey-step-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  }
+  .journey-step-list li {
+    border: 1px solid var(--border, #333);
+    padding: 1rem;
+    border-radius: 4px;
+  }
+  .journey-n {
+    display: inline-block;
+    font-family: var(--font-mono, monospace);
+    opacity: 0.7;
+    margin-bottom: 0.35rem;
+  }
+  .usecase-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+  .usecase-card {
+    display: block;
+    border: 1px solid var(--border, #333);
+    padding: 1.1rem 1.2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    color: inherit;
+  }
+  a.usecase-card:hover { border-color: var(--accent, #c4a35a); }
+  .usecase-card ul { margin: 0.75rem 0 0; padding-left: 1.1rem; }
+  .hub-note { font-size: 0.95rem; opacity: 0.85; max-width: 70ch; }
+  .journey-steps, .journey-usecases, .journey-packs { padding-bottom: 2rem; }
+</style>

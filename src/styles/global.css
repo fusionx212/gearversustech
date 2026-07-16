@@ -649,6 +649,65 @@ a:hover { color: var(--accent-hover); }
 /* Room for sticky bar on compare pages */
 .compare-page { padding-bottom: 5rem; }
 
+/* Home pack strip — in-home vs garden shed */
+.pack-strip {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background:
+    radial-gradient(ellipse 50% 80% at 10% 50%, rgba(229, 163, 24, 0.06), transparent 55%),
+    var(--surface);
+}
+.pack-strip-inner {
+  max-width: var(--buybox-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.pack-strip-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1.15rem 1rem;
+  text-decoration: none;
+  color: inherit;
+  border-right: 1px solid var(--border);
+  transition: background var(--transition);
+}
+.pack-strip-card:last-child { border-right: none; }
+.pack-strip-card:hover {
+  background: var(--surface-2);
+  text-decoration: none;
+}
+.pack-strip-kicker {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.pack-strip-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.pack-strip-note {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  max-width: 36ch;
+}
+@media (max-width: 560px) {
+  .pack-strip-inner { grid-template-columns: 1fr; }
+  .pack-strip-card {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .pack-strip-card:last-child { border-bottom: none; }
+}
+
 /* Latest list (rows, not card theatre) */
 .latest-section {
   padding: 3rem 0 4rem;
@@ -656,6 +715,29 @@ a:hover { color: var(--accent-hover); }
   margin: 0 auto;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
+}
+.garden-section {
+  border-top: 1px solid var(--border);
+  padding-top: 2.75rem;
+  background:
+    radial-gradient(ellipse 70% 40% at 90% 0%, rgba(61, 204, 138, 0.06), transparent 55%);
+}
+.section-lede {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: -0.5rem 0 1.25rem;
+  max-width: 52ch;
+}
+.section-lede a { color: var(--accent); }
+.section-more {
+  margin-top: 1.25rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+.section-more a {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--accent);
 }
 .section-label {
   display: flex;
