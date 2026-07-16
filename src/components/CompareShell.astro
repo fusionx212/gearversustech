@@ -4,17 +4,10 @@
  * related cluster, AEO FAQ. Category slug pages fetch data then render this.
  */
 import CompareBuyBox from './CompareBuyBox.astro';
+import ProductDepth from './ProductDepth.astro';
 import KitCTA from './KitCTA.astro';
 import EmailCapture from './EmailCapture.astro';
-import { productKey, type ArticleCard } from '../lib/supabase';
-
-interface AffiliateLink {
-  link_key: string;
-  product_name: string;
-  amazon_asin: string | null;
-  uk_price_gbp: number | null;
-  image_url: string | null;
-}
+import { productKey, type ArticleCard, type AffiliateLink } from '../lib/supabase';
 
 interface Props {
   title: string;
@@ -173,6 +166,13 @@ const spaceHub =
 
   <article class="compare-body" set:html={contentHtml} />
 
+  {(winner?.honest_take || winner?.review_summary || runnerup?.honest_take || runnerup?.review_summary) && (
+    <div class="product-depth-stack">
+      <ProductDepth product={winner} role="Our pick" />
+      <ProductDepth product={runnerup} role="Runner-up" />
+    </div>
+  )}
+
   {alsoCompared.length > 0 && (
     <section class="also-compared">
       <h2>Also compared</h2>
@@ -231,7 +231,16 @@ const spaceHub =
   )}
 
   {kitTitle && (
-    <KitCTA title={kitTitle} blurb={kitBlurb} kitLabel={kitLabel} />
+    <KitCTA
+      title={kitTitle}
+      blurb={kitBlurb}
+      kitLabel={kitLabel}
+      kitSlug={
+        category === 'home-gym'
+          ? 'uk-garage-gym-build-kit'
+          : 'gaming-room-build-kit'
+      }
+    />
   )}
   <EmailCapture />
 

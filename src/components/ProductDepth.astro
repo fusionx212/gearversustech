@@ -1,0 +1,101 @@
+---
+import type { AffiliateLink } from '../lib/supabase';
+
+interface Props {
+  product?: AffiliateLink | null;
+  role?: string;
+}
+
+const { product, role = 'Product' } = Astro.props;
+if (!product?.honest_take && !product?.review_summary) {
+  // nothing to render
+}
+---
+
+{product && (product.honest_take || product.review_summary) && (
+  <section class="product-depth" data-link-key={product.link_key}>
+    <h2>
+      {product.product_name}
+      {product.score_out_of_10 != null && (
+        <span class="product-depth-score">{product.score_out_of_10}/10</span>
+      )}
+      <span class="product-depth-role">{role}</span>
+    </h2>
+
+    {product.mockup_url && (
+      <figure class="product-depth-mockup">
+        <img
+          src={product.mockup_url}
+          alt={`${product.product_name} in-room mockup from real product photo`}
+          width="800"
+          height="500"
+          loading="lazy"
+        />
+        <figcaption>Real SKU photo cut out and placed in-room — not an AI lookalike.</figcaption>
+      </figure>
+    )}
+
+    {product.honest_take && (
+      <>
+        <h3>Why buy this one</h3>
+        <p>{product.honest_take}</p>
+      </>
+    )}
+
+    {product.review_summary && (
+      <>
+        <h3>Review synthesis</h3>
+        <p>{product.review_summary}</p>
+      </>
+    )}
+
+    {product.review_themes && product.review_themes.length > 0 && (
+      <ul class="product-depth-themes">
+        {product.review_themes.map((t) => (
+          <li>
+            <strong>{t.theme}</strong>
+            <span class={`sent sent-${t.sentiment}`}>{t.sentiment}</span>
+            {t.note ? ` — ${t.note}` : ''}
+          </li>
+        ))}
+      </ul>
+    )}
+
+    {product.stats && Object.keys(product.stats).length > 0 && (
+      <>
+        <h3>Stats</h3>
+        <table class="product-depth-stats">
+          <tbody>
+            {Object.entries(product.stats).map(([k, v]) => (
+              <tr>
+                <td>{k}</td>
+                <td>{String(v)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </>
+    )}
+
+    {product.buy_reasons && product.buy_reasons.length > 0 && (
+      <>
+        <h3>Buy if…</h3>
+        <ul>{product.buy_reasons.map((x) => <li>{x}</li>)}</ul>
+      </>
+    )}
+
+    {product.drawbacks && product.drawbacks.length > 0 && (
+      <>
+        <h3>Skip if…</h3>
+        <ul>{product.drawbacks.map((x) => <li>{x}</li>)}</ul>
+      </>
+    )}
+
+    {product.usage_ideas && product.usage_ideas.length > 0 && (
+      <>
+        <h3>Concrete usage ideas</h3>
+        <ul>{product.usage_ideas.map((x) => <li>{x}</li>)}</ul>
+      </>
+    )}
+  </section>
+)}

@@ -59,3 +59,55 @@ CREATE TABLE IF NOT EXISTS gvt_clicks (
 
 CREATE INDEX IF NOT EXISTS idx_gvt_clicks_article ON gvt_clicks(article_slug);
 CREATE INDEX IF NOT EXISTS idx_gvt_clicks_date ON gvt_clicks(clicked_at DESC);
+
+-- Digital kit catalog (Stripe) + line items — see migrations gvt_kits_catalog / pack_clarity / product_quality
+-- Applied live via Supabase MCP; kept here as reference.
+CREATE TABLE IF NOT EXISTS gvt_kits (
+  id BIGSERIAL PRIMARY KEY,
+  slug TEXT NOT NULL UNIQUE,
+  name TEXT NOT NULL,
+  description TEXT NOT NULL,
+  price_gbp NUMERIC(8,2) NOT NULL,
+  stripe_payment_link TEXT,
+  stripe_product_id TEXT,
+  hero_image_url TEXT,
+  kit_mockup_url TEXT,
+  space_slug TEXT,
+  sku TEXT,
+  published BOOLEAN NOT NULL DEFAULT TRUE,
+  honest_take TEXT,
+  review_summary TEXT,
+  who_for JSONB DEFAULT '[]'::jsonb,
+  who_not_for JSONB DEFAULT '[]'::jsonb,
+  setup_notes TEXT,
+  tier_labels JSONB DEFAULT '[]'::jsonb,
+  compare_hub_href TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS gvt_kit_items (
+  id BIGSERIAL PRIMARY KEY,
+  kit_slug TEXT NOT NULL REFERENCES gvt_kits(slug) ON DELETE CASCADE,
+  tier TEXT NOT NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  product_name TEXT NOT NULL,
+  link_key TEXT,
+  notes TEXT,
+  why_in_kit TEXT,
+  compare_href TEXT,
+  score_out_of_10 NUMERIC(3,1),
+  qty INT NOT NULL DEFAULT 1,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+ALTER TABLE gvt_affiliate_links
+  ADD COLUMN IF NOT EXISTS score_out_of_10 NUMERIC(3,1),
+  ADD COLUMN IF NOT EXISTS honest_take TEXT,
+  ADD COLUMN IF NOT EXISTS review_summary TEXT,
+  ADD COLUMN IF NOT EXISTS review_themes JSONB DEFAULT '[]'::jsonb,
+  ADD COLUMN IF NOT EXISTS buy_reasons JSONB DEFAULT '[]'::jsonb,
+  ADD COLUMN IF NOT EXISTS usage_ideas JSONB DEFAULT '[]'::jsonb,
+  ADD COLUMN IF NOT EXISTS stats JSONB DEFAULT '{}'::jsonb,
+  ADD COLUMN IF NOT EXISTS mockup_url TEXT,
+  ADD COLUMN IF NOT EXISTS drawbacks JSONB DEFAULT '[]'::jsonb;

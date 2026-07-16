@@ -1,0 +1,568 @@
+{
+  "wooting-60he": {
+    "score_out_of_10": 8.5,
+    "honest_take": "Buy this if you play competitive FPS and want adjustable actuation you can feel in ranked — not if you need a full UK ISO board with a numpad or you hate firmware tinkering. At ~£175 it is a specialist tool, not a desk flex.",
+    "review_summary": "UK and EU owners praise Rapid Trigger for CS2/Valorant peeks and the Lekker hall-effect modules. Recurring complaints: barebones kit needs a case/keycaps spend, ANSI layout frustrates ISO-UK typists, and the learning curve for Wootility profiles is real. Support is generally responsive but firmware updates have broken profiles for a minority.",
+    "review_themes": [
+      { "theme": "actuuation / Rapid Trigger", "sentiment": "strong", "note": "Main reason people keep it over membrane/optical rivals" },
+      { "theme": "build / kit completeness", "sentiment": "mixed", "note": "Module quality high; case/keycap lottery if you buy barebones" },
+      { "theme": "layout (ANSI vs ISO-UK)", "sentiment": "pain", "note": "Frequent UK buyer regret if they assumed ISO" },
+      { "theme": "firmware / software", "sentiment": "mixed", "note": "Powerful when stable; updates occasionally reset profiles" }
+    ],
+    "buy_reasons": [
+      "You want per-key actuation tuning for competitive FPS",
+      "You already own (or budget for) a case and keycaps",
+      "You accept ANSI or already use US layout daily"
+    ],
+    "drawbacks": [
+      "Not a plug-and-play office keyboard",
+      "ISO-UK buyers should look at 80HE / other HE boards first",
+      "Total cost of ownership rises once case + caps are honest"
+    ],
+    "usage_ideas": [
+      "Flat desk: 60% frees mouse space on a 100–120cm IKEA top for low-sens aim training",
+      "Competitive FPS: map Rapid Trigger + SOCD for counter-strafe muscle memory",
+      "LAN bag: small footprint survives hostel desks better than TKL",
+      "Shared house: keep a second quiet membrane board for late-night Discord typing"
+    ],
+    "stats": {
+      "form_factor": "60%",
+      "switch_type": "Hall effect (Lekker)",
+      "actuation_range_mm": "0.1–4.0 (software)",
+      "hot_swap": true,
+      "wireless": false,
+      "uk_layout_native": false,
+      "weight_class": "kit-dependent"
+    },
+    "room": "desk"
+  },
+  "wooting-80he": {
+    "score_out_of_10": 9.3,
+    "honest_take": "The board to buy when you want Wooting Rapid Trigger without living in 60% purgatory — F-row and arrows matter for work+game. Still not for people who refuse to learn Wootility.",
+    "review_summary": "Owners call it the practical Wooting: same HE magic as 60HE with usable navigation. Critiques centre on price vs Apex Pro TKL, gasket feel subjectivity, and occasional stock gaps on Amazon UK.",
+    "review_themes": [
+      { "theme": "Rapid Trigger usefulness", "sentiment": "strong" },
+      { "theme": "TKL practicality", "sentiment": "strong" },
+      { "theme": "price vs rivals", "sentiment": "mixed" },
+      { "theme": "stock / UK availability", "sentiment": "mixed" }
+    ],
+    "buy_reasons": [
+      "You need HE/Rapid Trigger and still use F-keys / arrows daily",
+      "You dual-purpose the board for coding and ranked shooters",
+      "You want a finished board more than a hobbyist kit"
+    ],
+    "drawbacks": [
+      "Expensive vs Corsair/Razer optical TKLs",
+      "Software surface area is still a learning cost"
+    ],
+    "usage_ideas": [
+      "Hybrid work+game: keep a 'work' profile with higher actuation, 'ranked' with Rapid Trigger",
+      "Small bedroom battlestation: TKL leaves room for a large mousepad without going 60%",
+      "Creator desk: F-row shortcuts for OBS/editing while keeping HE for games"
+    ],
+    "stats": {
+      "form_factor": "TKL / 80%",
+      "switch_type": "Hall effect",
+      "wireless": false,
+      "hot_swap": true
+    },
+    "room": "desk"
+  },
+  "razer-huntsman-v3-pro": {
+    "score_out_of_10": 8.5,
+    "honest_take": "Buy for Analog optical + Snap Tap style features inside Razer's ecosystem — skip if you hate Synapse bloat or want true HE modularity like Wooting.",
+    "review_summary": "Competitive players like Adjustable Actuation and Snap Tap for Counter-Strike movement. Common UK themes: Synapse required feel, loud typing for flats, and premium price. Build is solid; keycap shine and wrist-rest preference split reviews.",
+    "review_themes": [
+      { "theme": "Snap Tap / analog features", "sentiment": "strong" },
+      { "theme": "Synapse dependency", "sentiment": "pain" },
+      { "theme": "noise in flats", "sentiment": "mixed" },
+      { "theme": "RGB / aesthetics", "sentiment": "strong" }
+    ],
+    "buy_reasons": [
+      "You already live in Razer Synapse for mouse + headset",
+      "You want Snap Tap-style SOCD help without Wooting",
+      "You prefer a finished TKL look over DIY kits"
+    ],
+    "drawbacks": [
+      "Synapse is non-optional for the features that justify the price",
+      "Not the quietest neighbour-friendly board"
+    ],
+    "usage_ideas": [
+      "Competitive FPS with Razer mouse: one ecosystem for polling + Snap Tap",
+      "Streamer desk: RGB scenes match camera lighting packs",
+      "Avoid for late-night shared walls — prefer quieter HE or rubber-dome"
+    ],
+    "stats": {
+      "form_factor": "TKL",
+      "switch_type": "Razer Analog Optical",
+      "wireless": false
+    },
+    "room": "desk"
+  },
+  "keychron-k2-he": {
+    "score_out_of_10": 8.8,
+    "honest_take": "The honest UK pick when you need HE feel, Bluetooth/Mac-friendly layouts, and a board that survives weekday Slack. Not the absolute lowest latency tournament weapon.",
+    "review_summary": "Praise for build, gasket feel, and cross-platform use. Critiques: HE implementation less 'esports obsessive' than Wooting, battery life varies with RGB, and UK ISO SKUs sell out. Support is slower than boutique brands but parts availability is better.",
+    "review_themes": [
+      { "theme": "work + game versatility", "sentiment": "strong" },
+      { "theme": "wireless / BT", "sentiment": "strong" },
+      { "theme": "HE depth vs Wooting", "sentiment": "mixed" },
+      { "theme": "UK ISO stock", "sentiment": "mixed" }
+    ],
+    "buy_reasons": [
+      "You switch between Windows gaming PC and MacBook",
+      "You want HE without abandoning Bluetooth",
+      "You need a board that is socially acceptable in the office"
+    ],
+    "drawbacks": [
+      "Not the peak Rapid Trigger experience",
+      "RGB eats battery if you leave effects on"
+    ],
+    "usage_ideas": [
+      "Hot-desk / laptop days: BT profile for meetings, 2.4GHz for evening ranked",
+      "ISO-UK typists who still want modern HE features",
+      "Quiet evening in a flat: lower actuation + dampeners over clicky optical"
+    ],
+    "stats": {
+      "form_factor": "75% / compact",
+      "switch_type": "Hall effect",
+      "wireless": true
+    },
+    "room": "desk"
+  },
+  "steelseries-apex-pro-tkl": {
+    "score_out_of_10": 8.6,
+    "honest_take": "Buy for OmniPoint adjustable actuation with a polished OLED/control cluster — skip if you want open firmware or hate SteelSeries GG.",
+    "review_summary": "Long-running favourite for adjustable actuation before HE went mainstream. Themes: excellent typing once tuned, GG software polarising, and price often undercut by sales. UK reviewers note good stock via Amazon/Scan.",
+    "review_themes": [
+      { "theme": "OmniPoint tuning", "sentiment": "strong" },
+      { "theme": "GG software", "sentiment": "mixed" },
+      { "theme": "OLED utility", "sentiment": "mixed" },
+      { "theme": "sale pricing", "sentiment": "strong" }
+    ],
+    "buy_reasons": [
+      "You want adjustable actuation with a finished premium TKL",
+      "You already use Arctis headsets in GG",
+      "You catch it on a UK sale under £150"
+    ],
+    "drawbacks": [
+      "Software ecosystem lock-in",
+      "Full price feels steep vs Keychron HE"
+    ],
+    "usage_ideas": [
+      "FPS: low actuation for flicks; raise for typing essays",
+      "Desk with OLED facing camera for stream 'now playing' gimmicks",
+      "TKL on shallow UK desks where full-size wastes mousepad"
+    ],
+    "stats": {
+      "form_factor": "TKL",
+      "switch_type": "OmniPoint adjustable",
+      "wireless": false
+    },
+    "room": "desk"
+  },
+  "corsair-k70-core": {
+    "score_out_of_10": 7.4,
+    "honest_take": "A solid budget mechanical when you want Cherry-style feel under £120 — not a Rapid Trigger weapon. Score reflects 'good enough', not hype.",
+    "review_summary": "Buyers like the price and familiar switch feel. Complaints: iCUE weight, plasticky vs premium TKLs, and no HE/analog tricks. Fine starter; easy to outgrow.",
+    "review_themes": [
+      { "theme": "value", "sentiment": "strong" },
+      { "theme": "iCUE", "sentiment": "pain" },
+      { "theme": "build vs premium", "sentiment": "mixed" }
+    ],
+    "buy_reasons": [
+      "First mechanical under a hard £100–120 budget",
+      "You want known switch types without HE complexity"
+    ],
+    "drawbacks": [
+      "No competitive actuation tricks",
+      "Software heavier than the hardware needs"
+    ],
+    "usage_ideas": [
+      "Starter gaming room kit ≤£500 tier",
+      "Spare board for guests / couch PC"
+    ],
+    "stats": {
+      "form_factor": "full / TKL variants",
+      "switch_type": "mechanical (model-dependent)",
+      "wireless": false
+    },
+    "room": "desk"
+  },
+  "logitech-g-pro-x-superlight-2": {
+    "score_out_of_10": 8.4,
+    "honest_take": "Still the safe UK FPS mouse if you want light weight + boring reliability. Skip if you need side buttons galore or hate Logitech's shape.",
+    "review_summary": "Shape and click feel remain the praise anchors. Themes: battery life excellent, G Hub disliked, skates wear, and price stays premium. UK stock is easy; returns via Amazon painless.",
+    "review_themes": [
+      { "theme": "weight / glide", "sentiment": "strong" },
+      { "theme": "shape for claw/fingertip", "sentiment": "strong" },
+      { "theme": "G Hub", "sentiment": "pain" },
+      { "theme": "battery", "sentiment": "strong" }
+    ],
+    "buy_reasons": [
+      "Competitive FPS with a proven light shape",
+      "You want weeks between charges",
+      "You value boring reliability over gimmicks"
+    ],
+    "drawbacks": [
+      "Few buttons for MMO / productivity macros",
+      "Premium price for incremental gains vs Superlight 1"
+    ],
+    "usage_ideas": [
+      "Low-sens CS2 on a large deskpad in a small UK bedroom",
+      "LAN travel mouse that survives backpack abuse",
+      "Pair with 60% board to reclaim mouse space on 120cm desks"
+    ],
+    "stats": {
+      "weight_g": "~60",
+      "wireless": true,
+      "sensor": "Hero 2",
+      "buttons": "5 primary"
+    },
+    "room": "desk"
+  },
+  "razer-viper-v3-pro": {
+    "score_out_of_10": 8.8,
+    "honest_take": "Pick this when you want a lighter, flatter competitive shape and already tolerate Synapse. Not for palm-grip comfort seekers.",
+    "review_summary": "Esports-leaning reviews love clicks and weight. Themes: coating wear, Synapse, and shape too flat for large palm grips. UK pricing often matches Superlight 2 in sales.",
+    "review_themes": [
+      { "theme": "competitive clicks", "sentiment": "strong" },
+      { "theme": "coating durability", "sentiment": "mixed" },
+      { "theme": "shape suitability", "sentiment": "mixed" },
+      { "theme": "Synapse", "sentiment": "pain" }
+    ],
+    "buy_reasons": [
+      "Claw/fingertip grip wanting a flatter shell",
+      "Razer ecosystem already installed",
+      "You chase lowest click latency feel"
+    ],
+    "drawbacks": [
+      "Palm grip on larger hands may hate it",
+      "Coating can polish shiny"
+    ],
+    "usage_ideas": [
+      "Valorant / Aim Lab routines on a glass or hard pad",
+      "Tournament bag with spare skates",
+      "Avoid as a general office mouse — too few buttons"
+    ],
+    "stats": {
+      "weight_g": "~54",
+      "wireless": true
+    },
+    "room": "desk"
+  },
+  "alienware-aw2725df": {
+    "score_out_of_10": 8.7,
+    "honest_take": "Buy for fast 1440p QD-OLED / high-refresh gaming in a 27\" footprint that fits UK desks — not if you need perfect text for 10-hour coding (OLED care still matters).",
+    "review_summary": "Review themes: outstanding motion clarity, HDR pop, and Alienware stand quality. Concerns: OLED burn-in anxiety for static HUDs, Windows text fringing for some eyes, and premium UK street price. Warranty/pixel policies matter — check Dell UK terms.",
+    "review_themes": [
+      { "theme": "motion clarity / refresh", "sentiment": "strong" },
+      { "theme": "OLED text / burn-in worry", "sentiment": "mixed" },
+      { "theme": "HDR / colour", "sentiment": "strong" },
+      { "theme": "price", "sentiment": "mixed" }
+    ],
+    "buy_reasons": [
+      "Primary use is gaming at 1440p high refresh",
+      "Desk depth fits 27\" better than ultrawide",
+      "You will enable pixel care / hide taskbars"
+    ],
+    "drawbacks": [
+      "Not the safest 'always-on spreadsheet' panel",
+      "UK price spikes; wait for Dell promos when possible"
+    ],
+    "usage_ideas": [
+      "Single 27\" on IKEA Karlby with a monitor arm to reclaim desk depth",
+      "FPS + single-player story games where HDR matters",
+      "Avoid permanent static Discord overlay burned into a corner"
+    ],
+    "stats": {
+      "size_in": 27,
+      "resolution": "2560x1440",
+      "panel": "QD-OLED (check SKU)",
+      "refresh_hz": "high (model-dependent)"
+    },
+    "room": "desk"
+  },
+  "lg-27gr95qe": {
+    "score_out_of_10": 8.6,
+    "honest_take": "A proven 27\" OLED gaming pick when Alienware stock/price is silly — same OLED caveats, slightly different stand/OSD personality.",
+    "review_summary": "Strong motion and contrast praise. Themes: stand mediocrity (arm recommended), firmware quirks, and text clarity debates. UK availability via Amazon/Scan cycles.",
+    "review_themes": [
+      { "theme": "OLED contrast / motion", "sentiment": "strong" },
+      { "theme": "stand quality", "sentiment": "pain" },
+      { "theme": "firmware / OSD", "sentiment": "mixed" }
+    ],
+    "buy_reasons": [
+      "You want 27\" OLED and find better UK pricing than Alienware",
+      "You already own a VESA arm"
+    ],
+    "drawbacks": [
+      "Budget for an arm — stock stand is meh",
+      "OLED static UI caution still applies"
+    ],
+    "usage_ideas": [
+      "Arm-mount on shallow UK desks to push panel back",
+      "Console + PC KVM lifestyle in a man cave"
+    ],
+    "stats": {
+      "size_in": 27,
+      "panel": "OLED",
+      "resolution": "2560x1440"
+    },
+    "room": "desk"
+  },
+  "hyperx-cloud-iii-wireless": {
+    "score_out_of_10": 8.7,
+    "honest_take": "The flat-friendly wireless headset: closed cups, sane mic, battery that lasts a work week of evenings. Not for audiophile open-back soundstages.",
+    "review_summary": "UK buyers highlight comfort and mic clarity for Discord. Themes: sound signature is gaming-V shaped (not neutral), earpad wear over a year, and wireless dongle clutter. Excellent neighbour/flat pick vs open-backs.",
+    "review_themes": [
+      { "theme": "comfort / clamp", "sentiment": "strong" },
+      { "theme": "mic for Discord/Teams", "sentiment": "strong" },
+      { "theme": "sound neutrality", "sentiment": "mixed" },
+      { "theme": "battery", "sentiment": "strong" }
+    ],
+    "buy_reasons": [
+      "You live in a flat and need closed-back isolation",
+      "Mic quality for squad chat matters more than hi-fi",
+      "You want wireless without Audeze money"
+    ],
+    "drawbacks": [
+      "Not a music-first headset",
+      "Open-back rivals sound wider if noise isn't a constraint"
+    ],
+    "usage_ideas": [
+      "Late-night ranked in terraced housing — closed cups cut spill",
+      "Hot-desk laptop + USB dongle for hybrid work calls",
+      "Garage gym cardio videos without waking the house"
+    ],
+    "stats": {
+      "type": "closed wireless",
+      "mic": "detachable boom",
+      "wireless": true
+    },
+    "room": "desk"
+  },
+  "steelseries-arctis-nova-5": {
+    "score_out_of_10": 8.2,
+    "honest_take": "Buy for comfort + Sonar EQ presets if you like SteelSeries; skip if you refuse GG or want a simpler HyperX-style experience.",
+    "review_summary": "Comfort and battery praised. Themes: Sonar features useful but software-heavy, mic average vs Cloud III for some voices, and price swings. Fine all-rounder, not a specialist.",
+    "review_themes": [
+      { "theme": "comfort", "sentiment": "strong" },
+      { "theme": "Sonar / GG", "sentiment": "mixed" },
+      { "theme": "mic quality", "sentiment": "mixed" }
+    ],
+    "buy_reasons": [
+      "You want Sonar spatial presets and already use GG",
+      "Long sessions where clamp comfort wins"
+    ],
+    "drawbacks": [
+      "Software complexity for casual users",
+      "Mic not always the Discord champ"
+    ],
+    "usage_ideas": [
+      "Story games with Sonar presets",
+      "Long GRIND sessions where earcup fatigue kills lesser headsets"
+    ],
+    "stats": {
+      "type": "closed wireless",
+      "wireless": true
+    },
+    "room": "desk"
+  },
+  "audeze-maxwell": {
+    "score_out_of_10": 8.9,
+    "honest_take": "Buy for planar detail and battery bragging rights — only if you can handle the weight and the price. A 9 for sound, lower for neck comfort.",
+    "review_summary": "Audiophile-leaning gamers rave about detail and battery. Themes: heavy clamp, price, and mic not justifying the sticker alone. Overkill for casual Fortnite; fantastic for competitive + music.",
+    "review_themes": [
+      { "theme": "sound detail / planars", "sentiment": "strong" },
+      { "theme": "weight / comfort", "sentiment": "pain" },
+      { "theme": "battery", "sentiment": "strong" },
+      { "theme": "price", "sentiment": "mixed" }
+    ],
+    "buy_reasons": [
+      "Sound quality is the primary purchase reason",
+      "You do long single-player / sim sessions"
+    ],
+    "drawbacks": [
+      "Heavy — some necks say no after 2 hours",
+      "Expensive vs Cloud III for Discord-first users"
+    ],
+    "usage_ideas": [
+      "Sim racing / flight in a man cave where detail matters",
+      "Music + games on one headset if you accept the weight"
+    ],
+    "stats": {
+      "type": "planar wireless",
+      "wireless": true,
+      "weight_class": "heavy"
+    },
+    "room": "desk"
+  },
+  "tp-link-tapo-p110": {
+    "score_out_of_10": 8.8,
+    "honest_take": "The renter-safe default UK smart plug with energy monitoring — buy a pack, not a hub. Score is high for the job; it's still a budget plastic plug.",
+    "review_summary": "UK reviewers love price, Matter/app maturity, and monitoring. Themes: cloud dependence anxiety, occasional Wi-Fi drops on busy 2.4GHz, and plastics feel cheap (expected). Excellent uninstall story for renters.",
+    "review_themes": [
+      { "theme": "value / pack pricing", "sentiment": "strong" },
+      { "theme": "energy monitoring", "sentiment": "strong" },
+      { "theme": "Wi-Fi reliability", "sentiment": "mixed" },
+      { "theme": "privacy / cloud", "sentiment": "mixed" }
+    ],
+    "buy_reasons": [
+      "Renter who cannot rewire or install hubs on the wall",
+      "Want kWh monitoring on heaters / PCs",
+      "Need something cheap enough to leave behind or take when you move"
+    ],
+    "drawbacks": [
+      "Cloud account friction for privacy-maximalists",
+      "2.4GHz congestion in dense flats"
+    ],
+    "usage_ideas": [
+      "Kill-switch gaming PC / OLED to cut standby draw",
+      "Oil radiator schedules in poorly insulated UK rooms",
+      "Uninstall plan: factory reset + remove from app before deposit day"
+    ],
+    "stats": {
+      "energy_monitoring": true,
+      "hub_required": false,
+      "install": "plug-in"
+    },
+    "room": "smart"
+  },
+  "aqara-hub-m3": {
+    "score_out_of_10": 8.5,
+    "honest_take": "Buy when you're ready to commit to Zigbee/Thread gear and want a serious hub — overkill if you only need two smart plugs.",
+    "review_summary": "Praise for Matter Controllers / multi-protocol ambitions. Themes: app learning curve, ecosystem lock-in feelings, and UK Thread device availability still catching up. Power users happy; casuals bounce.",
+    "review_themes": [
+      { "theme": "multi-protocol hub value", "sentiment": "strong" },
+      { "theme": "app complexity", "sentiment": "mixed" },
+      { "theme": "Matter / Thread readiness", "sentiment": "mixed" }
+    ],
+    "buy_reasons": [
+      "You are building beyond plugs into sensors and locks",
+      "You want a Matter controller path for mixed brands"
+    ],
+    "drawbacks": [
+      "Too much hub for a two-plug renter kit",
+      "Learning curve vs Tapo-only stacks"
+    ],
+    "usage_ideas": [
+      "Terrace house: contact sensors on doors + radiator schedules",
+      "Bridge Chinese Zigbee sensors into Apple/Google via Matter paths"
+    ],
+    "stats": {
+      "hub_required": "is the hub",
+      "protocols": "Zigbee / Thread / Matter (sku-dependent)"
+    },
+    "room": "smart"
+  },
+  "homey-pro": {
+    "score_out_of_10": 8.2,
+    "honest_take": "Buy Homey if you want one premium brain for messy multi-brand homes — not if a £10 plug solves your only problem. Score reflects capability minus cost/complexity.",
+    "review_summary": "Power users love flows and local-ish control. Themes: price shock, occasional app polish gaps, and whether you truly need it vs Home Assistant Green. Excellent when you hate maintaining a Pi; expensive when you don't.",
+    "review_themes": [
+      { "theme": "flow automation power", "sentiment": "strong" },
+      { "theme": "price", "sentiment": "pain" },
+      { "theme": "vs Home Assistant", "sentiment": "mixed" }
+    ],
+    "buy_reasons": [
+      "Multi-brand smart home that outgrew phone-vendor apps",
+      "You want less DIY than Home Assistant"
+    ],
+    "drawbacks": [
+      "Expensive vs Green + dongle path",
+      "Still a learning project"
+    ],
+    "usage_ideas": [
+      "Man cave + house lights on one flow (movie mode)",
+      "Presence-based heating when UK energy prices hurt"
+    ],
+    "stats": {
+      "role": "premium hub",
+      "hub_required": "is the hub"
+    },
+    "room": "smart"
+  },
+  "noblechairs-hero": {
+    "score_out_of_10": 8.4,
+    "honest_take": "Buy for a proper office-adjacent gaming chair under £300 street that doesn't scream RGB — skip if you need a full recliner sofa experience.",
+    "review_summary": "UK themes: solid steel frame feel, lumbar adjust usefulness, and leatherette heat in summer. Assembly is a Saturday job. Not as 'esports branded' as Secretlab; often better value on sale.",
+    "review_themes": [
+      { "theme": "build / steel frame", "sentiment": "strong" },
+      { "theme": "leatherette heat", "sentiment": "mixed" },
+      { "theme": "value vs Secretlab", "sentiment": "strong" }
+    ],
+    "buy_reasons": [
+      "Sub-£300 chair that still feels furniture-grade",
+      "You want less logo shouting than Titan Evo"
+    ],
+    "drawbacks": [
+      "PU leather can get warm in unventilated UK rooms",
+      "Heavy to carry up terraced stairs"
+    ],
+    "usage_ideas": [
+      "Small bedroom battlestation where chair is the comfort bottleneck",
+      "Hybrid WFH days — looks acceptable on video calls"
+    ],
+    "stats": {
+      "type": "gaming/office hybrid chair",
+      "approx_budget_gbp": "under 300 street"
+    },
+    "room": "desk"
+  },
+  "govee-g1": {
+    "score_out_of_10": 8.3,
+    "honest_take": "Buy for bias lighting / desk RGB that tracks content without a Hue tax — not a 'smart bulb under £15' in the pure sense, but it wins vibe-per-pound.",
+    "review_summary": "Fun factor and app effects praised. Themes: adhesive residue fears for renters, camera-based sync quirks, and plastic build. Easy win for gaming rooms; clean removal needed for deposits.",
+    "review_themes": [
+      { "theme": "effects / fun", "sentiment": "strong" },
+      { "theme": "renter adhesive risk", "sentiment": "mixed" },
+      { "theme": "app polish", "sentiment": "mixed" }
+    ],
+    "buy_reasons": [
+      "You want monitor bias light + RGB scenes cheaply",
+      "Hue Sync Box budget is unrealistic"
+    ],
+    "drawbacks": [
+      "Adhesives vs deposit-conscious renters",
+      "Not a Matter/Hue-grade ecosystem citizen"
+    ],
+    "usage_ideas": [
+      "Bias light behind 27\" OLED to cut eye strain in dark UK winters",
+      "Man cave movie mode without rewiring Hue",
+      "Use 3M strips / removable mounts if deposit-anxious"
+    ],
+    "stats": {
+      "type": "monitor light / gaming kit",
+      "hub_required": false
+    },
+    "room": "desk"
+  },
+  "philips-hue-play-sync-box-8k": {
+    "score_out_of_10": 7.8,
+    "honest_take": "Buy only if you already own Hue lights and care about HDMI sync — otherwise Govee-style kits deliver 80% of the vibe for less.",
+    "review_summary": "Sync quality praised by Hue households. Themes: price of entry (box + bulbs), HDMI handshake quirks, and 8K marketing vs real UK living-room needs. Niche luxury, not a starter smart-home buy.",
+    "review_themes": [
+      { "theme": "sync quality", "sentiment": "strong" },
+      { "theme": "total system cost", "sentiment": "pain" },
+      { "theme": "HDMI quirks", "sentiment": "mixed" }
+    ],
+    "buy_reasons": [
+      "Existing Hue investment",
+      "Cinema / man-cave lighting is a primary goal"
+    ],
+    "drawbacks": [
+      "Expensive stack",
+      "Overkill for a bedroom battlestation"
+    ],
+    "usage_ideas": [
+      "Pub shed / man cave projector nights",
+      "Living room OLED + Hue Play bars"
+    ],
+    "stats": {
+      "type": "HDMI sync box",
+      "ecosystem": "Philips Hue"
+    },
+    "room": "cave"
+  }
+}

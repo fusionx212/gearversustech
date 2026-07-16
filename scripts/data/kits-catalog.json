@@ -1,0 +1,378 @@
+{
+  "kits": [
+    {
+      "slug": "gaming-room-build-kit",
+      "name": "Gaming Room Build Kit",
+      "sku": "gvt-gaming-room-kit",
+      "space_slug": "gaming-room",
+      "price_gbp": 19,
+      "stripe_env": "PUBLIC_STRIPE_KIT_URL",
+      "compare_hub_href": "/gaming/",
+      "hero_image_url": "/images/kits/gaming-room-build-kit.webp",
+      "kit_mockup_url": "/images/kits/gaming-room-build-kit.webp",
+      "description": "UK-verified gaming room shopping list: three budget tiers, layout notes, cable plan, and decided Amazon carts — not another essay.",
+      "honest_take": "Pay for this when a compare already answered “which keyboard/mouse” and you want the full desk stack decided for a UK room (depth, ISO, neighbours). Skip if you only need one product — use the free compare pages.",
+      "review_summary": "Digital kit buyers (pattern from similar Garage Gym $29 kits) praise decided carts and tier clarity; complaints cluster on wanting live price sync and more ISO-UK SKUs. Our stack reviews: Wooting/Keychron HE boards win FPS praise but punish Synapse-haters less than Razer; Superlight 2 stays the boring reliable mouse; 27\" QD-OLED (Alienware) is loved for motion and feared for burn-in on static Discord; Cloud III Wireless is the flat-noise default; Tapo plugs are the renter power kill-switch. Across the stack, owners praise ‘it just works on a 120cm desk’ and complain about RGB software bloat and OLED care anxiety.",
+      "who_for": [
+        "UK gamers building a first proper desk in a bedroom or box room",
+        "People who finished 1–2 compares and want the rest of the cart decided",
+        "Flat dwellers who need closed-back audio and cable discipline"
+      ],
+      "who_not_for": [
+        "Anyone who only needs a single product recommendation (use free compares)",
+        "Collectors who already own HE boards + OLED and just want novelty",
+        "Buyers who refuse any affiliate links or Amazon UK stock"
+      ],
+      "setup_notes": "Measure desk depth before the monitor; prefer a VESA arm on shallow UK desks. Run one power strip + Tapo on the PC/OLED for standby kill. Keep a quiet daytime typing profile if you share walls. Cable spine along the rear edge — not across the mousepad.",
+      "tier_labels": [
+        { "id": "starter", "label": "Starter", "budget": "≤ £500", "blurb": "Playable desk: solid wireless mouse, closed headset, bias light, smart plug. Board can wait if budget is brutal." },
+        { "id": "solid", "label": "Solid", "budget": "≤ £1,500", "blurb": "HE/TKL board + light FPS mouse + 27\" high-refresh panel + chair that lasts WFH days." },
+        { "id": "no-compromise", "label": "No compromise", "budget": "≤ £5,000", "blurb": "Wooting-class HE, QD-OLED 27\", planar or premium wireless audio, furniture-grade chair, full cable/power plan." }
+      ],
+      "items": [
+        {
+          "tier": "starter",
+          "sort_order": 10,
+          "product_name": "Logitech G Pro X Superlight 2",
+          "link_key": "logitech-g-pro-x-superlight-2",
+          "score_out_of_10": 8.4,
+          "why_in_kit": "Light, reliable FPS shape that does not demand a £200 board first — biggest aim upgrade per pound in the starter tier.",
+          "compare_href": "/gaming/compare/best-fps-mouse-uk-2026/",
+          "notes": "Primary mouse across all tiers if shape fits."
+        },
+        {
+          "tier": "starter",
+          "sort_order": 20,
+          "product_name": "HyperX Cloud III Wireless",
+          "link_key": "hyperx-cloud-iii-wireless",
+          "score_out_of_10": 8.7,
+          "why_in_kit": "Closed cups for UK flats; mic good enough for Discord without Audeze money.",
+          "compare_href": "/gaming/compare/headset-for-flats-neighbours-uk/",
+          "notes": "Prefer over open-backs in terraces."
+        },
+        {
+          "tier": "starter",
+          "sort_order": 30,
+          "product_name": "Corsair K70 Core",
+          "link_key": "corsair-k70-core",
+          "score_out_of_10": 7.4,
+          "why_in_kit": "Honest starter mechanical when HE budget is not there yet — graded 7.4 on purpose.",
+          "compare_href": "/gaming/compare/best-60-percent-keyboard-under-150-uk/",
+          "notes": "Upgrade path → Keychron HE or Wooting."
+        },
+        {
+          "tier": "starter",
+          "sort_order": 40,
+          "product_name": "Govee Gaming Light Kit G1",
+          "link_key": "govee-g1",
+          "score_out_of_10": 8.3,
+          "why_in_kit": "Bias/RGB vibe without Hue Sync Box tax; removable mounting for renters.",
+          "compare_href": "/smart-home/compare/best-smart-bulb-under-15-uk/",
+          "notes": "Mind adhesive vs deposit."
+        },
+        {
+          "tier": "starter",
+          "sort_order": 50,
+          "product_name": "TP-Link Tapo P110",
+          "link_key": "tp-link-tapo-p110",
+          "score_out_of_10": 8.8,
+          "why_in_kit": "Renter-safe power kill + kWh monitoring for PC/OLED standby.",
+          "compare_href": "/smart-home/compare/renter-safe-smart-home-starter-uk/",
+          "notes": "Pack of 2–3 recommended."
+        },
+        {
+          "tier": "solid",
+          "sort_order": 10,
+          "product_name": "Keychron K2 HE",
+          "link_key": "keychron-k2-he",
+          "score_out_of_10": 8.8,
+          "why_in_kit": "HE feel + wireless + work/game dual use — the UK ISO-friendly step before Wooting money.",
+          "compare_href": "/gaming/compare/keychron-vs-logitech-work-game/",
+          "notes": "Solid-tier default board."
+        },
+        {
+          "tier": "solid",
+          "sort_order": 20,
+          "product_name": "Logitech G Pro X Superlight 2",
+          "link_key": "logitech-g-pro-x-superlight-2",
+          "score_out_of_10": 8.4,
+          "why_in_kit": "Same mouse as starter — do not churn peripherals when upgrading the board/monitor.",
+          "compare_href": "/gaming/compare/best-wireless-gaming-mouse-under-80-uk/",
+          "notes": "Keep if shape fits; else Viper V3 Pro."
+        },
+        {
+          "tier": "solid",
+          "sort_order": 30,
+          "product_name": "Alienware AW2725DF",
+          "link_key": "alienware-aw2725df",
+          "score_out_of_10": 8.7,
+          "why_in_kit": "27\" high-refresh gaming panel that fits UK desk depth better than ultrawide.",
+          "compare_href": "/best/compare/best-27-inch-gaming-monitors-2026/",
+          "notes": "Enable pixel care; hide static overlays."
+        },
+        {
+          "tier": "solid",
+          "sort_order": 40,
+          "product_name": "HyperX Cloud III Wireless",
+          "link_key": "hyperx-cloud-iii-wireless",
+          "score_out_of_10": 8.7,
+          "why_in_kit": "Still the flat-default headset at this tier unless you upgrade to Maxwell.",
+          "compare_href": "/best/compare/best-gaming-headsets-under-100-pounds-2026/",
+          "notes": null
+        },
+        {
+          "tier": "solid",
+          "sort_order": 50,
+          "product_name": "Noblechairs Hero",
+          "link_key": "noblechairs-hero",
+          "score_out_of_10": 8.4,
+          "why_in_kit": "Sub-£300 street chair that survives WFH + ranked without Secretlab tax.",
+          "compare_href": "/gaming/compare/best-gaming-chair-under-300-uk/",
+          "notes": "Measure stairs — it is heavy."
+        },
+        {
+          "tier": "solid",
+          "sort_order": 60,
+          "product_name": "TP-Link Tapo P110",
+          "link_key": "tp-link-tapo-p110",
+          "score_out_of_10": 8.8,
+          "why_in_kit": "Keep the kill-switch when the OLED arrives — standby adds up.",
+          "compare_href": "/smart-home/compare/no-hub-smart-plug-stack-uk/",
+          "notes": null
+        },
+        {
+          "tier": "no-compromise",
+          "sort_order": 10,
+          "product_name": "Wooting 80HE",
+          "link_key": "wooting-80he",
+          "score_out_of_10": 9.3,
+          "why_in_kit": "Rapid Trigger + F-row/arrows for work+game — practical peak HE without 60% purgatory.",
+          "compare_href": "/best/compare/best-mechanical-keyboards-gaming-2026/",
+          "notes": "60HE if you truly want max mouse space."
+        },
+        {
+          "tier": "no-compromise",
+          "sort_order": 15,
+          "product_name": "Wooting 60HE",
+          "link_key": "wooting-60he",
+          "score_out_of_10": 8.5,
+          "why_in_kit": "Optional 60% path for competitive FPS on shallow desks — ANSI caveat for UK typists.",
+          "compare_href": "/gaming/compare/wooting-60he-vs-razer-huntsman-v3-pro/",
+          "notes": "Alt to 80HE, not both."
+        },
+        {
+          "tier": "no-compromise",
+          "sort_order": 20,
+          "product_name": "Razer Viper V3 Pro",
+          "link_key": "razer-viper-v3-pro",
+          "score_out_of_10": 8.8,
+          "why_in_kit": "Flatter/lighter competitive alternative when Superlight shape is wrong.",
+          "compare_href": "/gaming/compare/best-fps-mouse-uk-2026/",
+          "notes": "Pick one mouse — Superlight or Viper."
+        },
+        {
+          "tier": "no-compromise",
+          "sort_order": 30,
+          "product_name": "Alienware AW2725DF",
+          "link_key": "alienware-aw2725df",
+          "score_out_of_10": 8.7,
+          "why_in_kit": "Keep 27\" QD-OLED class panel; add arm + pixel hygiene.",
+          "compare_href": "/gaming/compare/oled-vs-ips-gaming-monitor-uk/",
+          "notes": "LG 27GR95QE if Alienware street price spikes."
+        },
+        {
+          "tier": "no-compromise",
+          "sort_order": 35,
+          "product_name": "LG 27GR95QE",
+          "link_key": "lg-27gr95qe",
+          "score_out_of_10": 8.6,
+          "why_in_kit": "OLED alt when Alienware is silly money — budget a VESA arm.",
+          "compare_href": "/best/compare/best-1440p-gaming-monitor-under-400-uk/",
+          "notes": "Alt monitor, not dual buy."
+        },
+        {
+          "tier": "no-compromise",
+          "sort_order": 40,
+          "product_name": "Audeze Maxwell",
+          "link_key": "audeze-maxwell",
+          "score_out_of_10": 8.9,
+          "why_in_kit": "Planar detail upgrade when sound is the bottleneck — heavy; not for every neck.",
+          "compare_href": "/gaming/compare/open-back-vs-closed-back-gaming-headset/",
+          "notes": "Keep Cloud III if weight is a dealbreaker."
+        },
+        {
+          "tier": "no-compromise",
+          "sort_order": 50,
+          "product_name": "Noblechairs Hero",
+          "link_key": "noblechairs-hero",
+          "score_out_of_10": 8.4,
+          "why_in_kit": "Still the value furniture pick; spend the rest on panel/board not logo chairs.",
+          "compare_href": "/gaming/compare/best-gaming-chair-under-300-uk/",
+          "notes": null
+        },
+        {
+          "tier": "no-compromise",
+          "sort_order": 60,
+          "product_name": "Philips Hue Play Sync Box 8K",
+          "link_key": "philips-hue-play-sync-box-8k",
+          "score_out_of_10": 7.8,
+          "why_in_kit": "Only if you already run Hue — graded honestly; Govee covers vibe cheaper.",
+          "compare_href": "/spaces/gaming-room/",
+          "notes": "Optional cinema flex."
+        },
+        {
+          "tier": "no-compromise",
+          "sort_order": 70,
+          "product_name": "TP-Link Tapo P110",
+          "link_key": "tp-link-tapo-p110",
+          "score_out_of_10": 8.8,
+          "why_in_kit": "Non-negotiable power hygiene when OLED + mini-PC/PS sit on one strip.",
+          "compare_href": "/smart-home/compare/renter-safe-smart-home-starter-uk/",
+          "notes": null
+        }
+      ]
+    },
+    {
+      "slug": "uk-garage-gym-build-kit",
+      "name": "UK Garage Gym Build Kit",
+      "sku": "gvt-garage-gym-kit",
+      "space_slug": "garage-gym",
+      "price_gbp": 19,
+      "stripe_env": "PUBLIC_STRIPE_GARAGE_KIT_URL",
+      "compare_hub_href": "/home-gym/",
+      "hero_image_url": "/images/kits/uk-garage-gym-build-kit.webp",
+      "kit_mockup_url": "/images/kits/uk-garage-gym-build-kit.webp",
+      "description": "UK garage gym under 2.4m ceilings: rack/flooring/noise decisions, three budgets, and a decided cart list for single garages and terraces.",
+      "honest_take": "Buy when ceiling height and neighbour noise are the real constraints — not when you only need a dumbbell compare. Physical gear ASINs are thinner in our DB until Amazon sync returns; the kit still ships the decision logic + spoke links.",
+      "review_summary": "Garage-gym owners (UK forums + our spoke research) praise half-racks that fit single bays and hate optimistic ceiling claims. Recurring themes: rubber thickness for terraces, folding wall racks when the car still lives there, Mirafit value vs Rogue shipping pain, and adjustable dumbbells as the ≤£500 hero. Complaints: delivery damage on plates, rust in damp garages without heaters, and neighbours hearing drop noise through party walls.",
+      "who_for": [
+        "UK single-garage or garden-room lifters under ~2.4m",
+        "Terrace/semi owners who must manage floor noise",
+        "Budget builders who want a cart, not a forum argument"
+      ],
+      "who_not_for": [
+        "Commercial gym planners",
+        "People with a full double bay and unlimited Rogue budget who already know their rack",
+        "Apartment dwellers with no vibration plan (start with dumbbells only)"
+      ],
+      "setup_notes": "Measure to the joists, not the brochure. Leave whip room for Olympic bars. Put 20mm+ rubber + underlay on party-wall floors before the rack. Bolt freestanding racks per manufacturer — UK concrete varies. Dehumidifier if tools rust in winter.",
+      "tier_labels": [
+        { "id": "bare-bones", "label": "Bare bones", "budget": "≤ £500", "blurb": "Adjustables + flooring start + pull-up alternative. No rack yet." },
+        { "id": "working", "label": "Working gym", "budget": "≤ £1,000", "blurb": "Half rack or fold-away + rubber tiles + bench that fits width." },
+        { "id": "full-bay", "label": "Full bay", "budget": "≤ £2,500", "blurb": "Rack + plates + flooring stack + power/fan plan." }
+      ],
+      "items": [
+        {
+          "tier": "bare-bones",
+          "sort_order": 10,
+          "product_name": "Adjustable dumbbells",
+          "link_key": null,
+          "score_out_of_10": 8.6,
+          "why_in_kit": "Highest training ROI under £500 when a rack will not fit yet.",
+          "compare_href": "/home-gym/compare/adjustable-dumbbells-uk-head-to-head/",
+          "notes": "ASIN pending Amazon sync — use compare for current UK picks."
+        },
+        {
+          "tier": "bare-bones",
+          "sort_order": 20,
+          "product_name": "20mm rubber tiles + underlay",
+          "link_key": null,
+          "score_out_of_10": 8.8,
+          "why_in_kit": "Terrace noise insurance — buy flooring before iron.",
+          "compare_href": "/home-gym/compare/rubber-flooring-noise-terraces-uk/",
+          "notes": null
+        },
+        {
+          "tier": "bare-bones",
+          "sort_order": 30,
+          "product_name": "Neighbour-friendly cardio pick",
+          "link_key": null,
+          "score_out_of_10": 8.2,
+          "why_in_kit": "Cardio that will not get you a letter from next door.",
+          "compare_href": "/home-gym/compare/neighbour-friendly-cardio-uk/",
+          "notes": null
+        },
+        {
+          "tier": "working",
+          "sort_order": 10,
+          "product_name": "Mirafit M3 Half Rack",
+          "link_key": null,
+          "score_out_of_10": 8.7,
+          "why_in_kit": "UK-stock half rack that fits many single garages without Rogue freight drama.",
+          "compare_href": "/home-gym/compare/best-rack-for-single-garage-uk/",
+          "notes": "Confirm height vs 2.4m joists."
+        },
+        {
+          "tier": "working",
+          "sort_order": 20,
+          "product_name": "Folding wall rack",
+          "link_key": null,
+          "score_out_of_10": 8.3,
+          "why_in_kit": "When the car still wins weeknights — fold it, park it.",
+          "compare_href": "/home-gym/compare/wall-mount-vs-freestanding-rack-uk/",
+          "notes": "Needs solid masonry/joist plan."
+        },
+        {
+          "tier": "working",
+          "sort_order": 30,
+          "product_name": "20mm rubber tiles + underlay",
+          "link_key": null,
+          "score_out_of_10": 8.8,
+          "why_in_kit": "Same noise stack — non-negotiable under a working rack.",
+          "compare_href": "/home-gym/compare/rubber-flooring-noise-terraces-uk/",
+          "notes": null
+        },
+        {
+          "tier": "working",
+          "sort_order": 40,
+          "product_name": "Adjustable dumbbells",
+          "link_key": null,
+          "score_out_of_10": 8.6,
+          "why_in_kit": "Accessory volume without buying every dumbbell pair.",
+          "compare_href": "/home-gym/compare/home-gym-under-1000-uk/",
+          "notes": null
+        },
+        {
+          "tier": "full-bay",
+          "sort_order": 10,
+          "product_name": "Mirafit M3 Half Rack",
+          "link_key": null,
+          "score_out_of_10": 8.7,
+          "why_in_kit": "Anchor the bay; add plates/bench around it.",
+          "compare_href": "/home-gym/compare/home-gym-under-2500-uk/",
+          "notes": null
+        },
+        {
+          "tier": "full-bay",
+          "sort_order": 20,
+          "product_name": "Mirafit vs Rogue decision",
+          "link_key": null,
+          "score_out_of_10": 8.7,
+          "why_in_kit": "Know when Rogue freight is worth it vs Mirafit UK stock.",
+          "compare_href": "/home-gym/compare/mirafit-vs-rogue-uk/",
+          "notes": "Decision spoke, not a double rack buy."
+        },
+        {
+          "tier": "full-bay",
+          "sort_order": 30,
+          "product_name": "Garage gym under 2.4m ceiling plan",
+          "link_key": null,
+          "score_out_of_10": 8.6,
+          "why_in_kit": "Ceiling/whip checklist before plates land.",
+          "compare_href": "/home-gym/compare/garage-gym-under-2-4m-ceiling-uk/",
+          "notes": null
+        },
+        {
+          "tier": "full-bay",
+          "sort_order": 40,
+          "product_name": "20mm rubber tiles + underlay",
+          "link_key": null,
+          "score_out_of_10": 8.8,
+          "why_in_kit": "Full-bay drops need the thick stack.",
+          "compare_href": "/home-gym/compare/rubber-flooring-noise-terraces-uk/",
+          "notes": null
+        }
+      ]
+    }
+  ]
+}

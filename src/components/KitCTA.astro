@@ -1,42 +1,69 @@
 ---
 import { getKitUrl, getPodUrl } from '../lib/kit';
+import { getKit } from '../lib/supabase';
 
 interface Props {
   title?: string;
   blurb?: string;
   kitLabel?: string;
+  kitSlug?: string;
 }
 
 const {
-  title = 'Skip the research. Get the kit.',
-  blurb = 'UK-verified shopping list, three budget tiers, and layout notes — a decided cart, not another essay.',
-  kitLabel = 'Get the Build Kit — £19',
+  title,
+  blurb,
+  kitLabel,
+  kitSlug = 'gaming-room-build-kit',
 } = Astro.props;
 
-const kitUrl = getKitUrl();
+const kit = await getKit(kitSlug);
+const kitUrl = kit?.stripe_payment_link || getKitUrl(kitSlug);
 const podUrl = getPodUrl();
+const detailHref = `/kits/${kitSlug}/`;
+const mockup = kit?.kit_mockup_url || kit?.hero_image_url || '/images/kits/gaming-room-build-kit.webp';
+const price = kit?.price_gbp != null ? `£${kit.price_gbp}` : '£19';
+const heading = title || kit?.name || 'Skip the research. Get the kit.';
+const body =
+  blurb ||
+  kit?.description ||
+  'UK-verified shopping list, three budget tiers, and layout notes — a decided cart, not another essay.';
+const cta = kitLabel || `Get the Build Kit — ${price}`;
 ---
 
 <section class="kit-cta" id="kit">
+  <div class="kit-cta-media">
+    <a href={detailHref} class="kit-cta-photo-link">
+      <img
+        class="kit-cta-photo"
+        src={mockup}
+        alt={`${kit?.name || 'Build kit'} staged in-room with real product photos`}
+        width="640"
+        height="400"
+        loading="lazy"
+      />
+    </a>
+  </div>
   <div class="kit-cta-inner">
-    <p class="kit-kicker">Digital product</p>
-    <h2>{title}</h2>
-    <p>{blurb}</p>
+    <p class="kit-kicker">Digital product · {price}</p>
+    <h2>{heading}</h2>
+    <p>{body}</p>
+    <p class="kit-cta-see">
+      <a href={detailHref}>See full pack contents, tiers &amp; reviews →</a>
+    </p>
     <div class="kit-actions">
       {kitUrl ? (
         <a class="btn btn-kit" href={kitUrl} rel="noopener">
-          {kitLabel}
+          {cta}
         </a>
       ) : (
         <a class="btn btn-kit" href="/contact/?interest=kit">
-          {kitLabel} <span class="kit-soon">(link soon)</span>
+          {cta} <span class="kit-soon">(link soon)</span>
         </a>
       )}
+      <a class="btn btn-ghost" href={detailHref}>What's in the pack</a>
       {podUrl ? (
         <a class="btn btn-pod" href={podUrl} rel="noopener">Wall art packs</a>
-      ) : (
-        <a class="btn btn-pod" href="/spaces/#pod" aria-disabled="true">POD packs (coming)</a>
-      )}
+      ) : null}
     </div>
   </div>
 </section>

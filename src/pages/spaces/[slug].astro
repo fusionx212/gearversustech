@@ -56,7 +56,15 @@ if (!space) {
 </section>
 
 <div class="container" id="pod">
-  <KitCTA title={`${space.kitTitle}`} kitLabel={`Get ${space.kitTitle} — £19`} />
+  <KitCTA
+    title={space.kitTitle}
+    kitLabel={`Get ${space.kitTitle} — £19`}
+    kitSlug={
+      space.slug === 'garage-gym'
+        ? 'uk-garage-gym-build-kit'
+        : 'gaming-room-build-kit'
+    }
+  />
   <EmailCapture />
 </div>
 

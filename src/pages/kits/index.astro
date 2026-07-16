@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getKits } from '../../lib/supabase';
+
+export const prerender = false;
+
+const kits = await getKits();
+---
+
+<BaseLayout
+  title="Build kits"
+  description="UK gaming room and garage gym build kits — decided shopping lists with tiers, real product photos, and honest grades."
+>
+  <section class="container kit-index-hero">
+    <p class="band-kicker">Conversion layer</p>
+    <h1>Build kits</h1>
+    <p class="lede">
+      Comparison pages stay free. Kits are the decided cart when you are done researching —
+      tiered UK lists, pack contents with grades, and an in-room mockup of the real products.
+    </p>
+  </section>
+
+  <section class="container kit-index-grid">
+    {kits.length === 0 && (
+      <p>Kits loading — check back shortly.</p>
+    )}
+    {kits.map((k) => (
+      <a class="kit-index-card" href={`/kits/${k.slug}/`}>
+        <img
+          src={k.kit_mockup_url || k.hero_image_url || '/images/kits/gaming-room-build-kit.webp'}
+          alt={`${k.name} room mockup`}
+          width="640"
+          height="400"
+          loading="lazy"
+        />
+        <div class="kit-index-card-body">
+          <p class="kit-kicker">£{k.price_gbp}</p>
+          <h2>{k.name}</h2>
+          <p>{k.description}</p>
+          <span class="space-card-cta">Open pack contents →</span>
+        </div>
+      </a>
+    ))}
+  </section>
+</BaseLayout>

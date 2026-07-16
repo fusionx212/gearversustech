@@ -19,12 +19,53 @@ export interface Article {
   updated_at: string;
 }
 
-interface AffiliateLink {
+export interface AffiliateLink {
   link_key: string;
   product_name: string;
   amazon_asin: string | null;
   uk_price_gbp: number | null;
   image_url: string | null;
+  score_out_of_10?: number | null;
+  honest_take?: string | null;
+  review_summary?: string | null;
+  review_themes?: { theme: string; sentiment: string; note?: string }[] | null;
+  buy_reasons?: string[] | null;
+  usage_ideas?: string[] | null;
+  drawbacks?: string[] | null;
+  stats?: Record<string, string | number | boolean> | null;
+  mockup_url?: string | null;
+}
+
+export interface GvtKit {
+  slug: string;
+  name: string;
+  description: string;
+  price_gbp: number;
+  stripe_payment_link: string | null;
+  hero_image_url: string | null;
+  kit_mockup_url: string | null;
+  space_slug: string | null;
+  sku: string | null;
+  honest_take: string | null;
+  review_summary: string | null;
+  who_for: string[] | null;
+  who_not_for: string[] | null;
+  setup_notes: string | null;
+  tier_labels: { id: string; label: string; budget: string; blurb: string }[] | null;
+  compare_hub_href: string | null;
+}
+
+export interface GvtKitItem {
+  kit_slug: string;
+  tier: string;
+  sort_order: number;
+  product_name: string;
+  link_key: string | null;
+  notes: string | null;
+  why_in_kit: string | null;
+  compare_href: string | null;
+  score_out_of_10: number | null;
+  qty: number;
 }
 
 const PARTNER_TAG = 'gearversustech-21';
@@ -257,4 +298,47 @@ export function clusterBySubcategory<T extends { subcategory: string | null | un
   return [...map.entries()]
     .sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]))
     .map(([label, items]) => ({ label, items }));
+}
+
+export async function getKits(): Promise<GvtKit[]> {
+  return supabaseQuery<GvtKit>('gvt_kits', {
+    select: '*',
+    published: 'eq.true',
+    order: 'price_gbp.asc',
+  });
+}
+
+export async function getKit(slug: string): Promise<GvtKit | null> {
+  const rows = await supabaseQuery<GvtKit>('gvt_kits', {
+    select: '*',
+    slug: `eq.${slug}`,
+    published: 'eq.true',
+    limit: '1',
+  });
+  return rows[0] || null;
+}
+
+export async function getKitItems(kitSlug: string): Promise<GvtKitItem[]> {
+  return supabaseQuery<GvtKitItem>('gvt_kit_items', {
+    select: '*',
+    kit_slug: `eq.${kitSlug}`,
+    order: 'sort_order.asc',
+  });
+}
+
+/** Resolve kit line-items to affiliate rows (photos, enrichment). */
+export async function attachKitItemProducts(
+  items: GvtKitItem[]
+): Promise<(GvtKitItem & { product?: AffiliateLink })[]> {
+  const keys = [...new Set(items.map((i) => i.link_key).filter(Boolean))] as string[];
+  if (!keys.length) return items.map((i) => ({ ...i }));
+  const rows = await supabaseQuery<AffiliateLink>('gvt_affiliate_links', {
+    select: '*',
+    link_key: `in.(${keys.join(',')})`,
+  });
+  const byKey = new Map(rows.map((r) => [r.link_key, r]));
+  return items.map((i) => ({
+    ...i,
+    product: i.link_key ? byKey.get(i.link_key) : undefined,
+  }));
 }

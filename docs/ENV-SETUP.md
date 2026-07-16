@@ -12,6 +12,7 @@
 | `PRINTFUL_API_KEY` | SET |
 | `STRIPE_SECRET_KEY` | SET — **PolicyandPlay account** `acct_1TMnl0Gm6OeSfImb` (`policyandplay.co.uk`) |
 | `PUBLIC_STRIPE_KIT_URL` | SET locally + Netlify (Gaming Room Build Kit Payment Link) |
+| `PUBLIC_STRIPE_GARAGE_KIT_URL` | SET locally (UK Garage Gym Build Kit Payment Link) — set on Netlify too |
 | `PUBLIC_PRINTFUL_STORE_URL` | EMPTY — POD storefront not live yet |
 | `RESEND_API_KEY` | On Netlify + `master.env`; **not** in GVT `.env` yet. Site still uses Netlify Forms. |
 

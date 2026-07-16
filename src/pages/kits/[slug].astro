@@ -1,0 +1,200 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EmailCapture from '../../components/EmailCapture.astro';
+import { getKitUrl } from '../../lib/kit';
+import {
+  getKit,
+  getKitItems,
+  attachKitItemProducts,
+  getKits,
+} from '../../lib/supabase';
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+if (!slug) {
+  return new Response('Not found', { status: 404 });
+}
+
+const kit = await getKit(slug);
+if (!kit) {
+  // Fallback: list known slugs for static tooling
+  const all = await getKits();
+  if (!all.find((k) => k.slug === slug)) {
+    return new Response('Kit not found', { status: 404 });
+  }
+}
+
+const items = kit ? await attachKitItemProducts(await getKitItems(kit.slug)) : [];
+const tiers = kit?.tier_labels || [];
+const buyUrl = kit?.stripe_payment_link || getKitUrl(kit?.slug);
+const mockup = kit?.kit_mockup_url || kit?.hero_image_url;
+
+function tierItems(tierId: string) {
+  return items.filter((i) => i.tier === tierId);
+}
+
+function productPhoto(item: (typeof items)[0]) {
+  if (item.product?.image_url) return item.product.image_url;
+  if (item.link_key) return `/images/products/${item.link_key}.webp`;
+  return null;
+}
+
+function scoreOf(item: (typeof items)[0]) {
+  return item.score_out_of_10 ?? item.product?.score_out_of_10 ?? null;
+}
+---
+
+{kit && (
+  <BaseLayout title={kit.name} description={kit.description}>
+    <article class="container kit-detail">
+      <nav class="breadcrumb">
+        <a href="/">Home</a> /
+        <a href="/kits/">Kits</a> /
+        <span class="current">{kit.name}</span>
+      </nav>
+
+      <header class="kit-detail-hero">
+        <div class="kit-detail-copy">
+          <p class="kit-kicker">Digital kit · £{kit.price_gbp}</p>
+          <h1>{kit.name}</h1>
+          <p class="lede">{kit.description}</p>
+          <div class="kit-actions">
+            {buyUrl ? (
+              <a class="btn btn-kit" href={buyUrl} rel="noopener">
+                Buy kit — £{kit.price_gbp}
+              </a>
+            ) : (
+              <a class="btn btn-kit" href="/contact/?interest=kit">Buy kit (link soon)</a>
+            )}
+            {kit.compare_hub_href && (
+              <a class="btn btn-ghost" href={kit.compare_hub_href}>Browse free compares</a>
+            )}
+            {kit.space_slug && (
+              <a class="btn btn-ghost" href={`/spaces/${kit.space_slug}/`}>Room hub</a>
+            )}
+          </div>
+        </div>
+        {mockup && (
+          <figure class="kit-detail-mockup">
+            <img
+              src={mockup}
+              alt={`${kit.name} — full kit staged in-room from real product photos`}
+              width="900"
+              height="560"
+              fetchpriority="high"
+            />
+            <figcaption>
+              Full kit-in-room mockup — real Amazon product cutouts staged together (not AI lookalikes).
+            </figcaption>
+          </figure>
+        )}
+      </header>
+
+      <section class="kit-who">
+        <div>
+          <h2>Who it's for</h2>
+          <ul>
+            {(kit.who_for || []).map((x) => <li>{x}</li>)}
+          </ul>
+        </div>
+        <div>
+          <h2>Who it's not for</h2>
+          <ul>
+            {(kit.who_not_for || []).map((x) => <li>{x}</li>)}
+          </ul>
+        </div>
+      </section>
+
+      {kit.honest_take && (
+        <section class="kit-honest">
+          <h2>Honest take</h2>
+          <p>{kit.honest_take}</p>
+        </section>
+      )}
+
+      {kit.review_summary && (
+        <section class="kit-reviews">
+          <h2>Kit-level review synthesis</h2>
+          <p>{kit.review_summary}</p>
+        </section>
+      )}
+
+      <section class="kit-tiers" id="contents">
+        <h2>What's in the pack</h2>
+        <p class="kit-tiers-lede">
+          Every line item below is part of the decided cart. Grades are honest — some starter picks are deliberately mid-7s.
+        </p>
+
+        {tiers.map((t) => {
+          const list = tierItems(t.id);
+          if (!list.length) return null;
+          return (
+            <div class="kit-tier-block" id={`tier-${t.id}`}>
+              <header class="kit-tier-head">
+                <h3>{t.label} <span class="tier-budget">{t.budget}</span></h3>
+                <p>{t.blurb}</p>
+              </header>
+              <div class="kit-item-grid">
+                {list.map((item) => {
+                  const photo = productPhoto(item);
+                  const score = scoreOf(item);
+                  return (
+                    <article class="kit-item-card">
+                      <div class="kit-item-photo">
+                        {photo ? (
+                          <img src={photo} alt={item.product_name} width="200" height="200" loading="lazy" />
+                        ) : (
+                          <span class="kit-item-photo-empty">Photo pending verified ASIN</span>
+                        )}
+                      </div>
+                      <div class="kit-item-body">
+                        <h4>{item.product_name}</h4>
+                        {score != null && (
+                          <p class="kit-item-score">{score}/10</p>
+                        )}
+                        {item.why_in_kit && <p class="kit-item-why">{item.why_in_kit}</p>}
+                        {item.product?.review_summary && (
+                          <p class="kit-item-review"><strong>Reviews:</strong> {item.product.review_summary}</p>
+                        )}
+                        <div class="kit-item-links">
+                          {item.compare_href && (
+                            <a href={item.compare_href}>Compare spoke →</a>
+                          )}
+                          {item.product?.amazon_asin && item.link_key && (
+                            <a href={`/c/amazon/${item.link_key}`} rel="nofollow sponsored">Amazon</a>
+                          )}
+                          {item.product?.mockup_url && (
+                            <a href={item.product.mockup_url}>In-room mockup</a>
+                          )}
+                        </div>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </section>
+
+      {kit.setup_notes && (
+        <section class="kit-setup">
+          <h2>Setup notes</h2>
+          <p>{kit.setup_notes}</p>
+        </section>
+      )}
+
+      <div class="kit-bottom-cta">
+        {buyUrl ? (
+          <a class="btn btn-kit" href={buyUrl} rel="noopener">
+            Get {kit.name} — £{kit.price_gbp}
+          </a>
+        ) : null}
+        <a class="btn btn-ghost" href="/kits/">All kits</a>
+      </div>
+
+      <EmailCapture />
+    </article>
+  </BaseLayout>
+)}

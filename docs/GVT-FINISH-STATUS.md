@@ -1,26 +1,35 @@
-# GVT finish status board — 2026-07-16
+# GVT finish status board — 2026-07-16 (kits + quality pass)
 
 | Area | Status | Notes |
 |---|---|---|
-| Homepage comparison-first | **DONE** | Live; room hubs demoted |
-| Amazon sync (Creators API) | **BLOCKED** | Only Creators keys found (UKAirConTracker `.env.local`); `invalid_client`. See `AMAZON-SYNC-BLOCKED.md` |
-| Manual ASIN (Wooting) | **DONE** | `B0DJY46XTF` on `wooting-60he` — CTA live; image/price need API |
-| Buy-box coverage maximize | **BLOCKED** | Needs fresh `AMZ_ID`/`AMZ_SECRET` |
-| `home-gym` category CHECK | **DONE** | Migration applied; 10 spokes retagged |
-| Home-gym URLs + 301s | **DONE** | Routes + `netlify.toml` redirects from `/best/compare/…` |
-| Stripe kit CTA | **DONE** (account caveat) | Link on Netlify `PUBLIC_STRIPE_KIT_URL`; home + compare `KitCTA` |
-| Stripe account ownership | **NEEDS DALE** | Live key = PolicyandPlay `acct_1TMnl0Gm6OeSfImb` |
-| Email capture | **DONE** (Forms) | Netlify Forms + improved thank-you. Resend key exists but unused; no Brevo/Mailchimp |
-| Content thicken (thin pages) | **DONE** | 6 thin articles expanded + cluster links |
-| Optional +10 compares | **SKIPPED** | Buy-box pipeline blocked |
-| Space images on homepage | **SKIPPED** | Per Dale — keep comparison-first |
-| Printful POD create | **BLOCKED** / prep | API stores OK; products 400; Etsy draft only in distribution packet |
-| Social publish | **SKIPPED** | Telegram packet only — no Reddit/X |
-| Build / commit / push | **DONE** | `github/main` @ `397f50ac` (+ finish commits) |
-| Netlify prod deploy | **DONE** | CLI prod deploy `6a5925c037a761c6eb895c95` (build hooks were not creating new deploys; STOP flag overridden per Dale Cursor approval) |
+| Homepage comparison-first | **DONE** | Live; room hubs demoted; kits are conversion layer off compares |
+| Amazon sync (Creators API) | **BLOCKED** | `invalid_client` — see `AMAZON-SYNC-BLOCKED.md` |
+| Manual ASIN + images | **PARTIAL** | Wooting image fixed via Amazon CDN; Viper UK dp 404 (ASIN needs Dale verify); 39/40 other links had images |
+| Product quality enrichment | **DONE** (batch) | 19 products: score, honest_take, review_summary, themes, buy/skip, usage, stats, mockup_url |
+| In-room product mockups | **DONE** (18) | `public/images/mockups/*.webp` from real Amazon photos + sharp white-key cutout |
+| Kits in Supabase | **DONE** | `gvt_kits` + `gvt_kit_items` — Gaming Room (20 items) + UK Garage Gym (11 items) |
+| Kit full-room mockups | **DONE** | `public/images/kits/gaming-room-build-kit.webp` (6 real SKUs); garage hero pending gym ASINs |
+| `/kits/` pages | **DONE** | Index + `/kits/[slug]/` with tiers, contents grid, reviews, setup notes |
+| Kit CTA photo + price | **DONE** | `KitCTA` shows mockup + £19 + link to pack contents |
+| Stripe Gaming Room kit | **DONE** | `PUBLIC_STRIPE_KIT_URL` (PolicyandPlay acct caveat) |
+| Stripe Garage Gym kit | **DONE** | Payment Link created; set `PUBLIC_STRIPE_GARAGE_KIT_URL` |
+| Priority compare thicken | **DONE** | 15 money pages got deep-dive blocks + ProductDepth UI |
+| Buy-box maximize | **BLOCKED** | Needs fresh `AMZ_ID`/`AMZ_SECRET` |
+| Email capture | **DONE** | Netlify Forms |
+| Printful POD | **BLOCKED** / prep | API product create 400 |
+| Social publish | **SKIPPED** | Telegram only |
+
+## Live kit URLs (after deploy)
+
+- https://gearversustech.com/kits/
+- https://gearversustech.com/kits/gaming-room-build-kit/
+- https://gearversustech.com/kits/uk-garage-gym-build-kit/
+- Example enriched compare: https://gearversustech.com/gaming/compare/wooting-60he-vs-razer-huntsman-v3-pro/
 
 ## NEEDS DALE
 
-1. Fresh Amazon Creators API LwA credentials for tag `gearversustech-21` (stale UKAirConTracker keys → `invalid_client`)
-2. Confirm Stripe kit revenue should stay on PolicyandPlay account (or provide GVT Stripe keys)
-3. Optional: recreate Printful products after dashboard designs (API product list 400)
+1. Fresh Amazon Creators API LwA credentials for tag `gearversustech-21`
+2. Confirm Stripe kit revenue stays on PolicyandPlay `acct_1TMnl0Gm6OeSfImb` (or provide GVT Stripe keys)
+3. Verify Razer Viper V3 Pro UK ASIN (B0CXL5V4VH returned 404 on amazon.co.uk/dp)
+4. Optional: gym product ASINs for Mirafit/rubber so garage kit gets real cutouts
+5. Set Netlify env `PUBLIC_STRIPE_GARAGE_KIT_URL` if CLI env set was not run
