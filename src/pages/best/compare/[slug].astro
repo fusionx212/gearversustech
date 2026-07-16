@@ -15,6 +15,11 @@ const { slug } = Astro.params;
 const article = await getArticle(slug as string);
 if (!article) return new Response('Article not found', { status: 404 });
 
+// Home-gym (and any non-best) spokes must not stay on /best/compare/
+if (article.category && article.category !== 'best') {
+  return Astro.redirect(`/${article.category}/compare/${slug}/`, 301);
+}
+
 const { winner, runnerup } = await getArticleProducts(article);
 const alsoCompared = await getComparedProducts(
   article.content_html,
