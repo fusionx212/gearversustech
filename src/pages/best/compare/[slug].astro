@@ -17,7 +17,10 @@ if (!article) return new Response('Article not found', { status: 404 });
 
 // Home-gym (and any non-best) spokes must not stay on /best/compare/
 if (article.category && article.category !== 'best') {
-  return Astro.redirect(`/${article.category}/compare/${slug}/`, 301);
+  return new Response(null, {
+    status: 301,
+    headers: { Location: `/${article.category}/compare/${slug}/` },
+  });
 }
 
 const { winner, runnerup } = await getArticleProducts(article);
