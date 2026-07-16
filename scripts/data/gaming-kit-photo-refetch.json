@@ -1,0 +1,115 @@
+[
+  {
+    "key": "corsair-k70-core",
+    "ok": true,
+    "path": "/images/products/corsair-k70-core.webp",
+    "from": 12394,
+    "bytes": 40264
+  },
+  {
+    "key": "keychron-k2-he",
+    "ok": true,
+    "path": "/images/products/keychron-k2-he.webp",
+    "from": 14442,
+    "bytes": 40840
+  },
+  {
+    "key": "hyperx-cloud-iii-wireless",
+    "ok": true,
+    "path": "/images/products/hyperx-cloud-iii-wireless.webp",
+    "from": 9776,
+    "bytes": 53652
+  },
+  {
+    "key": "audeze-maxwell",
+    "ok": true,
+    "path": "/images/products/audeze-maxwell.webp",
+    "from": 10106,
+    "bytes": 35262
+  },
+  {
+    "key": "tp-link-tapo-p110",
+    "ok": true,
+    "path": "/images/products/tp-link-tapo-p110.webp",
+    "from": 15386,
+    "bytes": 38618
+  },
+  {
+    "key": "alienware-aw2725df",
+    "ok": true,
+    "path": "/images/products/alienware-aw2725df.webp",
+    "from": 25150,
+    "bytes": 70138
+  },
+  {
+    "key": "wooting-80he",
+    "ok": true,
+    "path": "/images/products/wooting-80he.webp",
+    "from": 8604,
+    "bytes": 19170
+  },
+  {
+    "key": "logitech-g-pro-x-superlight-2",
+    "ok": true,
+    "path": "/images/products/logitech-g-pro-x-superlight-2.webp",
+    "from": 4912,
+    "bytes": 13426
+  },
+  {
+    "key": "noblechairs-hero",
+    "ok": true,
+    "path": "/images/products/noblechairs-hero.webp",
+    "from": 11102,
+    "bytes": 31058
+  },
+  {
+    "key": "razer-viper-v3-pro",
+    "ok": true,
+    "path": "/images/products/razer-viper-v3-pro.webp",
+    "from": 9912,
+    "bytes": 15068
+  },
+  {
+    "key": "maidesite-standing-desk-120x60",
+    "ok": true,
+    "kept": true,
+    "bytes": 46222
+  },
+  {
+    "key": "maidesite-standing-desk-140x70",
+    "ok": true,
+    "path": "/images/products/maidesite-standing-desk-140x70.webp",
+    "from": 15956,
+    "bytes": 21564
+  },
+  {
+    "key": "flexispot-e6-max-standing-desk-140x80",
+    "ok": true,
+    "kept": true,
+    "bytes": 30766
+  },
+  {
+    "key": "scan-argen-rtx-4060-gaming-pc",
+    "ok": true,
+    "kept": true,
+    "bytes": 48922
+  },
+  {
+    "key": "stormforce-crystal-rtx-4070-ti-gaming-pc",
+    "ok": true,
+    "kept": true,
+    "bytes": 41494
+  },
+  {
+    "key": "aoc-27g2sp-gaming-monitor",
+    "ok": true,
+    "kept": true,
+    "bytes": 43010
+  },
+  {
+    "key": "cyberpowerpc-luxe-rtx-4080-super-gaming-pc",
+    "ok": true,
+    "kept": true,
+    "bytes": 47614
+  }
+]

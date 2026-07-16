@@ -203,15 +203,31 @@ const THUMB_FALLBACKS: Record<string, string> = {
   best: '/images/products/billyoh-bella-8x8-summer-house.webp',
 };
 
+/** Prefer local packshots over broken Amazon CDN stubs (kits + compare thumbs). */
+export function catalogueImage(
+  linkKey: string | null | undefined,
+  remote: string | null | undefined
+): string | undefined {
+  if (remote?.startsWith('/images/')) return remote;
+  if (remote && !isBrokenAmazonImage(remote) && !linkKey) return remote;
+  if (linkKey) {
+    // Local-first for catalogue stability once we host the plate
+    if (!remote || isBrokenAmazonImage(remote) || /^https?:\/\/(images-eu|m)\.media-amazon\.com/i.test(remote)) {
+      return `/images/products/${linkKey}.webp`;
+    }
+    return remote;
+  }
+  return remote ?? undefined;
+}
+
 function resolveWinnerThumb(
   linkKey: string,
   imageUrl: string | null | undefined,
   category?: string | null,
   subcategory?: string | null
 ): string | undefined {
-  if (imageUrl && !isBrokenAmazonImage(imageUrl)) return imageUrl;
-  // Prefer stable local plate when CDN pattern is broken or image missing
-  if (linkKey) return `/images/products/${linkKey}.webp`;
+  const resolved = catalogueImage(linkKey || null, imageUrl);
+  if (resolved) return resolved;
   return (
     (subcategory && THUMB_FALLBACKS[subcategory]) ||
     (category && THUMB_FALLBACKS[category]) ||
