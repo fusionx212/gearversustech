@@ -1,0 +1,122 @@
+{
+  "report": {
+    "patched": [
+      {
+        "key": "ilikesheds-4m-x-3m-insulated-garden-office",
+        "path": "/images/products/ilikesheds-4m-x-3m-insulated-garden-office.webp",
+        "sister": "dunster-house-hellwolf-6x5m-log-cabin"
+      },
+      {
+        "key": "statesman-eco-pod-8x6-gardenroom",
+        "path": "/images/products/statesman-eco-pod-8x6-gardenroom.webp",
+        "sister": "billyoh-bella-8x8-summer-house"
+      },
+      {
+        "key": "dunster-house-rhine-4m-x-3m-man-cave-log-cabin",
+        "path": "/images/products/dunster-house-rhine-4m-x-3m-man-cave-log-cabin.webp",
+        "sister": "dunster-house-hellwolf-6x5m-log-cabin"
+      }
+    ],
+    "scraped": [
+      {
+        "key": "razer-viper-v3-pro",
+        "asin": "B0CSPN2G5Z",
+        "path": "/images/products/razer-viper-v3-pro.webp",
+        "bytes": 48275
+      }
+    ],
+    "articles": [
+      {
+        "slug": "desk-under-120cm-uk-gaming",
+        "winner": "MAIDeSITe Standing Desk 120x60"
+      }
+    ],
+    "errors": []
+  },
+  "audit": [
+    {
+      "slug": "desk-size-for-garden-shed-uk",
+      "winner": "MAIDeSITe Standing Desk 140x70",
+      "img": "/images/products/maidesite-standing-desk-140x70.webp",
+      "fileOk": true
+    },
+    {
+      "slug": "summerhouse-seasonal-vs-year-round-uk",
+      "winner": "BillyOh Bella 8x8 Summer House",
+      "img": "/images/products/billyoh-bella-8x8-summer-house.webp",
+      "fileOk": true
+    },
+    {
+      "slug": "garden-office-fit-journey-uk",
+      "winner": "ILikeSheds 4m x 3m Insulated Garden Office",
+      "img": "/images/products/ilikesheds-4m-x-3m-insulated-garden-office.webp",
+      "fileOk": true
+    },
+    {
+      "slug": "man-cave-shed-fit-journey-uk",
+      "winner": "Dunster House Rhine 4m x 3m Man Cave Log Cabin",
+      "img": "/images/products/dunster-house-rhine-4m-x-3m-man-cave-log-cabin.webp",
+      "fileOk": true
+    },
+    {
+      "slug": "shed-gym-fit-journey-uk",
+      "winner": "BillyOh Pro Pent HD Shed 8x6",
+      "img": "/images/products/billyoh-pro-pent-hd-shed-8x6.webp",
+      "fileOk": true
+    },
+    {
+      "slug": "gaming-shed-fit-journey-uk",
+      "winner": "BillyOh Petra 10x8 Summer House",
+      "img": "/images/products/billyoh-petra-10x8-summer-house.webp",
+      "fileOk": true
+    },
+    {
+      "slug": "garden-space-fit-journey-uk",
+      "winner": "BillyOh Petra 10x8 Summer House",
+      "img": "/images/products/billyoh-petra-10x8-summer-house.webp",
+      "fileOk": true
+    },
+    {
+      "slug": "ebay-insulated-garden-office-vs-amazon-summerhouse",
+      "winner": "Statesman Eco Pod 8x6 Gardenroom",
+      "img": "/images/products/statesman-eco-pod-8x6-gardenroom.webp",
+      "fileOk": true
+    },
+    {
+      "slug": "best-garden-shed-under-1000-uk",
+      "winner": "BillyOh Bella 8x8 Summer House",
+      "img": "/images/products/billyoh-bella-8x8-summer-house.webp",
+      "fileOk": true
+    },
+    {
+      "slug": "best-shed-for-home-gym-uk",
+      "winner": "BillyOh Pro Pent HD Shed 8x6",
+      "img": "/images/products/billyoh-pro-pent-hd-shed-8x6.webp",
+      "fileOk": true
+    },
+    {
+      "slug": "best-insulated-garden-office-uk",
+      "winner": "ILikeSheds 4m x 3m Insulated Garden Office",
+      "img": "/images/products/ilikesheds-4m-x-3m-insulated-garden-office.webp",
+      "fileOk": true
+    },
+    {
+      "slug": "garden-office-vs-basic-shed-gaming",
+      "winner": "Dunster House HellWolf 6x5m Log Cabin",
+      "img": "/images/products/dunster-house-hellwolf-6x5m-log-cabin.webp",
+      "fileOk": true
+    },
+    {
+      "slug": "billyoh-bella-vs-petra-garden-office",
+      "winner": "BillyOh Petra 10x8 Summer House",
+      "img": "/images/products/billyoh-petra-10x8-summer-house.webp",
+      "fileOk": true
+    },
+    {
+      "slug": "desk-under-120cm-uk-gaming",
+      "winner": "MAIDeSITe Standing Desk 120x60",
+      "img": "/images/products/maidesite-standing-desk-120x60.webp",
+      "fileOk": true
+    }
+  ]
+}

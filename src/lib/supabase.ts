@@ -188,12 +188,48 @@ export async function getArticleProducts(article: {
   };
 }
 
+/** Broken Amazon ASIN placeholder pattern (often HTTP 200 + ~43-byte GIF). */
+function isBrokenAmazonImage(url: string | null | undefined): boolean {
+  return !url || /images-eu\.ssl-images-amazon\.com\/images\/P\//i.test(url);
+}
+
+/** Category/subcategory fallbacks when a winner has no affiliate image (journey guides). */
+const THUMB_FALLBACKS: Record<string, string> = {
+  'garden-sheds': '/images/products/billyoh-petra-10x8-summer-house.webp',
+  sheds: '/images/products/billyoh-pro-pent-hd-shed-8x6.webp',
+  gaming: '/images/products/noblechairs-hero.webp',
+  'smart-home': '/images/products/tp-link-tapo-p110.webp',
+  'home-gym': '/images/kits/uk-garage-gym-build-kit.webp',
+  best: '/images/products/billyoh-bella-8x8-summer-house.webp',
+};
+
+function resolveWinnerThumb(
+  linkKey: string,
+  imageUrl: string | null | undefined,
+  category?: string | null,
+  subcategory?: string | null
+): string | undefined {
+  if (imageUrl && !isBrokenAmazonImage(imageUrl)) return imageUrl;
+  // Prefer stable local plate when CDN pattern is broken or image missing
+  if (linkKey) return `/images/products/${linkKey}.webp`;
+  return (
+    (subcategory && THUMB_FALLBACKS[subcategory]) ||
+    (category && THUMB_FALLBACKS[category]) ||
+    undefined
+  );
+}
+
 /** Batch-attach each article's winner product image (for card grids: homepage, category listings). */
-export async function attachWinnerImages<T extends { winner_name: string | null }>(
-  articles: T[]
-): Promise<(T & { winnerImage?: string })[]> {
+export async function attachWinnerImages<
+  T extends { winner_name: string | null; category?: string; subcategory?: string }
+>(articles: T[]): Promise<(T & { winnerImage?: string })[]> {
   const keys = [...new Set(articles.map((a) => a.winner_name).filter(Boolean).map((n) => productKey(n as string)))];
-  if (!keys.length) return articles;
+  if (!keys.length) {
+    return articles.map((a) => ({
+      ...a,
+      winnerImage: resolveWinnerThumb('', null, a.category, a.subcategory),
+    }));
+  }
 
   const rows = await supabaseQuery<AffiliateLink>('gvt_affiliate_links', {
     select: 'link_key,image_url',
@@ -201,10 +237,14 @@ export async function attachWinnerImages<T extends { winner_name: string | null 
   });
   const byKey = new Map(rows.map((r) => [r.link_key, r.image_url]));
 
-  return articles.map((a) => ({
-    ...a,
-    winnerImage: a.winner_name ? byKey.get(productKey(a.winner_name)) ?? undefined : undefined,
-  }));
+  return articles.map((a) => {
+    const key = a.winner_name ? productKey(a.winner_name) : '';
+    const fromDb = key ? byKey.get(key) : undefined;
+    return {
+      ...a,
+      winnerImage: resolveWinnerThumb(key, fromDb, a.category, a.subcategory),
+    };
+  });
 }
 
 /** Extract all product names from article content_html (H3 headings inside the content body).
