@@ -20,7 +20,18 @@ const kit = await getKit(kitSlug);
 const kitUrl = kit?.stripe_payment_link || getKitUrl(kitSlug);
 const podUrl = getPodUrl();
 const detailHref = `/kits/${kitSlug}/`;
-const mockup = kit?.kit_mockup_url || kit?.hero_image_url || '/images/kits/gaming-room-build-kit.webp';
+const isGamingRoom = kitSlug === 'gaming-room-build-kit';
+/** Bump when replacing the room plate so CDN/browsers drop the old collage. */
+const GAMING_ROOM_PLATE_V = '20260716room2';
+const mockupRaw =
+  kit?.kit_mockup_url || kit?.hero_image_url || '/images/kits/gaming-room-build-kit.webp';
+const mockupPath = mockupRaw.split('?')[0];
+const mockup = isGamingRoom
+  ? `${mockupPath}?v=${GAMING_ROOM_PLATE_V}`
+  : mockupRaw;
+const photoAlt = isGamingRoom
+  ? `${kit?.name || 'Gaming Room Build Kit'} — cinematic full gaming room (lifestyle plate)`
+  : `${kit?.name || 'Build kit'} staged in-room`;
 const price = kit?.price_gbp != null ? `£${kit.price_gbp}` : '£19';
 const heading = title || kit?.name || 'Skip the research. Get the kit.';
 const body =
@@ -36,7 +47,7 @@ const cta = kitLabel || `Get the Build Kit — ${price}`;
       <img
         class="kit-cta-photo"
         src={mockup}
-        alt={`${kit?.name || 'Build kit'} staged in-room with real product photos`}
+        alt={photoAlt}
         width="640"
         height="400"
         loading="lazy"

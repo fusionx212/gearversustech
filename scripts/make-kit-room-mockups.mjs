@@ -88,40 +88,23 @@ async function loadCut(linkKey, maxH) {
 }
 
 async function composeGaming() {
-  const room = await ensureDeskRoom();
-  const placements = [
-    { key: 'alienware-aw2725df', h: 380, left: 280, top: 140 },
-    { key: 'wooting-80he', h: 140, left: 520, top: 620 },
-    { key: 'logitech-g-pro-x-superlight-2', h: 90, left: 980, top: 680 },
-    { key: 'hyperx-cloud-iii-wireless', h: 200, left: 1280, top: 480 },
-    { key: 'govee-g1', h: 120, left: 200, top: 500 },
-    { key: 'tp-link-tapo-p110', h: 100, left: 1500, top: 700 },
-  ];
-
-  const composites = [];
-  for (const p of placements) {
-    const cut = await loadCut(p.key, p.h);
-    if (!cut) {
-      console.warn('missing cutout', p.key);
-      continue;
+  // NEVER overwrite the live hero with the SVG-desk + product-sticker collage.
+  // Full-room plates come from scripts/comfy-gaming-room-hero.mjs (Juggernaut).
+  const liveHero = join(KITS_DIR, 'gaming-room-build-kit.webp');
+  const collageOut = join(KITS_DIR, 'gaming-room-build-kit-COLLAGE-DO-NOT-SERVE.webp');
+  console.warn(
+    'SKIP gaming-room-build-kit.webp collage overwrite (keeps ComfyUI room plate).',
+    'Legacy collage path (not linked):',
+    collageOut
+  );
+  if (existsSync(liveHero)) {
+    const meta = await sharp(liveHero).metadata();
+    if ((meta.width || 0) >= 1600 && (meta.height || 0) >= 900) {
+      console.log('Live hero intact', liveHero, `${meta.width}x${meta.height}`);
+      return;
     }
-    composites.push({ input: cut.buf, left: p.left, top: p.top });
   }
-
-  const out = join(KITS_DIR, 'gaming-room-build-kit.webp');
-  // Label strip
-  const label = Buffer.from(`<svg width="1800" height="1100" xmlns="http://www.w3.org/2000/svg">
-    <rect x="40" y="40" width="520" height="88" rx="10" fill="rgba(12,14,18,0.82)"/>
-    <text x="64" y="78" fill="#e5a318" font-size="22" font-family="Space Grotesk, sans-serif" font-weight="700">GAMING ROOM BUILD KIT</text>
-    <text x="64" y="108" fill="#d7dde6" font-size="16" font-family="Source Sans 3, sans-serif">Real product photos · staged UK desk</text>
-  </svg>`);
-
-  await sharp(room)
-    .resize(1800, 1100)
-    .composite([...composites, { input: await sharp(label).png().toBuffer(), left: 0, top: 0 }])
-    .webp({ quality: 84 })
-    .toFile(out);
-  console.log('Wrote', out, 'layers', composites.length);
+  console.error('Live gaming room hero missing or tiny — run: node scripts/comfy-gaming-room-hero.mjs');
 }
 
 async function composeGarage() {

@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import EmailCapture from '../../components/EmailCapture.astro';
-import SpaceFitPanel from '../../components/SpaceFitPanel.astro';
 import { getKitUrl } from '../../lib/kit';
 import {
   getKit,
@@ -32,10 +31,11 @@ const tiers = kit?.tier_labels || [];
 const buyUrl = kit?.stripe_payment_link || getKitUrl(kit?.slug);
 const mockupRaw = kit?.kit_mockup_url || kit?.hero_image_url;
 const isGamingRoom = slug === 'gaming-room-build-kit';
-// Cache-bust gaming room hero when we replace the plate (CDN/browser)
+/** Bump when replacing the room plate so CDN/browsers drop the old collage. */
+const GAMING_ROOM_PLATE_V = '20260716room2';
 const mockup =
   isGamingRoom && mockupRaw
-    ? `${mockupRaw}${mockupRaw.includes('?') ? '&' : '?'}v=20260716spacely`
+    ? `${mockupRaw.split('?')[0]}?v=${GAMING_ROOM_PLATE_V}`
     : mockupRaw;
 
 function tierItems(tierId: string) {
@@ -93,7 +93,7 @@ function tierAnchorPc(tierId: string) {
               src={mockup}
               alt={
                 isGamingRoom
-                  ? `${kit.name} — complete gaming room (Spacely-calibre full-room plate)`
+                  ? `${kit.name} — cinematic full gaming room (lifestyle plate)`
                   : `${kit.name} — kit staged in-room`
               }
               width="1800"
@@ -102,7 +102,7 @@ function tierAnchorPc(tierId: string) {
             />
             <figcaption>
               {isGamingRoom
-                ? 'Complete gaming room — furniture, lighting, and desk in one scene (not a product collage). Exact SKUs and affiliate carts live in the tiers below.'
+                ? 'Lifestyle full-room plate (ComfyUI) — furniture, lighting, and desk in one scene, not clipped product stickers. Exact SKUs and affiliate carts live in the tiers below.'
                 : 'Full kit-in-room mockup from verified product photos.'}
             </figcaption>
           </figure>
@@ -224,12 +224,6 @@ function tierAnchorPc(tierId: string) {
           <h2>Setup notes</h2>
           <p>{kit.setup_notes}</p>
         </section>
-      )}
-
-      {slug === 'gaming-room-build-kit' && <SpaceFitPanel mode="gaming" />}
-      {slug === 'uk-garage-gym-build-kit' && <SpaceFitPanel mode="gym" />}
-      {(slug === 'shed-garden-office-setup-pack' || slug === 'shed-gym-setup-pack') && (
-        <SpaceFitPanel mode={slug === 'shed-gym-setup-pack' ? 'gym' : 'gaming'} />
       )}
 
       {(slug === 'gaming-room-build-kit' ||

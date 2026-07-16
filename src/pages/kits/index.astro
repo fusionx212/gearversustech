@@ -24,11 +24,21 @@ const kits = await getKits();
     {kits.length === 0 && (
       <p>Kits loading — check back shortly.</p>
     )}
-    {kits.map((k) => (
+    {kits.map((k) => {
+      const raw = k.kit_mockup_url || k.hero_image_url || '/images/kits/gaming-room-build-kit.webp';
+      const src =
+        k.slug === 'gaming-room-build-kit'
+          ? `${raw.split('?')[0]}?v=20260716room2`
+          : raw;
+      return (
       <a class="kit-index-card" href={`/kits/${k.slug}/`}>
         <img
-          src={k.kit_mockup_url || k.hero_image_url || '/images/kits/gaming-room-build-kit.webp'}
-          alt={`${k.name} room mockup`}
+          src={src}
+          alt={
+            k.slug === 'gaming-room-build-kit'
+              ? `${k.name} — cinematic full gaming room`
+              : `${k.name} room mockup`
+          }
           width="640"
           height="400"
           loading="lazy"
@@ -40,6 +50,7 @@ const kits = await getKits();
           <span class="space-card-cta">Open pack contents →</span>
         </div>
       </a>
-    ))}
+      );
+    })}
   </section>
 </BaseLayout>
