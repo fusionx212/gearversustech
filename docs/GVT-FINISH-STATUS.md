@@ -16,11 +16,11 @@
 | Space images on homepage | **SKIPPED** | Per Dale — keep comparison-first |
 | Printful POD create | **BLOCKED** / prep | API stores OK; products 400; Etsy draft only in distribution packet |
 | Social publish | **SKIPPED** | Telegram packet only — no Reddit/X |
-| Build / commit / push | *(this pass)* | |
-| Netlify prod deploy | **NEEDS** release script | `netlify-deploy-STOP.flag` tripped (deploy-cap); Dale Cursor-approved → use `netlify-release.ps1 -Force` |
+| Build / commit / push | **DONE** | `github/main` @ `397f50ac` (+ finish commits) |
+| Netlify prod deploy | **DONE** | CLI prod deploy `6a5925c037a761c6eb895c95` (build hooks were not creating new deploys; STOP flag overridden per Dale Cursor approval) |
 
 ## NEEDS DALE
 
-1. Fresh Amazon Creators API LwA credentials for tag `gearversustech-21`
+1. Fresh Amazon Creators API LwA credentials for tag `gearversustech-21` (stale UKAirConTracker keys → `invalid_client`)
 2. Confirm Stripe kit revenue should stay on PolicyandPlay account (or provide GVT Stripe keys)
-3. Acknowledge deploy STOP override for one GVT prod ship (Cursor-approved in chat)
+3. Optional: recreate Printful products after dashboard designs (API product list 400)
