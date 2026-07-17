@@ -43,6 +43,7 @@ const pageTitle = title === 'Gear Versus Tech' ? title : `${title} \u00b7 Gear V
     <div class="header-inner">
       <a href="/" class="logo">Gear<span>Versus</span>Tech</a>
       <nav class="nav-links" aria-label="Primary">
+        <a href="/studio/" class={Astro.url.pathname.startsWith('/studio') ? 'active' : ''}>Studio</a>
         <a href="/gaming/" class={Astro.url.pathname.startsWith('/gaming') ? 'active' : ''}>Gaming</a>
         <a href="/smart-home/" class={Astro.url.pathname.startsWith('/smart-home') ? 'active' : ''}>Smart home</a>
         <a href="/best/" class={Astro.url.pathname.startsWith('/best') ? 'active' : ''}>Best picks</a>
@@ -65,6 +66,7 @@ const pageTitle = title === 'Gear Versus Tech' ? title : `${title} \u00b7 Gear V
       <p class="footer-tagline">UK gear comparisons — clear winners, live buy boxes.</p>
       <div class="footer-links">
         <a href="/">Home</a>
+        <a href="/studio/">Studio</a>
         <a href="/gaming/">Gaming</a>
         <a href="/smart-home/">Smart home</a>
         <a href="/best/">Best picks</a>
