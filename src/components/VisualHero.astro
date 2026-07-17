@@ -1,0 +1,36 @@
+---
+interface Metric { value: string; label: string; }
+interface Props {
+  eyebrow: string;
+  title: string;
+  description: string;
+  image: string;
+  alt: string;
+  primaryHref: string;
+  primaryLabel: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+  tags?: string[];
+  metrics?: Metric[];
+}
+const { eyebrow, title, description, image, alt, primaryHref, primaryLabel, secondaryHref, secondaryLabel, tags = [], metrics = [] } = Astro.props;
+---
+
+<section class="gvt-visual-hero" aria-labelledby="visual-hero-title">
+  <div class="gvt-visual-hero-media">
+    <img src={image} alt={alt} width="1800" height="1050" fetchpriority="high" />
+    <div class="gvt-visual-hero-scrim" aria-hidden="true"></div>
+    <span class="gvt-visual-hero-index" aria-hidden="true">GVT / 01</span>
+  </div>
+  <div class="gvt-visual-hero-content">
+    <p class="gvt-eyebrow">{eyebrow}</p>
+    <h1 id="visual-hero-title">{title}</h1>
+    <p class="gvt-visual-hero-description">{description}</p>
+    <div class="gvt-visual-hero-actions">
+      <a class="btn btn-kit" href={primaryHref}>{primaryLabel}<span aria-hidden="true"> ↗</span></a>
+      {secondaryHref && secondaryLabel && <a class="btn btn-light-ghost" href={secondaryHref}>{secondaryLabel}</a>}
+    </div>
+    {tags.length > 0 && <div class="gvt-visual-hero-tags" aria-label="What this page covers">{tags.map((tag, index) => <span><i aria-hidden="true">0{index + 1}</i>{tag}</span>)}</div>}
+  </div>
+  {metrics.length > 0 && <div class="gvt-visual-hero-metrics" aria-label="Setup details">{metrics.map((metric) => <div><strong>{metric.value}</strong><span>{metric.label}</span></div>)}</div>}
+</section>

@@ -1,0 +1,95 @@
+---
+export const prerender = false;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductDepth from '../../components/ProductDepth.astro';
+import { buildAmazonUrl, catalogueImage, getAffiliateLink } from '../../lib/supabase';
+import { resolveStudioRecommendations } from '../../lib/studio-catalog-server';
+
+const slug = Astro.params.slug || '';
+const product = await getAffiliateLink(slug);
+const hasReview = Boolean(product && product.review_summary && product.honest_take && product.score_out_of_10 != null);
+if (!hasReview) Astro.response.status = 404;
+const recommendations = product ? await resolveStudioRecommendations() : null;
+const studioEntry = product && recommendations ? Object.entries(recommendations).find(([, item]) => item.pick.toLowerCase() === product.product_name.toLowerCase()) : null;
+const image = product ? catalogueImage(product.link_key, product.image_url) : undefined;
+const description = product?.review_summary || product?.honest_take || 'This GVT product review is not available.';
+const schema = hasReview && product ? {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: product.product_name,
+  image: image ? new URL(image, 'https://gearversustech.com').href : undefined,
+  description,
+  review: {
+    '@type': 'Review',
+    author: { '@type': 'Organization', name: 'Gear Versus Tech' },
+    reviewRating: { '@type': 'Rating', ratingValue: product.score_out_of_10, bestRating: 10, worstRating: 1 },
+    reviewBody: product.review_summary || product.honest_take,
+  },
+  offers: product.amazon_asin && product.uk_price_gbp != null ? {
+    '@type': 'Offer',
+    url: buildAmazonUrl(product.amazon_asin),
+    priceCurrency: 'GBP',
+    price: product.uk_price_gbp,
+  } : undefined,
+} : undefined;
+---
+
+<BaseLayout title={product ? `${product.product_name} review` : 'Review not found'} description={description} schema={schema}>
+  <main class="review-page container">
+    {hasReview && product ? (
+      <>
+        <nav class="breadcrumb"><a href="/">Home</a> / <a href="/best/">Reviews</a> / <span class="current">{product.product_name}</span></nav>
+        <header class="review-hero">
+          <div class="review-hero-copy">
+            <p class="gvt-eyebrow">GVT product review / Supabase live record</p>
+            <h1>{product.product_name}</h1>
+            <p>{product.honest_take || product.review_summary}</p>
+            <div class="review-hero-actions">
+              {product.amazon_asin && <a class="review-buy" href={`/c/amazon/${product.link_key}`} rel="nofollow sponsored">Check live Amazon price ↗</a>}
+              {studioEntry && <a href={`/studio/?slot=${studioEntry[0]}#room-planner`}>See its product class in your room →</a>}
+              {studioEntry && <a href={studioEntry[1].compare}>Open the winning comparison →</a>}
+            </div>
+            <small>Review data and product availability update from the GVT catalogue without a site redeploy.</small>
+          </div>
+          <div class="review-hero-product">
+            {image ? <img src={image} alt={product.product_name} width="640" height="520" /> : <span>Product image updating</span>}
+            <strong>{product.score_out_of_10}/10</strong>
+            <small>GVT product score</small>
+          </div>
+        </header>
+
+        <ProductDepth product={product} role="Full review" showFullReviewLink={false} />
+
+        <aside class="review-method-note">
+          <p class="gvt-eyebrow">How this stays current</p>
+          <p>Specifications, pricing, review synthesis and drawbacks live in one catalogue record. Comparisons and Studio recommendations reference that same record, so corrections propagate across the customer journey.</p>
+          <a href="/methodology/">Read the scoring methodology →</a>
+        </aside>
+      </>
+    ) : (
+      <section class="review-missing"><p class="gvt-eyebrow">404 / Review unavailable</p><h1>This product review is not published.</h1><a href="/best/">Browse current GVT picks →</a></section>
+    )}
+  </main>
+</BaseLayout>
+
+<style>
+  .review-page { padding-bottom: 5rem; }
+  .review-hero { display: grid; grid-template-columns: 1.15fr .85fr; min-height: 600px; margin-top: 1.5rem; border: 1px solid var(--border-strong); background: var(--surface); }
+  .review-hero-copy { display: flex; flex-direction: column; justify-content: center; padding: clamp(2rem, 5vw, 5rem); }
+  .review-hero h1 { max-width: 10ch; margin: .7rem 0 1.2rem; font-size: clamp(3rem, 7vw, 6.5rem); line-height: .88; letter-spacing: -.08em; }
+  .review-hero-copy > p:not(.gvt-eyebrow) { max-width: 58ch; color: var(--text-secondary); font-size: 1rem; }
+  .review-hero-copy > small { max-width: 58ch; margin-top: 1.2rem; color: var(--text-muted); font: .65rem/1.5 var(--font-mono); }
+  .review-hero-actions { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 1.5rem; }
+  .review-hero-actions a { border: 1px solid var(--border); padding: .7rem .8rem; color: var(--text); font: .68rem var(--font-mono); text-transform: uppercase; }
+  .review-hero-actions .review-buy { border-color: var(--accent); color: var(--ink); background: var(--accent); font-weight: 700; }
+  .review-hero-product { position: relative; display: grid; min-height: 560px; place-items: center; overflow: hidden; border-left: 1px solid var(--border-strong); background: radial-gradient(circle at 50% 45%, rgba(229,163,24,.14), transparent 42%), var(--stage); }
+  .review-hero-product img { width: 85%; height: 72%; object-fit: contain; filter: drop-shadow(0 2rem 2rem rgba(0,0,0,.45)); }
+  .review-hero-product > strong { position: absolute; right: 1.5rem; bottom: 2.2rem; color: var(--accent); font: 2rem var(--font-mono); }
+  .review-hero-product > small { position: absolute; right: 1.5rem; bottom: 1.35rem; color: var(--text-muted); font: .62rem var(--font-mono); text-transform: uppercase; }
+  .review-method-note { display: grid; grid-template-columns: .3fr 1fr auto; gap: 2rem; align-items: center; margin-top: 2rem; border-top: 1px solid var(--border); padding: 1.5rem 0; }
+  .review-method-note p { margin: 0; }
+  .review-method-note a { color: var(--accent); font: .7rem var(--font-mono); white-space: nowrap; }
+  .review-missing { min-height: 60vh; padding-top: 6rem; }
+  .review-missing h1 { max-width: 12ch; margin: 1rem 0 2rem; font-size: clamp(3rem, 8vw, 7rem); line-height: .9; }
+  @media (max-width: 850px) { .review-hero, .review-method-note { grid-template-columns: 1fr; } .review-hero-product { min-height: 430px; border-top: 1px solid var(--border-strong); border-left: 0; } }
+</style>

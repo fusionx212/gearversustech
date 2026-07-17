@@ -73,6 +73,7 @@ function tierAnchorPc(tierId: string) {
           <p class="kit-kicker">Digital kit · £{kit.price_gbp}</p>
           <h1>{kit.name}</h1>
           <p class="lede">{kit.description}</p>
+          <div class="kit-hero-ribbon"><span><strong>{items.length}</strong> items</span><span><strong>{tiers.length}</strong> tiers</span><span>UK retailer routes</span></div>
           <div class="kit-actions">
             {buyUrl ? (
               <a class="btn btn-kit" href={buyUrl} rel="noopener">
@@ -179,6 +180,16 @@ function tierAnchorPc(tierId: string) {
                           {item.link_key && (
                             <a href={`/c/ebay/${item.link_key}`} rel="nofollow sponsored">eBay UK</a>
                           )}
+                          {item.link_key && (
+                            <button
+                              class="kit-setup-add"
+                              type="button"
+                              data-setup-add
+                              data-setup-item={item.product_name}
+                              data-setup-price={item.product?.uk_price_gbp ?? ''}
+                              data-setup-href={`/c/ebay/${item.link_key}`}
+                            >+ Add to setup</button>
+                          )}
                         </div>
                       </div>
                     </article>
@@ -189,6 +200,12 @@ function tierAnchorPc(tierId: string) {
           );
         })}
       </section>
+
+      <div class="kit-visual-path" aria-label="How to use this kit">
+        <div><span>01</span><strong>Choose the tier</strong><small>Start with the room and budget you actually have.</small></div>
+        <div><span>02</span><strong>Check the evidence</strong><small>Open the compare spoke before committing to a product.</small></div>
+        <div><span>03</span><strong>Build your shortlist</strong><small>Add the pieces you want to My setup as you browse.</small></div>
+      </div>
 
       <section class="kit-who">
         <div>

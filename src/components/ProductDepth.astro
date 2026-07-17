@@ -4,9 +4,10 @@ import type { AffiliateLink } from '../lib/supabase';
 interface Props {
   product?: AffiliateLink | null;
   role?: string;
+  showFullReviewLink?: boolean;
 }
 
-const { product, role = 'Product' } = Astro.props;
+const { product, role = 'Product', showFullReviewLink = true } = Astro.props;
 if (!product?.honest_take && !product?.review_summary) {
   // nothing to render
 }
@@ -97,5 +98,7 @@ if (!product?.honest_take && !product?.review_summary) {
         <ul>{product.usage_ideas.map((x) => <li>{x}</li>)}</ul>
       </>
     )}
+
+    {showFullReviewLink && <a class="product-depth-full-review" href={`/reviews/${product.link_key}/`}>Read the full {product.product_name} review →</a>}
   </section>
 )}

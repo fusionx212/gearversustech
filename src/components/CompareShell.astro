@@ -7,6 +7,7 @@ import CompareBuyBox from './CompareBuyBox.astro';
 import ProductDepth from './ProductDepth.astro';
 import KitCTA from './KitCTA.astro';
 import EmailCapture from './EmailCapture.astro';
+import CompareTheatre from './CompareTheatre.astro';
 import { productKey, type ArticleCard, type AffiliateLink } from '../lib/supabase';
 
 interface Props {
@@ -113,6 +114,22 @@ const spaceHub =
       : category === 'smart-home'
         ? { href: '/spaces/', label: 'Room guides' }
         : null;
+
+const plannerText = `${title} ${subcategory || ''} ${winnerName || ''}`.toLowerCase();
+const studioSlot =
+  /monitor|display|screen/.test(plannerText)
+    ? 'monitor_27'
+    : /chair|seat/.test(plannerText)
+      ? 'chair_ergonomic'
+      : /desk|workstation/.test(plannerText)
+        ? 'desk_140'
+        : /power rack|squat rack|power cage/.test(plannerText)
+          ? 'gym_rack'
+          : /flooring|floor mat|gym mat/.test(plannerText)
+            ? 'gym_flooring'
+            : /smart light|lighting|lamp|led strip|light strip/.test(plannerText)
+              ? 'smart_light'
+              : null;
 ---
 
 <div class="container compare-page">
@@ -154,6 +171,17 @@ const spaceHub =
   )}
 
   {winnerName && winnerRating != null && (
+    <CompareTheatre
+      winnerName={winnerName}
+      winnerRating={winnerRating}
+      runnerupName={runnerupName}
+      runnerupRating={runnerupRating}
+      winner={winner}
+      runnerup={runnerup}
+    />
+  )}
+
+  {winnerName && winnerRating != null && (
     <CompareBuyBox
       winnerName={winnerName}
       winnerRating={winnerRating}
@@ -162,6 +190,17 @@ const spaceHub =
       winner={winner}
       runnerup={runnerup}
     />
+  )}
+
+  {studioSlot && (
+    <aside class="studio-fit-cta" aria-label="Try this product class in GVT Studio">
+      <div>
+        <span>Already measured your room?</span>
+        <strong>See how this product class fits before you buy.</strong>
+        <small>The planner uses a representative footprint. This review remains the source for exact specifications.</small>
+      </div>
+      <a href={`/studio/?slot=${studioSlot}#room-planner`}>Open in 3D Studio <span aria-hidden="true">→</span></a>
+    </aside>
   )}
 
   <article class="compare-body" set:html={contentHtml} />

@@ -1,0 +1,17 @@
+---
+const spaces = [
+  { href: '/spaces/gaming-room/', image: '/images/kits/gaming-room-build-kit.png', eyebrow: '01 / gaming', title: 'The focused room', note: 'Desk depth, display width, cable routes and light that works after dark.' },
+  { href: '/spaces/garage-gym/', image: '/images/rooms/garage.jpg', eyebrow: '02 / training', title: 'The working garage', note: 'Rack clearance, bar paths, flooring and the space you need to move.' },
+  { href: '/spaces/garden-office-gaming/', image: '/images/rooms/desk-cinematic.jpg', eyebrow: '03 / outside', title: 'The garden office', note: 'A small shell planned properly: power, storage, light and daily comfort.' },
+];
+---
+
+<section class="gvt-space-selector" aria-labelledby="space-selector-title">
+  <div class="gvt-section-heading">
+    <div><p class="gvt-eyebrow">Choose your starting point</p><h2 id="space-selector-title">Start with the room.<br /><em>Then choose the gear.</em></h2></div>
+    <p>Every recommendation makes more sense when it has a place to live. Explore a space, see the constraints, and build from there.</p>
+  </div>
+  <div class="gvt-space-grid">
+    {spaces.map((space) => <a class="gvt-space-card" href={space.href}><div class="gvt-space-card-media"><img src={space.image} alt="" loading="lazy" width="1200" height="900" /><span class="gvt-space-card-arrow" aria-hidden="true">↗</span></div><div class="gvt-space-card-copy"><p class="gvt-eyebrow">{space.eyebrow}</p><h3>{space.title}</h3><p>{space.note}</p></div></a>)}
+  </div>
+</section>
