@@ -7,6 +7,7 @@ import CompareBuyBox from './CompareBuyBox.astro';
 import ProductDepth from './ProductDepth.astro';
 import KitCTA from './KitCTA.astro';
 import EmailCapture from './EmailCapture.astro';
+import CompareTheatre from './CompareTheatre.astro';
 import { productKey, type ArticleCard, type AffiliateLink } from '../lib/supabase';
 
 interface Props {
@@ -151,6 +152,17 @@ const spaceHub =
       )}
       <p class="verdict-first-desc">{description}</p>
     </aside>
+  )}
+
+  {winnerName && winnerRating != null && (
+    <CompareTheatre
+      winnerName={winnerName}
+      winnerRating={winnerRating}
+      runnerupName={runnerupName}
+      runnerupRating={runnerupRating}
+      winner={winner}
+      runnerup={runnerup}
+    />
   )}
 
   {winnerName && winnerRating != null && (

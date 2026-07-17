@@ -3,7 +3,10 @@ export const prerender = false;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import KitCTA from '../components/KitCTA.astro';
 import EmailCapture from '../components/EmailCapture.astro';
-import { getLatestArticles, attachWinnerImages } from '../lib/supabase';
+import VisualHero from '../components/VisualHero.astro';
+import SpaceSelector from '../components/SpaceSelector.astro';
+import RoomHotspotStage from '../components/RoomHotspotStage.astro';
+import { getLatestArticles, attachWinnerImages, getKit, getKitItems, attachKitItemProducts } from '../lib/supabase';
 
 /** Garden shed / outdoor-setup compares — keep out of the in-home #latest wall. */
 function isGardenShedArticle(a: {
@@ -20,6 +23,10 @@ function isGardenShedArticle(a: {
 
 const articlesRaw = await getLatestArticles(40);
 const articles = await attachWinnerImages(articlesRaw);
+const gamingKit = await getKit('gaming-room-build-kit');
+const gamingKitItems = gamingKit
+  ? await attachKitItemProducts((await getKitItems(gamingKit.slug)).filter((item) => item.link_key).slice(0, 4))
+  : [];
 
 const gearArticles = articles.filter((a) => !isGardenShedArticle(a));
 const gardenArticles = articles.filter((a) => isGardenShedArticle(a));
@@ -82,24 +89,23 @@ const PACKS = [
   description="UK tech comparison engine — X vs Y and best-under-£X picks with scores, drawbacks, and live Amazon/eBay buy boxes."
 >
 
-<section class="home-hero">
-  <div class="home-hero-inner">
-    <p class="home-hero-brand">Gear<span>Versus</span>Tech</p>
-    <h1>Find the right product. Compare first.</h1>
-    <p class="lede">
-      UK gear comparisons with clear winners, who should skip, and live prices — so you buy once, not after ten more tabs.
-    </p>
-    <div class="hero-cta">
-      <a class="btn btn-kit" href="#latest">Latest compares</a>
-      <a class="btn btn-ghost" href="#garden-sheds">Garden sheds</a>
-    </div>
-    <nav class="intent-rail" aria-label="How to browse">
-      {INTENTS.map((i) => (
-        <a href={i.href} class="intent-chip">{i.label}</a>
-      ))}
-    </nav>
-  </div>
-</section>
+<VisualHero
+  eyebrow="UK gear / room / decision lab"
+  title="Build the room. Choose the gear."
+  description="Cinematic spaces, exact products and honest comparisons — so your next setup feels designed before you buy it."
+  image="/images/kits/gaming-room-build-kit.png"
+  alt="Warm, dark gaming room with dual monitors, desks and amber lighting"
+  primaryHref="/spaces/gaming-room/"
+  primaryLabel="Explore the gaming room"
+  secondaryHref="#latest"
+  secondaryLabel="Read the latest compares"
+  tags={['gaming rooms', 'home gyms', 'garden offices']}
+  metrics={[{ value: '01', label: 'choose a space' }, { value: '02', label: 'compare the gear' }, { value: '03', label: 'build your setup' }]}
+/>
+
+<RoomHotspotStage items={gamingKitItems} />
+
+<SpaceSelector />
 
 <nav class="cat-path" aria-label="Comparison categories">
   <div class="cat-path-inner">

@@ -1,0 +1,22 @@
+---
+interface Product { product_name?: string | null; image_url?: string | null; link_key?: string | null; uk_price_gbp?: number | null; honest_take?: string | null; }
+interface Props { winnerName: string; winnerRating: number; runnerupName: string | null; runnerupRating: number | null; winner?: Product; runnerup?: Product; }
+const { winnerName, winnerRating, runnerupName, runnerupRating, winner, runnerup } = Astro.props;
+const winnerHref = winner?.link_key ? `/c/amazon/${winner.link_key}` : '#buy';
+const runnerHref = runnerup?.link_key ? `/c/amazon/${runnerup.link_key}` : '#buy';
+---
+
+<section class="gvt-compare-theatre" aria-labelledby="compare-theatre-title">
+  <div class="gvt-compare-theatre-header"><div><p class="gvt-eyebrow">The decision, at a glance</p><h2 id="compare-theatre-title">Two products. One clear place to start.</h2></div><span class="gvt-compare-theatre-note">Move through the evidence, then choose the one that fits your room and priorities.</span></div>
+  <div class="gvt-compare-stage">
+    <article class="gvt-compare-product gvt-compare-product--winner" data-tilt-card><div class="gvt-compare-product-image">{winner?.image_url ? <img src={winner.image_url} alt={winnerName} loading="eager" /> : <span class="gvt-product-placeholder">Product image<br />updating</span>}<span class="gvt-product-stamp">OUR PICK</span></div><div class="gvt-compare-product-copy"><p class="gvt-eyebrow">01 / winner</p><h3>{winnerName}</h3><div class="gvt-score-line"><strong>{winnerRating}</strong><span>/10</span><i>best overall</i></div>{winner?.honest_take && <p>{winner.honest_take}</p>}<div class="gvt-product-actions"><a class="btn btn-amazon btn-sm" href={winnerHref} rel="nofollow sponsored">Check price ↗</a><button class="gvt-setup-button" type="button" data-setup-add data-setup-item={winnerName} data-setup-price={winner?.uk_price_gbp ?? ''} data-setup-href={winnerHref}>+ Add to setup</button></div></div></article>
+    <div class="gvt-vs-mark" aria-hidden="true"><span>VS</span><i></i></div>
+    {runnerupName && <article class="gvt-compare-product gvt-compare-product--runner" data-tilt-card><div class="gvt-compare-product-image">{runnerup?.image_url ? <img src={runnerup.image_url} alt={runnerupName} loading="lazy" /> : <span class="gvt-product-placeholder">Product image<br />updating</span>}<span class="gvt-product-stamp gvt-product-stamp--runner">VALUE ALT</span></div><div class="gvt-compare-product-copy"><p class="gvt-eyebrow">02 / alternative</p><h3>{runnerupName}</h3><div class="gvt-score-line"><strong>{runnerupRating ?? '—'}</strong><span>/10</span><i>best if value leads</i></div>{runnerup?.honest_take && <p>{runnerup.honest_take}</p>}<div class="gvt-product-actions"><a class="btn btn-ebay btn-sm" href={runnerHref} rel="nofollow sponsored">Check option ↗</a><button class="gvt-setup-button" type="button" data-setup-add data-setup-item={runnerupName} data-setup-price={runnerup?.uk_price_gbp ?? ''} data-setup-href={runnerHref}>+ Add to setup</button></div></div></article>}
+  </div>
+  <div class="gvt-compare-proof"><span><b>01</b> performance</span><span><b>02</b> value</span><span><b>03</b> build</span><span><b>04</b> ease of use</span><a href="/methodology/">See the method ↗</a></div>
+</section>
+
+<script>
+  const cards = document.querySelectorAll<HTMLElement>('[data-tilt-card]');
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) cards.forEach((card) => { card.addEventListener('pointermove', (event) => { const rect = card.getBoundingClientRect(); card.style.setProperty('--tilt-x', `${(((event.clientY - rect.top) / rect.height - 0.5) * -3).toFixed(2)}deg`); card.style.setProperty('--tilt-y', `${(((event.clientX - rect.left) / rect.width - 0.5) * 3).toFixed(2)}deg`); }); card.addEventListener('pointerleave', () => { card.style.setProperty('--tilt-x', '0deg'); card.style.setProperty('--tilt-y', '0deg'); }); });
+</script>
