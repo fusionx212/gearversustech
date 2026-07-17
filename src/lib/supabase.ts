@@ -34,6 +34,7 @@ export interface AffiliateLink {
   drawbacks?: string[] | null;
   stats?: Record<string, string | number | boolean> | null;
   mockup_url?: string | null;
+  updated_at?: string | null;
 }
 
 export interface GvtKit {
@@ -103,6 +104,15 @@ export async function getArticle(slug: string): Promise<Article | null> {
   return articles[0] || null;
 }
 
+export async function getArticlesBySlugs(slugs: string[]): Promise<Article[]> {
+  if (!slugs.length) return [];
+  return supabaseQuery<Article>('gvt_articles', {
+    select: 'slug,title,description,category,subcategory,winner_name,winner_rating,runnerup_name,runnerup_rating,created_at,updated_at',
+    slug: `in.(${slugs.join(',')})`,
+    published: 'eq.true',
+  });
+}
+
 export async function getArticlesByCategory(category: string, limit = 20): Promise<Article[]> {
   return supabaseQuery<Article>('gvt_articles', {
     select: 'slug,title,description,category,subcategory,winner_name,winner_rating,runnerup_name,runnerup_rating,created_at',
@@ -129,6 +139,14 @@ export async function getAffiliateLink(key: string): Promise<AffiliateLink | nul
     limit: '1',
   });
   return links[0] || null;
+}
+
+export async function getAffiliateLinksByKeys(keys: string[]): Promise<AffiliateLink[]> {
+  if (!keys.length) return [];
+  return supabaseQuery<AffiliateLink>('gvt_affiliate_links', {
+    select: '*',
+    link_key: `in.(${keys.join(',')})`,
+  });
 }
 
 export function buildAmazonUrl(asin: string): string {

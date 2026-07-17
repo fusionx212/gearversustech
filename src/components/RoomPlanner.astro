@@ -1,0 +1,218 @@
+---
+import { STUDIO_RECOMMENDATIONS, type StudioRecommendation, type StudioSlotKey } from '../lib/studio-catalog';
+interface Props { recommendations?: Record<StudioSlotKey, StudioRecommendation>; }
+const recommendations = Astro.props.recommendations || STUDIO_RECOMMENDATIONS;
+---
+
+<section class="gvt-room-planner" id="room-planner" aria-labelledby="room-planner-title">
+  <header class="gvt-room-planner-head">
+    <div><p class="gvt-eyebrow">AI plan / interactive fit check</p><h2 id="room-planner-title">Move the setup.<br /><em>Keep the product truth.</em></h2></div>
+    <p>The Studio places scalable product classes into a measured room. Drag a slot to test the layout, then open the live GVT pick or comparison attached to it.</p>
+  </header>
+
+  <div class="gvt-room-planner-presets" aria-label="Room presets">
+    <button type="button" class="is-active" data-room-preset="gaming-room">Pro-streamer setup</button>
+    <button type="button" data-room-preset="garden-office">Garden office</button>
+    <button type="button" data-room-preset="shed-gym">Compact shed gym</button>
+  </div>
+
+  <div class="gvt-room-planner-shell">
+    <div class="gvt-room-canvas-wrap">
+      <canvas data-room-canvas aria-label="Interactive three-dimensional room plan"></canvas>
+      <div class="gvt-room-canvas-note"><span>Drag items to move</span><span>Drag empty space to orbit</span><span>Scroll to zoom</span></div>
+      <div class="gvt-room-dimensions">
+        <label>Width <input data-room-width type="number" min="2.4" max="8" step="0.1" value="3.6" /> m</label>
+        <label>Depth <input data-room-depth type="number" min="2.4" max="8" step="0.1" value="3.2" /> m</label>
+        <button type="button" data-room-apply>Apply room size</button>
+        <button type="button" data-room-view>Reset view</button>
+      </div>
+    </div>
+
+    <aside class="gvt-room-slot" aria-live="polite">
+      <p class="gvt-eyebrow">Selected product class</p>
+      <h3 data-slot-title>140 cm gaming desk</h3>
+      <p data-slot-description>A generic footprint used to test fit. The recommendations remain live and replaceable.</p>
+      <div class="gvt-room-slot-actions"><button type="button" data-slot-rotate>Rotate 90°</button><span data-slot-size>1.40 × 0.70 m</span></div>
+      <div class="gvt-room-pick">
+        <div class="gvt-room-pick-image"><img data-slot-image src="/images/products/maidesite-standing-desk-140x70.webp" alt="" /></div>
+        <div><span>Current comparison winner</span><strong data-slot-pick>MAIDeSITe Standing Desk 140x70</strong><small data-slot-reason>The 140 cm winner in GVT’s garden-shed desk-size comparison.</small><small data-slot-source>Source: Desk Size for Garden Sheds UK · 8.4/10</small></div>
+      </div>
+      <div class="gvt-room-pick-links"><a data-slot-buy href="/c/amazon/maidesite-standing-desk-140x70" rel="nofollow sponsored">Check live price ↗</a><a data-slot-compare href="/gaming/">Compare alternatives →</a></div>
+      <p class="gvt-room-slot-legal">The 3D object represents a size class, not the exact product appearance. Product cards and comparison pages are the factual source.</p>
+    </aside>
+  </div>
+</section>
+
+<script type="application/json" data-studio-catalog set:html={JSON.stringify(recommendations).replace(/</g, '\\u003c')} />
+
+<script>
+  import {
+    BoxGeometry,
+    Color,
+    CylinderGeometry,
+    DirectionalLight,
+    GridHelper,
+    Group,
+    HemisphereLight,
+    MathUtils,
+    Mesh,
+    MeshStandardMaterial,
+    PCFSoftShadowMap,
+    PerspectiveCamera,
+    Plane,
+    Raycaster,
+    Scene,
+    Vector2,
+    Vector3,
+    WebGLRenderer,
+  } from 'three';
+  import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+  import { STUDIO_RECOMMENDATIONS, type StudioSlotKey } from '../lib/studio-catalog';
+
+  const root = document.querySelector<HTMLElement>('.gvt-room-planner');
+  const canvas = root?.querySelector<HTMLCanvasElement>('[data-room-canvas]');
+  if (root && canvas) {
+    const catalogueNode = document.querySelector<HTMLScriptElement>('[data-studio-catalog]');
+    let recommendations = STUDIO_RECOMMENDATIONS;
+    try { if (catalogueNode?.textContent) recommendations = JSON.parse(catalogueNode.textContent); } catch { /* use the verified local fallback */ }
+    type SlotKey = StudioSlotKey;
+    type Slot = (typeof STUDIO_RECOMMENDATIONS)[SlotKey] & { title: string; description: string; size: string; colour: number; width: number; depth: number; baseY: number; };
+    const slots: Record<SlotKey, Slot> = {
+      desk_140: { ...recommendations.desk_140, title: '140 cm gaming desk', description: 'A generic footprint used to test fit. The recommendation comes from the published comparison.', size: '1.40 × 0.70 m', colour: 0x8b633f, width: 1.4, depth: .7, baseY: 0 },
+      monitor_27: { ...recommendations.monitor_27, title: '27-inch monitor', description: 'A standard display envelope for testing screen count, sight lines and desk width.', size: '0.62 × 0.22 m', colour: 0x15191e, width: .62, depth: .22, baseY: .78 },
+      chair_ergonomic: { ...recommendations.chair_ergonomic, title: 'Ergonomic chair', description: 'A movement envelope for long sessions, including room to pull back and rotate.', size: '0.72 × 0.72 m', colour: 0x30363d, width: .72, depth: .72, baseY: 0 },
+      smart_light: { ...recommendations.smart_light, title: 'Smart lighting zone', description: 'A generic floor and wall wash zone for bias light, task light and atmosphere.', size: '0.35 × 0.35 m', colour: 0xe5a318, width: .35, depth: .35, baseY: 0 },
+      gym_rack: { ...recommendations.gym_rack, title: 'Compact power rack', description: 'A clearance-aware rack class with working space in front for the bar path.', size: '1.25 × 1.20 m', colour: 0x4b535c, width: 1.25, depth: 1.2, baseY: 0 },
+      gym_flooring: { ...recommendations.gym_flooring, title: 'Impact flooring zone', description: 'A protected training footprint for noise, impact and equipment stability.', size: '2.00 × 1.50 m', colour: 0x252a2f, width: 2, depth: 1.5, baseY: .015 },
+    };
+    const presets: Record<string, { width: number; depth: number; items: { slot: SlotKey; x: number; z: number; rotation?: number }[] }> = {
+      'gaming-room': { width: 3.6, depth: 3.2, items: [{ slot: 'desk_140', x: 0, z: -1.1 }, { slot: 'monitor_27', x: 0, z: -1.18 }, { slot: 'chair_ergonomic', x: 0, z: -.15 }, { slot: 'smart_light', x: 1.45, z: -1.3 }] },
+      'garden-office': { width: 3.2, depth: 2.8, items: [{ slot: 'desk_140', x: -.45, z: -1 }, { slot: 'monitor_27', x: -.45, z: -1.08 }, { slot: 'chair_ergonomic', x: -.45, z: -.05 }, { slot: 'smart_light', x: 1.25, z: -1.05 }] },
+      'man-cave': { width: 4, depth: 3.4, items: [{ slot: 'monitor_27', x: 0, z: -1.35 }, { slot: 'chair_ergonomic', x: 0, z: .1 }, { slot: 'smart_light', x: 1.6, z: -1.4 }] },
+      'shed-gym': { width: 3.6, depth: 3, items: [{ slot: 'gym_flooring', x: 0, z: -.2 }, { slot: 'gym_rack', x: 0, z: -.8 }] },
+    };
+
+    const scene = new Scene();
+    scene.background = new Color(0x0c0f12);
+    const camera = new PerspectiveCamera(42, 1, .1, 100);
+    camera.position.set(4.6, 4.1, 5.6);
+    const renderer = new WebGLRenderer({ canvas, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = PCFSoftShadowMap;
+    const controls = new OrbitControls(camera, canvas);
+    controls.enableDamping = true;
+    controls.target.set(0, .8, 0);
+    controls.maxPolarAngle = Math.PI / 2.05;
+    controls.minDistance = 3;
+    controls.maxDistance = 12;
+    scene.add(new HemisphereLight(0xe8ecf0, 0x1b2026, 2.2));
+    const keyLight = new DirectionalLight(0xffdca0, 3.2); keyLight.position.set(3, 6, 4); keyLight.castShadow = true; scene.add(keyLight);
+
+    let roomWidth = 3.6; let roomDepth = 3.2; let roomGroup = new Group(); let itemsGroup = new Group(); let selected: Group | null = null; let dragging = false;
+    scene.add(roomGroup, itemsGroup);
+    const raycaster = new Raycaster(); const pointer = new Vector2(); const floorPlane = new Plane(new Vector3(0, 1, 0), 0); const hitPoint = new Vector3();
+
+    const material = (colour: number, roughness = .72) => new MeshStandardMaterial({ color: colour, roughness, metalness: .08 });
+    const box = (w: number, h: number, d: number, colour: number, x = 0, y = h / 2, z = 0) => { const mesh = new Mesh(new BoxGeometry(w, h, d), material(colour)); mesh.position.set(x, y, z); mesh.castShadow = true; mesh.receiveShadow = true; return mesh; };
+    const buildRoom = () => {
+      roomGroup.clear();
+      const floor = box(roomWidth, .06, roomDepth, 0x20262d, 0, -.03, 0); floor.receiveShadow = true; roomGroup.add(floor);
+      roomGroup.add(box(roomWidth, 2.6, .06, 0x151a1f, 0, 1.3, -roomDepth / 2));
+      roomGroup.add(box(.06, 2.6, roomDepth, 0x181e24, -roomWidth / 2, 1.3, 0));
+      const grid = new GridHelper(Math.max(roomWidth, roomDepth), Math.round(Math.max(roomWidth, roomDepth) * 2), 0x48525d, 0x303840); grid.position.y = .005; roomGroup.add(grid);
+    };
+
+    const buildItem = (key: SlotKey) => {
+      const slot = slots[key]; const group = new Group(); group.userData = { slot: key, width: slot.width, depth: slot.depth, baseY: slot.baseY };
+      if (key === 'desk_140') { group.add(box(1.4, .08, .7, slot.colour, 0, .76, 0), box(.07, .72, .07, 0x30363d, -.58, .36, -.24), box(.07, .72, .07, 0x30363d, .58, .36, -.24), box(.07, .72, .07, 0x30363d, -.58, .36, .24), box(.07, .72, .07, 0x30363d, .58, .36, .24)); }
+      else if (key === 'monitor_27') { group.add(box(.62, .38, .055, slot.colour, 0, 1.18, 0), box(.05, .25, .05, 0x5d6670, 0, .92, .02), box(.28, .025, .16, 0x5d6670, 0, .79, .04)); }
+      else if (key === 'chair_ergonomic') { group.add(box(.5, .11, .5, slot.colour, 0, .48, 0), box(.5, .72, .1, slot.colour, 0, .86, .2), box(.58, .05, .05, 0x5d6670, 0, .28, 0)); }
+      else if (key === 'smart_light') { const glow = new MeshStandardMaterial({ color: slot.colour, emissive: slot.colour, emissiveIntensity: 2 }); const mesh = new Mesh(new CylinderGeometry(.13, .18, .65, 24), glow); mesh.position.y = .33; group.add(mesh); }
+      else if (key === 'gym_flooring') { group.add(box(2, .035, 1.5, slot.colour, 0, .018, 0)); }
+      else { group.add(box(.08, 2.1, .08, slot.colour, -.55, 1.05, 0), box(.08, 2.1, .08, slot.colour, .55, 1.05, 0), box(1.18, .08, .08, slot.colour, 0, 2.05, 0), box(1.18, .06, .12, 0x7b848d, 0, 1.25, .05)); }
+      group.position.y = slot.baseY; group.traverse((child) => { child.userData.itemRoot = group; }); return group;
+    };
+
+    const showSlot = (group: Group) => {
+      selected = group; const slot = slots[group.userData.slot as SlotKey];
+      const set = (selector: string, value: string) => { const target = root.querySelector<HTMLElement>(selector); if (target) target.textContent = value; };
+      set('[data-slot-title]', slot.title); set('[data-slot-description]', slot.description); set('[data-slot-size]', slot.size); set('[data-slot-pick]', slot.pick); set('[data-slot-reason]', slot.reason); set('[data-slot-source]', `Source: ${slot.source} · ${slot.comparisonScore}/10`);
+      const image = root.querySelector<HTMLImageElement>('[data-slot-image]'); if (image) { image.src = slot.image; image.alt = slot.pick; }
+      const buy = root.querySelector<HTMLAnchorElement>('[data-slot-buy]'); if (buy) { buy.href = slot.buy; buy.textContent = slot.buyLabel; if (slot.buy.startsWith('/c/')) buy.setAttribute('rel', 'nofollow sponsored'); else buy.removeAttribute('rel'); }
+      const compare = root.querySelector<HTMLAnchorElement>('[data-slot-compare]'); if (compare) { compare.href = slot.compare; compare.hidden = slot.compare === slot.buy; }
+    };
+
+    const loadPreset = (name: string) => {
+      const preset = presets[name] || presets['gaming-room']; roomWidth = preset.width; roomDepth = preset.depth;
+      const widthInput = root.querySelector<HTMLInputElement>('[data-room-width]'); const depthInput = root.querySelector<HTMLInputElement>('[data-room-depth]'); if (widthInput) widthInput.value = String(roomWidth); if (depthInput) depthInput.value = String(roomDepth);
+      buildRoom(); itemsGroup.clear(); selected = null;
+      preset.items.forEach((item) => { const group = buildItem(item.slot); group.position.x = item.x; group.position.z = item.z; group.rotation.y = item.rotation || 0; itemsGroup.add(group); if (!selected) showSlot(group); });
+      root.querySelectorAll<HTMLElement>('[data-room-preset]').forEach((button) => button.classList.toggle('is-active', button.dataset.roomPreset === name));
+      resetView();
+    };
+
+    const resize = () => { const rect = canvas.getBoundingClientRect(); renderer.setSize(rect.width, rect.height, false); camera.aspect = rect.width / Math.max(rect.height, 1); camera.updateProjectionMatrix(); };
+    const resetView = () => { camera.position.set(roomWidth * 1.25, 4.1, roomDepth * 1.75); controls.target.set(0, .8, 0); controls.update(); };
+    const pointerPosition = (event: PointerEvent) => { const rect = canvas.getBoundingClientRect(); pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1; pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1; raycaster.setFromCamera(pointer, camera); };
+    canvas.addEventListener('pointerdown', (event) => { pointerPosition(event); const hit = raycaster.intersectObjects(itemsGroup.children, true)[0]; const group = hit?.object.userData.itemRoot as Group | undefined; if (group) { showSlot(group); dragging = true; controls.enabled = false; canvas.setPointerCapture(event.pointerId); } });
+    canvas.addEventListener('pointermove', (event) => { if (!dragging || !selected) return; pointerPosition(event); if (raycaster.ray.intersectPlane(floorPlane, hitPoint)) { const halfW = selected.userData.width / 2; const halfD = selected.userData.depth / 2; selected.position.x = MathUtils.clamp(hitPoint.x, -roomWidth / 2 + halfW, roomWidth / 2 - halfW); selected.position.z = MathUtils.clamp(hitPoint.z, -roomDepth / 2 + halfD, roomDepth / 2 - halfD); } });
+    canvas.addEventListener('pointerup', (event) => { dragging = false; controls.enabled = true; if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId); });
+    root.querySelectorAll<HTMLElement>('[data-room-preset]').forEach((button) => button.addEventListener('click', () => loadPreset(button.dataset.roomPreset || 'gaming-room')));
+    root.querySelector('[data-room-apply]')?.addEventListener('click', () => { const width = Number(root.querySelector<HTMLInputElement>('[data-room-width]')?.value); const depth = Number(root.querySelector<HTMLInputElement>('[data-room-depth]')?.value); if (width >= 2.4 && width <= 8 && depth >= 2.4 && depth <= 8) { roomWidth = width; roomDepth = depth; buildRoom(); resetView(); } });
+    root.querySelector('[data-room-view]')?.addEventListener('click', resetView);
+    root.querySelector('[data-slot-rotate]')?.addEventListener('click', () => { if (selected) selected.rotation.y += Math.PI / 2; });
+    document.addEventListener('gvt:studio-plan', ((event: CustomEvent<{ space?: string; plan?: { recommendedSlots?: SlotKey[] } }>) => { loadPreset(event.detail.space || 'gaming-room'); const firstSlot = event.detail.plan?.recommendedSlots?.[0]; const firstItem = firstSlot ? itemsGroup.children.find((item) => item.userData.slot === firstSlot) as Group | undefined : undefined; if (firstItem) showSlot(firstItem); }) as EventListener);
+    const requestedSlot = new URLSearchParams(window.location.search).get('slot') as SlotKey | null;
+    const initialPreset = requestedSlot === 'gym_rack' || requestedSlot === 'gym_flooring' ? 'shed-gym' : 'gaming-room';
+    new ResizeObserver(resize).observe(canvas); loadPreset(initialPreset);
+    if (requestedSlot && requestedSlot in slots) {
+      const requestedItem = itemsGroup.children.find((item) => item.userData.slot === requestedSlot) as Group | undefined;
+      if (requestedItem) showSlot(requestedItem);
+    }
+    let frame = 0;
+    const render = () => { controls.update(); renderer.render(scene, camera); frame = requestAnimationFrame(render); };
+    const startRender = () => { if (!frame) frame = requestAnimationFrame(render); };
+    const stopRender = () => { if (frame) cancelAnimationFrame(frame); frame = 0; };
+    document.addEventListener('visibilitychange', () => { if (document.hidden) stopRender(); else startRender(); });
+    startRender();
+  }
+</script>
+
+<style>
+  .gvt-room-planner { margin: 5rem 0 2rem; border-top: 1px solid var(--border); padding-top: 4rem; }
+  .gvt-room-planner-head { display: grid; grid-template-columns: 1fr .65fr; gap: 3rem; align-items: end; margin-bottom: 2rem; }
+  .gvt-room-planner-head h2 { margin-top: .6rem; font-size: clamp(2.8rem, 6vw, 6rem); line-height: .88; letter-spacing: -.08em; }
+  .gvt-room-planner-head h2 em { color: var(--accent); font-style: normal; }
+  .gvt-room-planner-head > p { max-width: 42ch; }
+  .gvt-room-planner-presets { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: .75rem; }
+  .gvt-room-planner-presets button, .gvt-room-dimensions button, .gvt-room-slot-actions button { border: 1px solid var(--border); padding: .55rem .7rem; color: var(--text-muted); background: var(--surface); cursor: pointer; font: .67rem var(--font-mono); text-transform: uppercase; }
+  .gvt-room-planner-presets button:hover, .gvt-room-planner-presets button.is-active, .gvt-room-dimensions button:hover, .gvt-room-slot-actions button:hover { border-color: var(--accent); color: var(--accent); }
+  .gvt-room-planner-shell { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(280px, .45fr); min-height: 650px; border: 1px solid var(--border-strong); }
+  .gvt-room-canvas-wrap { position: relative; min-width: 0; min-height: 650px; overflow: hidden; background: #0c0f12; }
+  .gvt-room-canvas-wrap canvas { display: block; width: 100%; height: 650px; cursor: grab; touch-action: none; }
+  .gvt-room-canvas-wrap canvas:active { cursor: grabbing; }
+  .gvt-room-canvas-note { position: absolute; top: 1rem; left: 1rem; display: flex; flex-wrap: wrap; gap: .35rem; pointer-events: none; }
+  .gvt-room-canvas-note span { border: 1px solid rgba(255,255,255,.16); padding: .25rem .4rem; color: rgba(255,255,255,.68); background: rgba(12,15,18,.65); font: .59rem var(--font-mono); text-transform: uppercase; }
+  .gvt-room-dimensions { position: absolute; right: 1rem; bottom: 1rem; left: 1rem; display: flex; flex-wrap: wrap; gap: .45rem; align-items: center; padding: .6rem; border: 1px solid rgba(255,255,255,.14); background: rgba(12,15,18,.88); }
+  .gvt-room-dimensions label { color: var(--text-muted); font: .65rem var(--font-mono); text-transform: uppercase; }
+  .gvt-room-dimensions input { width: 4rem; margin: 0 .25rem; border: 1px solid var(--border); padding: .4rem; color: var(--text); background: var(--surface); font: .72rem var(--font-mono); }
+  .gvt-room-slot { padding: 1.5rem; border-left: 1px solid var(--border-strong); background: var(--surface); }
+  .gvt-room-slot h3 { margin: .55rem 0 .5rem; font-size: 1.7rem; letter-spacing: -.04em; }
+  .gvt-room-slot > p:not(.gvt-eyebrow) { font-size: .85rem; }
+  .gvt-room-slot-actions { display: flex; justify-content: space-between; gap: .7rem; align-items: center; margin: 1rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: .7rem 0; }
+  .gvt-room-slot-actions span { color: var(--accent); font: .68rem var(--font-mono); }
+  .gvt-room-pick { display: grid; grid-template-columns: 82px 1fr; gap: .8rem; align-items: center; margin-top: 1rem; }
+  .gvt-room-pick-image { display: grid; width: 82px; height: 82px; place-items: center; overflow: hidden; background: var(--stage); }
+  .gvt-room-pick-image img { width: 100%; height: 100%; object-fit: contain; padding: .35rem; }
+  .gvt-room-pick > div:last-child { display: grid; gap: .2rem; }
+  .gvt-room-pick span { color: var(--accent); font: .59rem var(--font-mono); text-transform: uppercase; }
+  .gvt-room-pick strong { font: .88rem var(--font-display); }
+  .gvt-room-pick small { color: var(--text-muted); font-size: .69rem; line-height: 1.35; }
+  .gvt-room-pick-links { display: grid; gap: .45rem; margin-top: 1rem; }
+  .gvt-room-pick-links a { padding: .65rem .75rem; border: 1px solid var(--border); color: var(--text); font: .69rem var(--font-mono); text-transform: uppercase; }
+  .gvt-room-pick-links a:first-child { border-color: var(--accent); color: var(--ink); background: var(--accent); font-weight: 700; }
+  .gvt-room-slot-legal { margin-top: 1rem; border-top: 1px solid var(--border); padding-top: .8rem; color: var(--text-muted) !important; font: .63rem/1.5 var(--font-mono) !important; }
+  @media (max-width: 900px) { .gvt-room-planner-head, .gvt-room-planner-shell { grid-template-columns: 1fr; } .gvt-room-slot { border-top: 1px solid var(--border-strong); border-left: 0; } }
+  @media (max-width: 600px) { .gvt-room-planner { margin-top: 3rem; padding-top: 3rem; } .gvt-room-planner-head { gap: 1rem; } .gvt-room-canvas-wrap, .gvt-room-canvas-wrap canvas { min-height: 520px; height: 520px; } .gvt-room-canvas-note { right: 1rem; } .gvt-room-dimensions { align-items: stretch; flex-direction: column; } .gvt-room-dimensions label { display: flex; justify-content: space-between; align-items: center; } }
+</style>

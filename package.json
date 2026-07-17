@@ -5,12 +5,15 @@
   "scripts": {
     "dev": "astro dev",
     "build": "npx tsx scripts/generate-sitemap.ts && astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "qa:studio": "npx tsx scripts/qa-studio.ts",
+    "qa:catalogue": "node scripts/catalogue-health.mjs"
   },
   "dependencies": {
     "@astrojs/netlify": "^6.0.0",
     "@astrojs/sitemap": "^3.7.3",
     "astro": "^5.0.0",
-    "gsap": "^3.12.0"
+    "gsap": "^3.12.0",
+    "three": "^0.185.1"
   }
 }
